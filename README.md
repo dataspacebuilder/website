@@ -64,5 +64,5 @@ These links point to the technical standards and architectural documents governi
 
 
 ## Other documents
-*  [Architecting Dataspaces] Draft (./ArchitectingDataspaces.md)
-*  [Minimum Dataspace Use Case] (./MVD-usecase.md)
+*  [Architecting Dataspaces](./ArchitectingDataspaces.md) Draft
+*  [Minimum Dataspace Use Case](./MVD-usecase.md) Andy's Draft
