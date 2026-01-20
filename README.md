@@ -35,6 +35,10 @@ These repositories manage the "Connector-as-a-Service" environment, tenant lifec
     https://github.com/Metaform/redline
 *   **End-User API (Onboarding GUI for SMEs):**
     https://github.com/FraunhoferISST/End-User-API
+*   ** Minimum Viable Dataspace Demo Environment for developers:**
+    https://github.com/eclipse-edc/MinimumViableDataspace
+*   ** Newest Demo Environment:**
+    https://github.com/Metaform/jad
 
 ## 3. Industrial Integration
 *   **OPC UA Cloud Library (Industrial Data Plane):**
@@ -47,6 +51,10 @@ These repositories manage the "Connector-as-a-Service" environment, tenant lifec
 ## 5. Specifications & Reference Documentation
 These links point to the technical standards and architectural documents governing the demo.
 
+*   **Eclipse Dataspace Components (EDC) Documentation:**
+    https://eclipse-edc.github.io/documentation/
+*   **EDC Status:**
+    https://metaform.github.io/dcsa/documentation/overview/_status/
 *   **Decentralized Claims Protocol (DCP):**
     https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol
 *   **Dataspace Protocol (DSP):**
@@ -62,6 +70,11 @@ These links point to the technical standards and architectural documents governi
 *   **W3C Verifiable Credentials Data Model:**
     https://www.w3.org/TR/vc-data-model/
 
+## 6. Eclipse Dataspace Working Group
+*   **Official Working Group Page:**
+    https://projects.eclipse.org/working-group/eclipse-dataspace
+*   **Eclipse Dataspace Website:**
+    https://dataspace.eclipse.org/
 
 ## Other documents
 *  [Architecting Dataspaces](./ArchitectingDataspaces.md) Draft
