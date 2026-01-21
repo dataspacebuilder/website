@@ -9,7 +9,7 @@ This repository serves as a central point of reference for the Dataspace Builder
 Below is a curated list of relevant repositories and sources, categorized by their role in the architecture.
 
 ## 1. Core Eclipse Dataspace Components
-These repositories contain the fundamental software for the control and data planes, including the specific implementations tracked for the February demo.
+These repositories contain the fundamental software for the control and data planes, including the specific implementations tracked for the February demo. 
 
 *   **Classic EDC Connector (Control & Data Plane):**
     https://github.com/eclipse-edc/Connector
@@ -21,6 +21,7 @@ These repositories contain the fundamental software for the control and data pla
     https://github.com/eclipse-dataplane-signaling/dataplane-signaling
 *   **Data Plane Core / SDKs:**
     https://github.com/eclipse-dataplane-core
+*  **Dataspace Protocol Base (DSP Specification & Reference):** 
 
 ## 2. Demo Infrastructure & Onboarding
 These repositories manage the "Connector-as-a-Service" environment, tenant lifecycle, and the specific proof-of-concept scenarios for the Madrid event.
