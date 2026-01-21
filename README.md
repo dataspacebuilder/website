@@ -1,6 +1,6 @@
 # Dataspace Builder
 
-This repository serves as a central point of reference for the Dataspace Builder ecosystem. It is designed to enable:
+This repository serves as a central point of reference for the Dataspace Builder ecosystem. It is designed to enable: 
 *   **Cloud Providers** looking to offer dataspace capabilities.
 *   **Customers** of these Cloud Providers to understand what services and value they receive.
 *   **EDC as a Service Providers** aiming to host and manage thousands of connectors.
