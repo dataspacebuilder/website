@@ -8,7 +8,7 @@
 
 The Trusted Data Sharing Stack is designed for Cloud Service Providers to operate dataspace services efficiently at scale. The architecture separates concerns into distinct layers, each optimized for its purpose.
 
-![Stack Architecture](../../image/README/stack.png)
+![Stack Architecture](../assets/stack.png)
 
 ---
 

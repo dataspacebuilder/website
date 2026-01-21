@@ -8,7 +8,7 @@
 
 The EDC Trusted Data Sharing Stack is a modular architecture designed for multi-tenant dataspace operations. It separates concerns into distinct layers, enabling cloud providers to operate efficiently at scale.
 
-![Stack Architecture](../../image/README/stack.png)
+![Stack Architecture](../assets/stack.png)
 
 ---
 

@@ -14,7 +14,7 @@ Organizations across industries face a common challenge: sharing data with partn
 
 ## The Stack at a Glance
 
-![Trusted Data Sharing Stack Architecture](../image/README/stack.png)
+![Trusted Data Sharing Stack Architecture](assets/stack.png)
 
 ### Core Components
 
