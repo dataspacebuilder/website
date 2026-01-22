@@ -62,22 +62,22 @@ As an adopter using the [Eclipse Dataspace Components](https://eclipse-edc.githu
 
 ## The Journey: From Zero to Value
 
-### Step 1: Getting Started (Day 1)
+### Step 1: Getting Started 
 - Sign up with your dataspace provider
 - Your connector is provisioned automatically
 - Log into your dashboard
 
-### Step 2: Publishing Data (Day 1-2)
+### Step 2: Publishing Data
 - Connect your data sources
 - Define what to share and with whom
 - Set access policies
 
-### Step 3: Discovering Partners (Week 1)
+### Step 3: Discovering Partners
 - Browse the dataspace catalog
 - Find data offered by partners
 - Request access to relevant assets
 
-### Step 4: Establishing Trust (Week 1-2)
+### Step 4: Establishing Trust
 - Your credentials are verified automatically
 - Contract terms are negotiated
 - Access is granted or refined
