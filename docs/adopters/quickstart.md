@@ -13,7 +13,9 @@ This guide walks you through participating in a dataspace as a data provider and
 - Completed your first data exchange
 
 **Time Required:** ~45-60 minutes  
-**Prerequisites:** Access to a dataspace provider account
+**Prerequisites:** Access to a [dataspace provider](../reference/glossary.md#csp-cloud-service-provider) account
+
+> **Note:** A "Dataspace Provider" is the entity hosting the dataspace infrastructure (usually a CSP). If you don't have a provider yet, check our [**List of Providers**](./dataspace-providers.md) or use the [**JAD Demo**](https://github.com/Metaform/jad) to verify these steps in a simulated environment.
 
 ---
 
@@ -21,11 +23,13 @@ This guide walks you through participating in a dataspace as a data provider and
 
 ### 1.1 Log In to Your Tenant Portal
 
-Your organization should have received credentials from your dataspace provider. Navigate to your tenant URL:
+Your organization should have received credentials from your dataspace provider (the CSP managed service). Navigate to your tenant URL:
 
 ```
 https://your-org.dataspace.provider.com
 ```
+
+> **Tip:** In the JAD demo, you will find login links for pre-configured tenants like "Battery Supplier" and "Car Manufacturer".
 
 Log in with your organizational credentials (typically via SSO).
 

@@ -21,7 +21,7 @@ Your organization exchanges data with partners, suppliers, and customers every d
 
 ## What You Get
 
-As an adopter using the Trusted Data Sharing Stack, you gain:
+As an adopter using the [Eclipse Dataspace Components](https://eclipse-edc.github.io/documentation/for-adopters/), you gain:
 
 ### Data Sovereignty
 - **You control access** — Define policies that govern who can see and use your data
