@@ -1,12 +1,12 @@
 # Dataspace Builder
 
-This repository serves as a central point of reference for the Dataspace Builder ecosystem. It is designed to enable: 
+This **repository** serves as a central point of reference for the Dataspace Builder ecosystem. It is designed to enable: 
 *   **Cloud Providers** looking to offer dataspace capabilities.
 *   **Customers** of these Cloud Providers to understand what services and value they receive.
 *   **EDC as a Service Providers** aiming to host and manage thousands of connectors.
-*   **Consulting Teams** building dataspaces with EDC (Eclipse Dataspace Components) and DSP (Dataspace Protocol).
-
+*   **Consulting Teams** building dataspaces with EDC (Eclipse Dataspace Components) and DSP (Dataspace Protocol). 
 Below is a curated list of relevant repositories and sources, categorized by their role in the architecture.
+
 
 ## 1. Core Eclipse Dataspace Components
 These repositories contain the fundamental software for the control and data planes, including the specific implementations tracked for the February demo. 

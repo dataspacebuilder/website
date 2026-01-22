@@ -6,26 +6,29 @@
 
 ## The Challenge of Modern Data Sharing
 
-Organizations across industries face a common challenge: sharing data with partners, suppliers, and customers while maintaining control, ensuring compliance, and building trust. Traditional approaches—proprietary EDI systems, point-to-point integrations, or manual data exchanges—don't scale and create friction in digital ecosystems.
+Organizations across industries face a common challenge: sharing data with partners, suppliers, and customers while maintaining control, ensuring compliance. Traditional approaches—proprietary Electronic (EDI) systems, point-to-point integrations, or manual data exchanges don't scale, because the contractural agreements are written on paper and can't be enforced digitally. In the era of AI and data-driven innovations, the decisions we made with AI we need to traced back to trusted data sources.
 
-**The EDC Trusted Data Sharing Stack** is a comprehensive set of components built on open standards that enables organizations to participate in secure, sovereign data exchanges without the complexity of building everything from scratch.
+The **Eclipse Dataspace Components** (EDC) Stack is a comprehensive set of components built on open standards that enables organizations to participate in secure, sovereign data exchanges without the complexity of building everything from scratch.
 
 ---
 
-## The Stack at a Glance
+## The EDC Stack at a Glance
 
 ![Trusted Data Sharing Stack Architecture](assets/stack.png)
 
 ### Core Components
 
-| Component                                 | What it does                                                                                                |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **CFM** — Connector Fabric Manager | The backbone for managing tenant lifecycle, workflows, and infrastructure provisioning at scale             |
-| **EDC-V** — Virtualized EDC        | Multi-tenant control plane enabling thousands of organizations to share a common infrastructure efficiently |
-| **Manufacturer UI**                 | End-user interface for organizations to publish data, manage contracts, and monitor exchanges               |
-| **CSP Management UI**               | Administrative console for cloud providers to manage tenants, credentials, and platform operations          |
-| **Industrial Data Planes**          | Specialized data movement engines for industrial protocols (OPC UA, MQTT, etc.)                             |
-| **Data Plane SDKs**                 | Development kits for building custom data planes tailored to specific use cases                             |
+| Component | What it does |
+| :--- | :--- |
+| [**Classic EDC Connector**](https://github.com/eclipse-edc/Connector) | The fundamental building block containing Control Plane and Data Plane for point-to-point data sharing. |
+| [**Identity Hub**](https://github.com/eclipse-edc/IdentityHub) | Manages Decentralized Identifiers (DIDs) and Verifiable Credentials (wallets) to establish trust. |
+| [**Federated Catalog**](https://github.com/eclipse-edc/FederatedCatalog) | Aggregates metadata from multiple connectors to allow looking up data offers across the dataspace. |
+| [**CFM** — Connector Fabric Manager](https://github.com/Metaform/connector-fabric-manager) | The backbone for managing tenant lifecycle, workflows, and infrastructure provisioning at scale. |
+| [**EDC-V** — Virtualized EDC](https://github.com/eclipse-edc/Virtual-Connector) | Multi-tenant control plane enabling thousands of organizations to share a common infrastructure efficiently. |
+| [**Data Plane Signaling (DPS)**](https://github.com/eclipse-dataplane-signaling/dataplane-signaling) | Enables the separation of the Control Plane from the Data Plane, allowing remote execution of data transfers. |
+| [**Industrial Data Planes**](https://github.com/OPCFoundation/UA-CloudLibrary) | Specialized data movement engines for industrial protocols (OPC UA, MQTT, etc.). |
+| **Management UIs** | Interfaces for Manufacturers ([End-User API](https://github.com/FraunhoferISST/End-User-API)) and CSPs ([Redline](https://github.com/Metaform/redline)). |
+| [**Protocol TCKs**](https://github.com/eclipse-dataspacetck/dsp-tck) | Technology Compatibility Kits to validate that components conform to Dataspace Protocols (DSP, DCP). |
 
 ### How It Works
 
