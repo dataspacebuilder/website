@@ -32,10 +32,10 @@ The **Eclipse Dataspace Components** (EDC) Stack is a comprehensive set of compo
 
 ### How It Works
 
-1. **On Boarding** — Operating companies and credential issuers manage organizational identity and trust
-2. **Tenant Management** — Automated provisioning and lifecycle management for participating organizations
-3. **Operational Experience** — User-friendly interfaces for both platform operators and end users
-4. **Industrial Use Cases** — Pluggable data planes supporting diverse industrial data exchange scenarios
+1. **Onboarding** — Operating companies and credential issuers manage organizational identity and trust using the [**Identity Hub**](https://github.com/eclipse-edc/IdentityHub) and decentralized registries.
+2. **Tenant Management** — Automated provisioning and lifecycle management for participating organizations. Proven tools like the [**Connector Fabric Manager (CFM)**](https://github.com/Metaform/connector-fabric-manager) handle scale effortlessly.
+3. **Operational Experience** — User-friendly interfaces for both platform operators and end users. [**Redline**](https://github.com/Metaform/redline) and the [**End-User API**](https://github.com/FraunhoferISST/End-User-API) provide the necessary control.
+4. **Industrial Use Cases** — Pluggable [**Data Planes**](https://github.com/OPCFoundation/UA-CloudLibrary) supporting diverse industrial data exchange scenarios.
 
 ---
 
@@ -71,7 +71,6 @@ Help organizations navigate the dataspace landscape. Build expertise in deployin
 
 [**Get Started as a Consultant →**](./consultants/README.md)
 
-</div>
 
 ---
 
@@ -91,9 +90,9 @@ Help organizations navigate the dataspace landscape. Build expertise in deployin
 
 ### For Consultants
 
-- **Proven Architecture** — Battle-tested patterns from Catena-X, Manufacturing-X, and DECADE-X
-- **Modular Approach** — Mix and match components to fit client requirements
-- **Standards-Based** — Build on DSP 2025-1 and DCP specifications with long-term stability
+- **Proven Architecture**: Battle-tested patterns from Catena-X, Manufacturing-X, and DECADE-X, Mobility Data Space, EONA-X and many other Dataspaces in production.
+- **Modular Approach**: Combine components to fit client requirements
+- **Standards-Based**: Build on Dataspace Protocol (DSP) and Decentralized Claims Protocol (DCP) with long-term stability through ISO / IEC standardization
 
 ---
 
@@ -122,9 +121,16 @@ Organizations across industries are already using these components:
 
 ---
 
-## Get Started
+## How to Start
 
-Choose your path based on your role:
+The best way to understand the Trusted Data Sharing Stack is to see it in action. We recommend starting with our demo environments:
+
+* [**Minimum Viable Dataspace (MVD)**](./getting-started/mvd-demo.md) — A pre-configured, local environment ideal for developers who want to trace data flows and understand the underlying mechanics.
+* [**Just Another Dataspace (JAD)**](https://github.com/Metaform/jad) — A fully-featured showcase with a rich user interface, demonstrating the end-to-end user experience.
+
+## Choose Your Path
+
+Select the guide that best matches your role:
 
 | I want to...                                              | Start here                                                  |
 | --------------------------------------------------------- | ----------------------------------------------------------- |
@@ -149,6 +155,6 @@ Choose your path based on your role:
 
 **Ready to enable trusted data sharing at scale?**
 
-[Contact Us](mailto:contact@example.com) • [Join the Community](https://dataspace.eclipse.org/)
+[Contact Us](mailto:info@dataspacebuilders.com) • [Join the Community](https://dataspace.eclipse.org/)
 
 </div>
