@@ -2,3 +2,5 @@
 .trash/
 *.canvas
 *.base
+.DS_Store
+eca-materials/
