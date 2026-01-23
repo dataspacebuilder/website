@@ -21,7 +21,7 @@ Your organization exchanges data with partners, suppliers, and customers every d
 
 ## What You Get
 
-As an adopter using the Trusted Data Sharing Stack, you gain:
+As an adopter using the [Eclipse Dataspace Components](https://eclipse-edc.github.io/documentation/for-adopters/), you gain:
 
 ### Data Sovereignty
 - **You control access** — Define policies that govern who can see and use your data
@@ -62,22 +62,22 @@ As an adopter using the Trusted Data Sharing Stack, you gain:
 
 ## The Journey: From Zero to Value
 
-### Step 1: Getting Started (Day 1)
+### Step 1: Getting Started 
 - Sign up with your dataspace provider
 - Your connector is provisioned automatically
 - Log into your dashboard
 
-### Step 2: Publishing Data (Day 1-2)
+### Step 2: Publishing Data
 - Connect your data sources
 - Define what to share and with whom
 - Set access policies
 
-### Step 3: Discovering Partners (Week 1)
+### Step 3: Discovering Partners
 - Browse the dataspace catalog
 - Find data offered by partners
 - Request access to relevant assets
 
-### Step 4: Establishing Trust (Week 1-2)
+### Step 4: Establishing Trust
 - Your credentials are verified automatically
 - Contract terms are negotiated
 - Access is granted or refined
