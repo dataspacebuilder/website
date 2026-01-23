@@ -1,15 +1,17 @@
-# Dataspace Builder
+# Stack for Trusted Data Transactions as Foundation for European Data Ecosystems
 
-This repository serves as a central point of reference for the Dataspace Builder ecosystem. It is designed to enable: 
-*   **Cloud Providers** looking to offer dataspace capabilities.
-*   **Customers** of these Cloud Providers to understand what services and value they receive.
-*   **EDC as a Service Providers** aiming to host and manage thousands of connectors.
-*   **Consulting Teams** building dataspaces with EDC (Eclipse Dataspace Components) and DSP (Dataspace Protocol).
+This repository serves as a central point of reference for the Dataspace Builder ecosystem. It is designed to enable:
+*   **Cloud Providers** looking to offer dataspace capabilities. (e.g. Aruba, OVHcloud, StackIT, CloudTemple))
+*   **Connector Providers** aiming to host and manage thousands of connectors. (Soverty, Cofinity-X, Nexyo)
+*   **Consulting Teams** building dataspaces with EDC (Eclipse Dataspace Components) and DSP (Dataspace Protocol). (Sopra Steria, Think-IT)
+*   **Customers** consume or provide data and want to understand what services and value they receive. (DataHub Europe, Airbus, BMW, Sphin-X)
+
+## Story for the new EDC components 
 
 Below is a curated list of relevant repositories and sources, categorized by their role in the architecture.
 
 ## 1. Core Eclipse Dataspace Components
-These repositories contain the fundamental software for the control and data planes, including the specific implementations tracked for the February demo. 
+These repositories contain the fundamental software for the control and data planes, including the specific implementations tracked for the February demo.
 
 *   **Classic EDC Connector (Control & Data Plane):**
     https://github.com/eclipse-edc/Connector
@@ -21,7 +23,6 @@ These repositories contain the fundamental software for the control and data pla
     https://github.com/eclipse-dataplane-signaling/dataplane-signaling
 *   **Data Plane Core / SDKs:**
     https://github.com/eclipse-dataplane-core
-*  **Dataspace Protocol Base (DSP Specification & Reference):** 
 
 ## 2. Demo Infrastructure & Onboarding
 These repositories manage the "Connector-as-a-Service" environment, tenant lifecycle, and the specific proof-of-concept scenarios for the Madrid event.
