@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 7
 title: Control Plane
 description: The Control Plane handles catalog discovery, contract negotiation, and policy enforcement—the business logic of data sharing.
 ---

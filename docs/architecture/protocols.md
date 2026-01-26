@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 9
 title: Protocols
 description: The three standard protocols that enable interoperability in dataspaces—DSP, DCP, and DPS.
 ---

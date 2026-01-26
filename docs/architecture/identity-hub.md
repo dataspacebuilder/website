@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 6
 title: Identity Hub
 description: The Identity Hub manages decentralized identifiers (DIDs) and verifiable credentials, enabling automated trust between dataspace participants.
 ---

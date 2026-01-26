@@ -10,10 +10,37 @@ const sidebars = {
       },
       items: [
         'architecture/overview',
-        'architecture/components',
-        'architecture/identity-hub',
-        'architecture/control-plane',
-        'architecture/data-plane',
+        'architecture/understanding-the-stack',
+        {
+          type: 'category',
+          label: 'Core Concepts',
+          link: {
+            type: 'generated-index',
+            title: 'Core Concepts',
+            description: 'Fundamental concepts of the dataspace architecture: participants, identity, VPAs, cells, and service virtualization.',
+          },
+          items: [
+            'architecture/core-concepts/participants-identity',
+            'architecture/core-concepts/virtual-participant-agents',
+            'architecture/core-concepts/cells-infrastructure',
+            'architecture/core-concepts/service-virtualization',
+          ],
+        },
+        'architecture/trust-framework',
+        {
+          type: 'category',
+          label: 'Components',
+          link: {
+            type: 'doc',
+            id: 'architecture/components',
+          },
+          items: [
+            'architecture/components',
+            'architecture/identity-hub',
+            'architecture/control-plane',
+            'architecture/data-plane',
+          ],
+        },
         'architecture/protocols',
         'architecture/deployment-topologies',
       ],

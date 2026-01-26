@@ -1,0 +1,11 @@
+{
+  "label": "Core Concepts",
+  "position": 3,
+  "collapsible": true,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "title": "Core Concepts",
+    "description": "Fundamental concepts of the dataspace architecture: participants, identity, VPAs, cells, and service virtualization."
+  }
+}

@@ -1,18 +1,16 @@
 ---
-sidebar_position: 6
-title: Deployment Topologies
-description: Cloud, edge, on-premises, and multi-tenant deployment options for dataspace infrastructure.
+sidebar_position: 10
+title: Deployment Models
+description: Cloud, edge, on-premises, multi-tenant deployment options, migration paths, and governance authority implementation.
 ---
 
-# Deployment Topologies
+# Deployment Models
 
-The dataspace architecture is infrastructure-agnostic. Whether you run in the cloud, on-premises, or at the edge, the components adapt to your requirements. This flexibility is essential for data sovereignty and regulatory compliance.
+The dataspace architecture is infrastructure-agnostic. Whether you run in the cloud, on-premises, or at the edge, the components adapt to your requirements. This page covers deployment options, migration strategies, and governance authority implementation.
 
 ---
 
 ## Deployment Flexibility
-
-One of the key benefits of the EDC-based architecture:
 
 | Benefit | Description |
 |---------|-------------|
@@ -23,56 +21,33 @@ One of the key benefits of the EDC-based architecture:
 
 ---
 
-## Common Deployment Patterns
+## Choosing Your Deployment Model
 
-### Cloud-Native Deployment
+### Decision Framework
 
-Run connectors as containerized services in Kubernetes:
+| If you... | Consider... |
+|-----------|-------------|
+| Need full control over infrastructure | **Single-tenant** deployment |
+| Are offering Dataspace-as-a-Service | **Multi-tenant (CFM + EDC-V)** |
+| Have data at remote sites | **Edge** Data Planes |
+| Have regulatory requirements | **Jurisdiction-specific** cells |
+| Are starting out | **Single-tenant**, migrate later |
 
-```mermaid
-flowchart TB
-    subgraph k8s["Kubernetes Cluster"]
-        subgraph pods["Workloads"]
-            cp["Control Plane<br/>Pod"]
-            dp["Data Plane<br/>Pods (replicas)"]
-            ih["Identity Hub<br/>Pod"]
-        end
-        
-        subgraph data["Data Services"]
-            db["PostgreSQL"]
-            vault["HashiCorp Vault"]
-        end
-    end
-    
-    cp <--> db
-    cp <--> vault
-    ih <--> db
-    cp <--> dp
-    
-    style k8s fill:#f0fdfa,stroke:#0d9488
-```
+---
 
-**Characteristics:**
-- Horizontal scaling for data plane
-- Managed database services
-- Kubernetes-native observability
-- GitOps deployment patterns
+## Single-Tenant Deployment
 
-**Best for:**
-- Scalable multi-tenant deployments
-- Dynamic workloads
-- Organizations with Kubernetes expertise
+Traditional model where each organization deploys its own connector stack.
 
-### On-Premises Deployment
-
-Run connectors within corporate infrastructure:
+### Architecture
 
 ```mermaid
 flowchart TB
-    subgraph dc["Corporate Data Center"]
+    subgraph dc["Your Infrastructure"]
         subgraph connector["EDC Connector"]
             cp["Control Plane"]
             dp["Data Plane"]
+            ih["Identity Hub"]
         end
         
         subgraph sources["Internal Systems"]
@@ -82,244 +57,43 @@ flowchart TB
         end
         
         db["Database"]
+        vault["Vault"]
     end
     
     dp <--> erp
     dp <--> mes
     dp <--> files
     connector <--> db
+    connector <--> vault
     
     style dc fill:#f1f5f9,stroke:#64748b
 ```
 
-**Characteristics:**
-- Data never leaves the corporate network
-- Integration with existing systems
-- Use existing security infrastructure
-- Full control over deployment
+### When to Use
 
-**Best for:**
-- Regulated industries (finance, healthcare)
-- Sensitive data that cannot leave premises
-- Organizations with existing data center investments
+| Scenario | Fit |
+|----------|-----|
+| Self-hosted enterprise | ✓ Excellent |
+| Development/testing | ✓ Excellent |
+| Edge deployment | ✓ Good |
+| Regulatory requirements | ✓ Good (dedicated infrastructure) |
+| Service provider with many tenants | ✗ Poor (doesn't scale) |
 
-### Edge Deployment
+### Deployment Variants
 
-Run data planes close to data sources:
-
-```mermaid
-flowchart LR
-    subgraph cloud["Cloud / Headquarters"]
-        cp["Control Plane"]
-    end
-    
-    subgraph edge1["Factory Site A"]
-        dp1["Data Plane"]
-        plc1["PLCs & Sensors"]
-    end
-    
-    subgraph edge2["Factory Site B"]
-        dp2["Data Plane"]
-        plc2["PLCs & Sensors"]
-    end
-    
-    cp <-->|"DPS"| dp1
-    cp <-->|"DPS"| dp2
-    dp1 <--> plc1
-    dp2 <--> plc2
-    
-    style edge1 fill:#fef3c7,stroke:#f59e0b
-    style edge2 fill:#fef3c7,stroke:#f59e0b
-```
-
-**Characteristics:**
-- Centralized control, distributed data access
-- Minimize data movement over WAN
-- Low-latency access to operational data
-- Works with limited connectivity
-
-**Best for:**
-- Industrial IoT scenarios
-- Manufacturing plants
-- Remote locations with limited bandwidth
-- Real-time data requirements
-
-### Hybrid Multi-Cloud
-
-Span multiple cloud providers and on-premises:
-
-```mermaid
-flowchart TB
-    subgraph aws["AWS"]
-        edc1["EDC Connector"]
-    end
-    
-    subgraph azure["Azure"]
-        edc2["EDC Connector"]
-    end
-    
-    subgraph onprem["On-Premises"]
-        edc3["EDC Connector"]
-    end
-    
-    edc1 <-->|"DSP"| edc2
-    edc2 <-->|"DSP"| edc3
-    edc1 <-->|"DSP"| edc3
-    
-    style aws fill:#fff7ed,stroke:#ea580c
-    style azure fill:#eff6ff,stroke:#2563eb
-    style onprem fill:#f1f5f9,stroke:#64748b
-```
-
-**Characteristics:**
-- Interoperable across providers
-- Avoid single-cloud dependency
-- Meet data residency requirements
-- Disaster recovery across regions
-
-**Best for:**
-- Multi-cloud strategies
-- Organizations with global presence
-- Regulatory requirements for data location
-- Business continuity requirements
+| Variant | Description | Best For |
+|---------|-------------|----------|
+| **Embedded** | All components in one process | Development, edge |
+| **Separate** | Each component as separate service | Production |
+| **Clustered** | Multiple instances, load balanced | High availability |
 
 ---
 
-## Management Domains
+## Multi-Tenant Deployment (CFM + EDC-V)
 
-A **management domain** is a *realm of control over a set of EDC components*. Management domains enable operational responsibility to be delegated throughout an organization.
+Modern model where CFM orchestrates shared infrastructure serving multiple participants.
 
-### Type 1: Single Management Domain
-
-A single management domain deploys EDC components under one unified operations setup:
-
-```mermaid
-flowchart TB
-    subgraph md1["Management Domain"]
-        cs["Catalog Server"]
-        cp["Control Plane"]
-        dp["Data Plane"]
-        ih["Identity Hub"]
-    end
-    
-    style md1 fill:#f0fdfa,stroke:#0d9488
-```
-
-**Variants:**
-- **Collocated** — All components in a single process (development/edge)
-- **Clustered** — Separate ReplicaSets in one Kubernetes cluster (production)
-
-### Type 2: Distributed Management Domains
-
-For organizations with independent subdivisions, components are deployed across multiple management domains.
-
-#### Type 2A: Separate EDC Stacks
-
-Each division deploys a complete EDC stack. A root catalog fronts all divisions:
-
-```mermaid
-flowchart TB
-    root["Root Catalog"]
-    
-    subgraph md1["Division A"]
-        cp1["Control Plane"]
-        dp1["Data Plane"]
-    end
-    
-    subgraph md2["Division B"]
-        cp2["Control Plane"]
-        dp2["Data Plane"]
-    end
-    
-    root --> md1
-    root --> md2
-    
-    style md1 fill:#dbeafe,stroke:#2563eb
-    style md2 fill:#fef3c7,stroke:#f59e0b
-```
-
-#### Type 2B: Central Catalog, Distributed Control/Data Planes
-
-A central catalog server fronts distributed control/data plane runtimes:
-
-```mermaid
-flowchart TB
-    subgraph central["Central"]
-        cs["Catalog Server"]
-    end
-    
-    subgraph md1["Division A"]
-        cp1["Control Plane"]
-        dp1["Data Plane"]
-    end
-    
-    subgraph md2["Division B"]
-        cp2["Control Plane"]
-        dp2["Data Plane"]
-    end
-    
-    cs --> md1
-    cs --> md2
-    
-    style central fill:#f3e8ff,stroke:#7c3aed
-    style md1 fill:#dbeafe,stroke:#2563eb
-    style md2 fill:#fef3c7,stroke:#f59e0b
-```
-
-#### Type 2C: Central Catalog/Control Plane, Distributed Data Planes
-
-A centralized catalog/control plane with distributed data planes:
-
-```mermaid
-flowchart TB
-    subgraph central["Central"]
-        cs["Catalog Server"]
-        cp["Control Plane"]
-    end
-    
-    subgraph md1["Site A"]
-        dp1["Data Plane"]
-    end
-    
-    subgraph md2["Site B"]
-        dp2["Data Plane"]
-    end
-    
-    cp --> dp1
-    cp --> dp2
-    
-    style central fill:#f3e8ff,stroke:#7c3aed
-    style md1 fill:#fef3c7,stroke:#f59e0b
-    style md2 fill:#fef3c7,stroke:#f59e0b
-```
-
-### Linked Catalogs
-
-Management domains are configured using **linked catalogs**. A root catalog contains sub-catalog entries that reference other catalog endpoints:
-
-```json
-{
-  "@type": "dcat:Catalog",
-  "dcat:catalog": {
-    "@type": "dcat:Catalog",
-    "dcat:distribution": {
-      "dcat:accessService": {
-        "dcat:endpointURL": "https://division-a.foo.com/catalog"
-      }
-    }
-  }
-}
-```
-
-Sub-catalogs are created by adding **CatalogAsset** entries that point to other catalog endpoints, combined with contract definitions that control access.
-
----
-
-## Multi-Tenant Deployment with CFM
-
-For cloud service providers hosting multiple organizations, the **Connector Fabric Manager (CFM)** orchestrates efficient multi-tenant deployments using the **Virtual Connector (EDC-V)** architecture.
-
-### System Architecture
+### Architecture
 
 ```mermaid
 flowchart TB
@@ -355,290 +129,391 @@ flowchart TB
     style cloud fill:#f1f5f9,stroke:#64748b
 ```
 
-The CFM provides:
+### When to Use
 
-| Capability | Description |
-|------------|-------------|
-| **Tenant lifecycle** | Create, update, delete participant contexts |
-| **Resource orchestration** | Provision control planes, data planes, identity hubs |
-| **DNS management** | Configure routing and endpoints |
-| **Credential setup** | Initialize DID documents and credentials |
-| **Infrastructure integration** | Coordinate with Kubernetes, vaults, databases |
+| Scenario | Fit |
+|----------|-----|
+| Cloud service provider (DSaaS) | ✓ Excellent |
+| Large enterprise (multi-BU) | ✓ Excellent |
+| Consortium/industry dataspace | ✓ Excellent |
+| Managed service offering | ✓ Good |
+| Single small deployment | ✗ Overkill |
 
-### Service Virtualization Model
+### Multi-Tenant Benefits
 
-The CFM implements **service virtualization**—a single deployment serves multiple participants through **configuration-based isolation**, not process isolation:
-
-```mermaid
-flowchart LR
-    subgraph proc["Process-Based (Inefficient)"]
-        p1["Process 1"]
-        p2["Process 2"]
-        p3["Process 3"]
-    end
-    
-    subgraph config["Configuration-Based (Efficient)"]
-        runtime["Shared Runtime"]
-        ctx1["Context 1"]
-        ctx2["Context 2"]
-        ctx3["Context 3"]
-        runtime --- ctx1
-        runtime --- ctx2
-        runtime --- ctx3
-    end
-    
-    style proc fill:#fef2f2,stroke:#ef4444
-    style config fill:#f0fdf4,stroke:#22c55e
-```
-
-**Why configuration-based:**
-
-| Aspect | Process-Based | Configuration-Based |
-|--------|---------------|---------------------|
-| **Resource usage** | High (separate processes per tenant) | Low (shared runtime) |
-| **Scaling** | Linear with tenants | Sub-linear |
-| **Migration** | Complex (move processes) | Simple (move metadata) |
-| **Isolation** | Strong (OS-level) | Strong (context-level) |
-
-### Virtualization Model Concepts
-
-```mermaid
-classDiagram
-    class Tenant {
-        +id: string
-        +name: string
-        +participantProfiles: ParticipantProfile[]
-    }
-    
-    class ParticipantProfile {
-        +identifier: DID
-        +dataspaceProfiles: DataspaceProfile[]
-        +vpas: VirtualParticipantAgent[]
-    }
-    
-    class DataspaceProfile {
-        +dataspaceId: string
-        +policies: Policy[]
-        +protocolVersion: string
-    }
-    
-    class VirtualParticipantAgent {
-        +type: "ControlPlane" | "DataPlane" | "CredentialService"
-        +targetCell: Cell
-        +config: object
-    }
-    
-    class Cell {
-        +id: string
-        +type: "kubernetes" | "vm" | "edge"
-        +capacity: ResourceLimits
-    }
-    
-    class User {
-        +id: string
-        +roles: Role[]
-        +rights: Right[]
-    }
-    
-    Tenant "1" --> "*" ParticipantProfile
-    ParticipantProfile "1" --> "1..*" DataspaceProfile
-    ParticipantProfile "1" --> "1..*" VirtualParticipantAgent
-    VirtualParticipantAgent "*" --> "1" Cell
-    User --> "*" ParticipantProfile : manages
-```
-
-| Concept | Description |
+| Benefit | Description |
 |---------|-------------|
-| **Tenant** | Organization that participates in dataspaces |
-| **Participant Profile** | Links an identifier (DID) to dataspace memberships |
-| **Dataspace Profile** | Configuration for a specific dataspace |
-| **Virtual Participant Agent (VPA)** | Unit of deployment—control plane, data plane, or credential service |
-| **Cell** | Homogenous deployment zone (Kubernetes cluster, VM pool) |
-| **User** | Administrator who manages VPAs via RBAC |
-
-### Virtual Participant Agents (VPAs)
-
-A VPA is the unit of administrative control and deployment. When a participant is provisioned, multiple VPA types are created:
-
-```mermaid
-flowchart TB
-    subgraph participant["Acme Industries"]
-        subgraph vpas["Virtual Participant Agents"]
-            cs_vpa["Credential Service VPA"]
-            cp_vpa["Control Plane VPA"]
-            dp_vpa1["Data Plane VPA (API)"]
-            dp_vpa2["Data Plane VPA (Streaming)"]
-        end
-    end
-    
-    subgraph cell1["Cell: EU-West"]
-        cs_runtime["Credential Service"]
-        cp_runtime["Control Plane"]
-    end
-    
-    subgraph cell2["Cell: Edge"]
-        dp1_runtime["Data Plane 1"]
-        dp2_runtime["Data Plane 2"]
-    end
-    
-    cs_vpa --> cs_runtime
-    cp_vpa --> cp_runtime
-    dp_vpa1 --> dp1_runtime
-    dp_vpa2 --> dp2_runtime
-    
-    style participant fill:#dbeafe,stroke:#2563eb
-    style cell1 fill:#f0fdfa,stroke:#0d9488
-    style cell2 fill:#fef3c7,stroke:#f59e0b
-```
-
-**VPA characteristics:**
-
-- **Type-specific:** Control Plane VPA, Data Plane VPA, Credential Service VPA
-- **Cell-targeted:** Each VPA runs in a specific cell
-- **Independently scalable:** Cells manage their own scaling (e.g., via Keda)
-- **Migratable:** Move VPA metadata to migrate between cells
-
-### Identity Scenarios
-
-A dataspace constraint: **A participant has one and only one identifier.**
-
-| Scenario | Result |
-|----------|--------|
-| **One DID per dataspace** | Multiple participant profiles (one per dataspace) |
-| **One DID across dataspaces** | Single participant profile for all dataspaces |
-| **Multiple DIDs** | Multiple participants (or mapped to single identity) |
-
-### CFM Subsystems
-
-The CFM is built as a reliable message-based system:
-
-```mermaid
-flowchart LR
-    subgraph tm["Tenant Manager"]
-        api["REST API"]
-        state["State Store"]
-    end
-    
-    subgraph pm["Provision Manager"]
-        orch["Orchestrator"]
-        workflows["Workflows"]
-    end
-    
-    subgraph agents["Activity Agents"]
-        k8s_agent["K8s Agent"]
-        vault_agent["Vault Agent"]
-        dns_agent["DNS Agent"]
-    end
-    
-    nats[("NATS Jetstream")]
-    
-    api --> state
-    api -->|"Request"| nats
-    nats -->|"Orchestrate"| pm
-    pm -->|"Tasks"| nats
-    nats -->|"Execute"| agents
-    agents -->|"Status"| nats
-    nats -->|"Complete"| tm
-    
-    style nats fill:#fef3c7,stroke:#f59e0b
-```
-
-| Subsystem | Responsibility |
-|-----------|----------------|
-| **Tenant Manager** | REST API, state management, initiates workflows |
-| **Provision Manager** | Executes stateful orchestration workflows |
-| **Activity Agents** | Execute tasks, isolated from provisioner |
-| **NATS Jetstream** | Reliable messaging with persistence |
-
-**Architectural benefits:**
-
-- **Temporal decoupling:** Components operate independently
-- **Spatial decoupling:** Agents can run in different locations
-- **Reliability:** NATS persistence ensures no message loss
-- **Security:** Agents isolate infrastructure secrets from provisioner
+| **Efficiency** | Share infrastructure costs across tenants |
+| **Operations** | Centralized updates and monitoring |
+| **Scalability** | Add tenants without new infrastructure |
+| **Isolation** | Strict boundaries between VPAs |
+| **Migration** | Move VPAs between cells easily |
 
 ---
 
-## EDC-V Runtime Architecture
+## Edge Deployment
 
-The Virtual Connector provides the runtime for multi-tenant control planes:
+Data planes deployed close to data sources, with control planes centralized.
+
+### Architecture
 
 ```mermaid
 flowchart TB
-    subgraph edcv["EDC-V Runtime"]
-        subgraph contexts["Participant Contexts"]
-            ctx_a["Context A<br/>(Tenant A VPA)"]
-            ctx_b["Context B<br/>(Tenant B VPA)"]
-            ctx_c["Context C<br/>(Tenant C VPA)"]
-        end
-        
-        shared["Shared Services<br/>(Catalog, Negotiation, Policy)"]
+    subgraph cloud["Cloud / Headquarters"]
+        cfm["CFM"]
+        cp["Control Planes"]
+        ih["Identity Hubs"]
     end
     
-    subgraph storage["Isolated Storage"]
-        db_a["Schema A"]
-        db_b["Schema B"]
-        db_c["Schema C"]
+    subgraph edge1["Edge Site A"]
+        dp1["Data Plane"]
+        src1["Data Sources"]
     end
     
-    ctx_a --> shared
-    ctx_b --> shared
-    ctx_c --> shared
-    ctx_a --> db_a
-    ctx_b --> db_b
-    ctx_c --> db_c
+    subgraph edge2["Edge Site B"]
+        dp2["Data Plane"]
+        src2["Data Sources"]
+    end
     
-    style edcv fill:#f0fdfa,stroke:#0d9488
+    cfm --> cp
+    cfm --> ih
+    cp <-->|"DPS"| dp1
+    cp <-->|"DPS"| dp2
+    dp1 <--> src1
+    dp2 <--> src2
+    
+    style cloud fill:#dbeafe,stroke:#2563eb
+    style edge1 fill:#fef3c7,stroke:#f59e0b
+    style edge2 fill:#fef3c7,stroke:#f59e0b
 ```
 
-### Context Isolation
+### When to Use
 
-Each VPA operates in an isolated context with:
+| Scenario | Fit |
+|----------|-----|
+| Industrial IoT | ✓ Excellent |
+| Manufacturing plants | ✓ Excellent |
+| Low-latency requirements | ✓ Excellent |
+| Remote locations | ✓ Good |
+| Bandwidth optimization | ✓ Good |
 
-| Isolation | Implementation |
-|-----------|----------------|
-| **API paths** | `/participants/{participantId}/...` |
-| **Data storage** | Tenant-specific schemas or row-level security |
-| **Credentials** | Separate credential stores |
-| **Data planes** | Dedicated per tenant |
+### Edge Cell Characteristics
 
-### Context Migration
+| Property | Edge Cell | Cloud Cell |
+|----------|-----------|------------|
+| **Size** | Minimal (single node K3s) | Standard Kubernetes |
+| **Components** | Data Plane only | Full stack |
+| **Connectivity** | May be intermittent | Always connected |
+| **Scaling** | Limited | Dynamic |
 
-Moving a VPA between cells requires only moving metadata:
+---
 
-```mermaid
-flowchart LR
-    subgraph cell1["Cell 1"]
-        vpa1["VPA"]
-    end
-    
-    metadata[("VPA Metadata")]
-    
-    subgraph cell2["Cell 2"]
-        vpa1_new["VPA (migrated)"]
-    end
-    
-    vpa1 -.->|"Export"| metadata
-    metadata -.->|"Import"| vpa1_new
-    
-    style vpa1_new fill:#2563eb,stroke:#2563eb,color:#fff
+## Hybrid Deployment
+
+Combine multiple models based on requirements.
+
+### Example: Industrial Enterprise
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         Hybrid Deployment                                │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   Cloud (Azure EU-West)                                                  │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  CFM + Control Plane Cell + Identity Hub Cell                    │   │
+│   │  • Central management                                            │   │
+│   │  • Business logic                                                │   │
+│   │  • Trust decisions                                               │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                              │                                           │
+│                         DPS Signaling                                    │
+│              ┌───────────────┼───────────────┐                          │
+│              │               │               │                          │
+│              ▼               ▼               ▼                          │
+│   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                  │
+│   │ Edge Cell:   │  │ Edge Cell:   │  │ Edge Cell:   │                  │
+│   │ Factory DE   │  │ Factory PL   │  │ Factory US   │                  │
+│   │              │  │              │  │              │                  │
+│   │ DP VPAs for  │  │ DP VPAs for  │  │ DP VPAs for  │                  │
+│   │ local data   │  │ local data   │  │ local data   │                  │
+│   └──────────────┘  └──────────────┘  └──────────────┘                  │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Migration Path
+
+Moving from single-tenant to multi-tenant, or upgrading existing deployments.
+
+### Assessment: Where Are You Today?
+
+| Current State | Migration Complexity |
+|---------------|---------------------|
+| Single EDC connector, dev/test | **Low** — Deploy CFM, provision VPA |
+| Multiple connectors, production | **Medium** — Consolidate to shared runtime |
+| Custom extensions | **Variable** — Assess compatibility |
+| Many tenants, separate deployments | **Medium** — Centralize management |
+
+### Migration Strategies
+
+#### Strategy A: Side-by-Side
+
+Deploy new stack alongside existing, migrate gradually:
+
+```
+Phase 1: Deploy CFM + EDC-V
+┌─────────────────┐    ┌─────────────────┐
+│  Existing EDC   │    │  New CFM Stack  │
+│  (Production)   │    │  (Staging)      │
+└─────────────────┘    └─────────────────┘
+
+Phase 2: Migrate Tenants
+┌─────────────────┐    ┌─────────────────┐
+│  Existing EDC   │ →  │  CFM Stack      │
+│  (Fewer tenants)│    │  (More tenants) │
+└─────────────────┘    └─────────────────┘
+
+Phase 3: Complete Migration
+                       ┌─────────────────┐
+                       │  CFM Stack      │
+                       │  (All tenants)  │
+                       └─────────────────┘
+```
+
+**Advantages:**
+- No downtime during migration
+- Gradual risk reduction
+- Easy rollback
+
+#### Strategy B: In-Place Evolution
+
+Deploy CFM to manage existing infrastructure:
+
+```
+Phase 1: Deploy CFM
+┌─────────────────┐    ┌─────────────────┐
+│  Existing EDC   │ ← │  CFM (manages)  │
+│  (Unchanged)    │    │                 │
+└─────────────────┘    └─────────────────┘
+
+Phase 2: Convert to VPA
+┌─────────────────┐    ┌─────────────────┐
+│  EDC-V Runtime  │ ← │  CFM            │
+│  (VPA-based)    │    │  (Full control) │
+└─────────────────┘    └─────────────────┘
+```
+
+**Advantages:**
+- Reuse existing infrastructure
+- Lower initial cost
+- Gradual modernization
+
+### Key Migration Considerations
+
+| Consideration | Guidance |
+|--------------|----------|
+| **Identity preservation** | DIDs must remain valid—don't change identities |
+| **Contract continuity** | Existing agreements must be honored |
+| **Integration updates** | API paths change for multi-tenant |
+| **Trust preservation** | Credentials and policies must transfer |
+
+### What Changes for Developers/Operators
+
+| Aspect | Traditional | CFM-Managed |
+|--------|-------------|-------------|
+| Deploying a connector | Deploy full stack | Provision VPA via CFM API |
+| Scaling | Add container replicas | Add cells, CFM handles VPA placement |
+| Tenant isolation | Separate deployments | Configuration contexts |
+| Monitoring | Per-connector metrics | Per-VPA metrics within shared runtime |
+| Trust management | Per-connector credentials | Per-VPA credentials in shared Vault |
+
+### Migration Steps
+
+1. **Assessment**
+   - Inventory existing deployments
+   - Identify customizations and extensions
+   - Map current identities and credentials
+
+2. **Planning**
+   - Choose migration strategy (side-by-side or in-place)
+   - Define cell structure
+   - Plan credential migration
+
+3. **CFM Deployment**
+   - Deploy CFM infrastructure
+   - Configure cells
+   - Set up monitoring
+
+4. **VPA Provisioning**
+   - Create participant profiles
+   - Provision VPAs
+   - Migrate credentials to Vault
+
+5. **Traffic Migration**
+   - Update DNS/routing
+   - Migrate traffic gradually
+   - Monitor for issues
+
+6. **Decommission Legacy**
+   - Verify all traffic on new stack
+   - Remove old deployments
+   - Archive old configurations
+
+---
+
+## Governance Authority (DSGA) Implementation
+
+For organizations operating a dataspace and providing governance authority functions.
+
+### What is a DSGA?
+
+A **Dataspace Governance Authority** sets rules, policies, and accepted trust anchors for a dataspace. It may be:
+
+- The DSaaS provider operating the infrastructure
+- A separate governance entity
+- A consortium or industry body
+
+### DSGA Functions
+
+| Function | Description |
+|----------|-------------|
+| **Membership management** | Who can join the dataspace |
+| **Trust anchor registry** | Which issuers are trusted |
+| **Credential issuance** | Issue membership and role credentials |
+| **Policy definition** | Standard policies for the dataspace |
+| **Dispute resolution** | Handle conflicts between participants |
+
+### Implementing DSGA with CFM
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    DSGA Implementation                                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   DSGA Functions                    CFM Implementation                   │
+│   ┌────────────────────┐           ┌────────────────────┐               │
+│   │ Membership         │     →     │ Tenant Manager     │               │
+│   │ Management         │           │ (onboarding flow)  │               │
+│   └────────────────────┘           └────────────────────┘               │
+│                                                                          │
+│   ┌────────────────────┐           ┌────────────────────┐               │
+│   │ Trust Anchor       │     →     │ Trust Registry     │               │
+│   │ Registry           │           │ (external service) │               │
+│   └────────────────────┘           └────────────────────┘               │
+│                                                                          │
+│   ┌────────────────────┐           ┌────────────────────┐               │
+│   │ Credential         │     →     │ Issuer Service VPA │               │
+│   │ Issuance           │           │ (issue membership) │               │
+│   └────────────────────┘           └────────────────────┘               │
+│                                                                          │
+│   ┌────────────────────┐           ┌────────────────────┐               │
+│   │ Policy             │     →     │ Control Plane VPAs │               │
+│   │ Enforcement        │           │ (per participant)  │               │
+│   └────────────────────┘           └────────────────────┘               │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### DSGA Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    DSGA-Operated Dataspace                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   Governance Layer (DSGA)                                                │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Onboarding Portal    Trust Registry    Credential Issuer        │   │
+│   │  (membership app)     (issuer list)     (Issuer Service VPA)    │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                              │                                           │
+│                              ▼                                           │
+│   Management Layer (CFM)                                                 │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │  Tenant Manager       Provision Manager    Activity Agents       │   │
+│   │  (participant DB)     (workflows)          (provisioning)        │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                              │                                           │
+│                              ▼                                           │
+│   Participant Layer                                                      │
+│   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                  │
+│   │ Participant A│  │ Participant B│  │ Participant C│  ...             │
+│   │ (VPA Set)    │  │ (VPA Set)    │  │ (VPA Set)    │                  │
+│   └──────────────┘  └──────────────┘  └──────────────┘                  │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Adding New Trust Frameworks (DTFs)
+
+To support a new Dataspace Trust Framework:
+
+1. **Define credential schemas**
+   - What credentials does this DTF require?
+   - What claims must they contain?
+
+2. **Register trust anchors**
+   - Who can issue these credentials?
+   - Add issuers to trust registry
+
+3. **Configure policy evaluation**
+   - How do claims map to access decisions?
+   - Create policy definitions
+
+4. **Provision dataspace profiles**
+   - Per-participant DTF configuration
+   - Credential requirements
+
+### Example: Adding Catena-X Support
+
+```json
+{
+  "dtfId": "catena-x-v2",
+  "name": "Catena-X Trust Framework v2",
+  "credentialSchemas": [
+    {
+      "type": "MembershipCredential",
+      "requiredClaims": ["memberOf", "membershipLevel", "validUntil"]
+    },
+    {
+      "type": "BPNCertificate",
+      "requiredClaims": ["bpn", "legalName", "country"]
+    }
+  ],
+  "trustedIssuers": [
+    "did:web:catena-x.net:issuer",
+    "did:web:cofinity-x.com:issuer"
+  ],
+  "policyTemplates": [
+    {
+      "id": "catena-x-member-only",
+      "constraint": {
+        "leftOperand": "MembershipCredential",
+        "operator": "eq",
+        "rightOperand": "active"
+      }
+    }
+  ]
+}
 ```
 
 ---
 
 ## Component Placement
 
-### Recommendations by Component
+### Recommendations
 
-| Component | Recommended Placement |
-|-----------|----------------------|
-| **CFM** | Central cloud (HA) |
-| **Control Plane** | Cloud or central data center (HA) |
-| **Identity Hub** | Co-located with Control Plane |
-| **Data Plane** | Close to data sources |
-| **Database** | Managed service or HA cluster |
+| Component | Placement | Reason |
+|-----------|-----------|--------|
+| **CFM** | Central cloud (HA) | Management control |
+| **Control Plane** | Cloud or central DC | Business logic, HA |
+| **Identity Hub** | Co-located with CP | Tight integration |
+| **Data Plane** | Close to data sources | Minimize latency |
 
-### High Availability Considerations
+### High Availability
 
 ```mermaid
 flowchart TB
@@ -672,47 +547,6 @@ flowchart TB
 
 ---
 
-## Infrastructure Requirements
-
-### Control Plane
-
-| Resource | Specification |
-|----------|---------------|
-| CPU | 2-4 vCPUs |
-| Memory | 4-8 GB RAM |
-| Storage | Database connection |
-| Network | HTTPS endpoints |
-
-### Identity Hub
-
-| Resource | Specification |
-|----------|---------------|
-| CPU | 1-2 vCPUs |
-| Memory | 2-4 GB RAM |
-| Storage | Credential store |
-| Network | DID resolution endpoints |
-
-### Data Plane
-
-| Resource | Specification |
-|----------|---------------|
-| CPU | Scales with throughput |
-| Memory | Scales with concurrency |
-| Storage | Temp buffer space |
-| Network | High bandwidth |
-
-### Connector Fabric Manager
-
-| Resource | Specification |
-|----------|---------------|
-| CPU | 2-4 vCPUs |
-| Memory | 4-8 GB RAM |
-| Storage | PostgreSQL |
-| Messaging | NATS Jetstream |
-| Network | Cloud API access |
-
----
-
 ## Security Considerations
 
 ### Network Security
@@ -728,7 +562,7 @@ flowchart TB
 
 | Component | Access Control |
 |-----------|----------------|
-| CFM API | OAuth2 with role claims (admin, provisioner, participant) |
+| CFM API | OAuth2 with role claims |
 | Management API | OAuth2 tokens with role claims |
 | DSP endpoints | Mutual TLS or signed requests |
 | Data Plane | Access tokens tied to agreements |
@@ -741,67 +575,30 @@ flowchart TB
 | **Provisioner** | Create/manage tenants and VPAs |
 | **Participant** | Manage own VPA resources only |
 
-### Secrets Management
-
-| Secret Type | Recommendation |
-|-------------|----------------|
-| Private keys | HSM or secure vault |
-| Database credentials | Vault with rotation |
-| API tokens | Short-lived, scoped |
-
 ---
 
 ## Monitoring and Observability
 
-### Metrics
+### Key Metrics
 
-| Metric Type | Examples |
-|-------------|----------|
-| Business | Contracts negotiated, transfers completed, tenants active |
-| Technical | Request latency, error rates, queue depth |
-| Infrastructure | CPU, memory, network |
-
-### Logging
-
-| Log Type | Purpose |
-|----------|---------|
-| Audit logs | Compliance, security review |
-| Application logs | Debugging, troubleshooting |
-| Access logs | Security monitoring |
-| Provisioning logs | Workflow tracking |
+| Type | Examples |
+|------|----------|
+| **Business** | Contracts negotiated, transfers completed, tenants active |
+| **Technical** | Request latency, error rates, queue depth |
+| **Infrastructure** | CPU, memory, network |
 
 ### Recommended Stack
 
 - **Metrics:** Prometheus + Grafana
 - **Logging:** ELK Stack or cloud-native logging
 - **Tracing:** Jaeger or cloud-native tracing
-- **Alerting:** Based on state machine failures, error rates, provisioning failures
-
----
-
-## Migration Considerations
-
-### From Development to Production
-
-1. **Externalize data plane** — Move from embedded to separate service
-2. **Add high availability** — Multiple instances, load balancing
-3. **Production database** — Managed service with backups
-4. **Security hardening** — TLS, secrets management, network isolation
-
-### From Single-Tenant to Multi-Tenant
-
-1. **Deploy CFM** — Set up Tenant Manager, Provision Manager, Agents
-2. **Deploy EDC-V** — Replace single connector with virtual connector
-3. **Configure cells** — Define deployment zones
-4. **Migrate tenants** — Create VPAs for existing participants
-5. **Update integrations** — Use tenant-specific API paths
-6. **Verify isolation** — Test VPA boundaries
+- **Alerting:** Based on state machine failures, error rates
 
 ---
 
 ## What's Next
 
-- **[Components Overview](/docs/architecture/components)** — Understand each component including CFM
-- **[Control Plane](/docs/architecture/control-plane)** — Business logic deployment
-- **[Data Plane](/docs/architecture/data-plane)** — Data transfer deployment
+- **[Understanding the Stack](/docs/architecture/understanding-the-stack)** — Traditional vs. Modern architecture
+- **[Core Concepts](/docs/architecture/core-concepts/)** — VPAs, Cells, Service Virtualization
+- **[Components Deep Dive](/docs/architecture/components)** — CFM and component details
 - **[Overview](/docs/architecture/overview)** — Architecture fundamentals

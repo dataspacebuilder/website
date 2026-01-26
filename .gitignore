@@ -3,7 +3,9 @@
 *.canvas
 *.base
 .DS_Store
+.cursor/
 eca-materials/
+IDSA-Rulebook/
 
 # Dependencies
 node_modules/

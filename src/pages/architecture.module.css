@@ -231,10 +231,57 @@
   transform: translateX(4px);
 }
 
+/* Trust Callout */
+.trustCallout {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
+  border-top: 1px solid rgba(124, 58, 237, 0.2);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.trustQuote {
+  text-align: center;
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--ifm-color-emphasis-700);
+  margin: 0;
+  padding: 0;
+}
+
+.trustQuote cite {
+  display: block;
+  font-size: 0.9rem;
+  font-style: normal;
+  color: var(--ifm-color-emphasis-500);
+  margin-top: 0.5rem;
+}
+
+[data-theme='dark'] .trustCallout {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.12) 0%, rgba(139, 92, 246, 0.08) 100%);
+}
+
+/* Diagram Trust Labels */
+.diagramTrustLabel {
+  font-size: 8px;
+  font-weight: 700;
+  fill: #7c3aed;
+  letter-spacing: 0.5px;
+}
+
+[data-theme='dark'] .diagramTrustLabel {
+  fill: #a78bfa;
+}
+
 /* Protocols Section */
 .protocolsSection {
   padding: 3rem 1.5rem 4rem;
   background: var(--ifm-background-surface-color);
+}
+
+/* Evolution Section */
+.evolutionSection {
+  padding: 3rem 1.5rem 4rem;
+  background: var(--ifm-background-color);
 }
 
 .protocolsTitle {

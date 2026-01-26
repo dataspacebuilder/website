@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 8
 title: Data Plane
 description: The Data Plane handles the actual movement of data between parties, supporting multiple protocols and transfer patterns.
 ---
