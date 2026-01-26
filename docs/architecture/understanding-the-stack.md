@@ -339,7 +339,7 @@ The data model that enables multi-tenancy:
 
 ## What's Next
 
-- **[Core Concepts](/docs/architecture/core-concepts/)** — Deep dive into VPAs, Cells, and Service Virtualization
+- **[Core Concepts](/docs/architecture/core-concepts)** — Deep dive into VPAs, Cells, and Service Virtualization
 - **[Trust Framework](/docs/architecture/trust-framework)** — How trust works in dataspaces
 - **[Components Deep Dive](/docs/architecture/components)** — CFM, Identity Hub, Control Plane, Data Plane
 - **[Deployment Models](/docs/architecture/deployment-topologies)** — Detailed deployment options

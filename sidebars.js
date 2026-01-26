@@ -15,11 +15,11 @@ const sidebars = {
           type: 'category',
           label: 'Core Concepts',
           link: {
-            type: 'generated-index',
-            title: 'Core Concepts',
-            description: 'Fundamental concepts of the dataspace architecture: participants, identity, VPAs, cells, and service virtualization.',
+            type: 'doc',
+            id: 'architecture/core-concepts/index',
           },
           items: [
+            'architecture/core-concepts/index',
             'architecture/core-concepts/participants-identity',
             'architecture/core-concepts/virtual-participant-agents',
             'architecture/core-concepts/cells-infrastructure',

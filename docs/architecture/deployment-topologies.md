@@ -599,6 +599,6 @@ flowchart TB
 ## What's Next
 
 - **[Understanding the Stack](/docs/architecture/understanding-the-stack)** — Traditional vs. Modern architecture
-- **[Core Concepts](/docs/architecture/core-concepts/)** — VPAs, Cells, Service Virtualization
+- **[Core Concepts](/docs/architecture/core-concepts)** — VPAs, Cells, Service Virtualization
 - **[Components Deep Dive](/docs/architecture/components)** — CFM and component details
 - **[Overview](/docs/architecture/overview)** — Architecture fundamentals

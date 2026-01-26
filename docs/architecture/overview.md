@@ -259,7 +259,7 @@ The Eclipse Dataspace Components (EDC) emerged as the leading open-source implem
 
 - **[Understanding the Stack](/docs/architecture/understanding-the-stack)** — Traditional vs. Modern architecture and why CFM exists
 - **[Trust Framework](/docs/architecture/trust-framework)** — Deep dive into how trust works in dataspaces
-- **[Core Concepts](/docs/architecture/core-concepts/)** — VPAs, Cells, and Service Virtualization
+- **[Core Concepts](/docs/architecture/core-concepts)** — VPAs, Cells, and Service Virtualization
 - **[Components Deep Dive](/docs/architecture/components)** — CFM, Identity Hub, Control Plane, Data Plane
 - **[Protocols](/docs/architecture/protocols)** — DSP, DCP, and DPS specifications
 - **[Deployment Models](/docs/architecture/deployment-topologies)** — Cloud, edge, and multi-tenant options
