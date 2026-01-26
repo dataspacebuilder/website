@@ -4,12 +4,17 @@ const sidebars = {
     {
       type: 'category',
       label: 'Architecture',
+      link: {
+        type: 'doc',
+        id: 'architecture/overview',
+      },
       items: [
-        'architecture/pyramid',
-        'architecture/trust-framework',
+        'architecture/overview',
+        'architecture/components',
         'architecture/identity-hub',
         'architecture/control-plane',
         'architecture/data-plane',
+        'architecture/protocols',
         'architecture/deployment-topologies',
       ],
     },

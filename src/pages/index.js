@@ -228,7 +228,7 @@ function ArchitecturePreview() {
                 <span className={styles.layerDesc}>Cloud, edge, on-premises</span>
               </div>
             </div>
-            <Link className="button button--primary" to="/docs/architecture/pyramid">
+            <Link className="button button--primary" to="/docs/architecture/overview">
               Explore the Full Architecture
             </Link>
           </div>

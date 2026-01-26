@@ -25,7 +25,7 @@ If you're a cloud provider looking to add dataspace capabilities to your portfol
 
 1. **Understand the opportunity.** Read [Why Dataspaces Matter for Cloud Providers](/blog/why-dataspaces-matter-cloud-providers) to see why this is a strategic play, not just a technical one.
 
-2. **Learn the architecture.** The [five-layer stack](/docs/architecture/pyramid) shows how trust, control, and data planes work together. Pay special attention to [deployment topologies](/docs/architecture/deployment-topologies)—this is where your infrastructure advantage becomes real.
+2. **Learn the architecture.** The [architecture overview](/docs/architecture/overview) explains what dataspaces are and why they matter. The [components guide](/docs/architecture/components) shows how Identity Hub, Control Plane, and Data Plane work together. Pay special attention to [deployment topologies](/docs/architecture/deployment-topologies)—this is where your infrastructure advantage becomes real.
 
 3. **Study the economics.** Multi-tenant EDC-V (Virtual Connector) is the key to margin at scale. One control plane serving thousands of tenants changes the unit economics entirely.
 
@@ -148,7 +148,7 @@ Here's a suggested schedule for your first week as a Dataspace Builder:
 | Day | Activity |
 |-----|----------|
 | **Day 1** | Read the conceptual guides (What Are Dataspaces?, Zero to Dataspace) |
-| **Day 2** | Study the [architecture pyramid](/docs/architecture/pyramid) and layer interactions |
+| **Day 2** | Study the [architecture overview](/docs/architecture/overview) and [component interactions](/docs/architecture/components) |
 | **Day 3** | Clone and run the MVD locally |
 | **Day 4** | Walk through a use case end-to-end |
 | **Day 5** | Explore the EDC documentation for your specific use case |
@@ -161,7 +161,7 @@ By the end of the week, you'll have a working mental model and hands-on experien
 
 Ready to go deeper? Here's where to head next:
 
-- **[Explore the Architecture](/docs/architecture/pyramid)** — Understand the five-layer stack in detail
+- **[Explore the Architecture](/docs/architecture/overview)** — Understand dataspace architecture in detail
 - **[Read More Articles](/blog)** — Learn from real-world insights and implementation patterns
 - **[Join the Community](/community)** — Connect with other builders, ask questions, and contribute
 

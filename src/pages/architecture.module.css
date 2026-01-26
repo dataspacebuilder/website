@@ -14,7 +14,6 @@
   position: relative;
   text-align: center;
   padding: 3rem 1.5rem;
-  margin-bottom: 2rem;
   overflow: hidden;
 }
 
@@ -55,7 +54,7 @@
 }
 
 .title {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 800;
   margin-bottom: 1rem;
   background: linear-gradient(135deg, #7C3AED 0%, #0D9488 50%, #1E3A5F 100%);
@@ -70,6 +69,93 @@
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
+}
+
+/* Diagram Section */
+.diagramSection {
+  padding: 2rem 1.5rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.diagramContainer {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.diagramWrapper {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+[data-theme='dark'] .diagramWrapper {
+  background: var(--ifm-background-color);
+}
+
+.diagram {
+  width: 100%;
+  height: auto;
+}
+
+.diagramLayerTitle {
+  font-size: 14px;
+  font-weight: 600;
+  fill: var(--ifm-heading-color);
+}
+
+.diagramLayerSubtitle {
+  font-size: 11px;
+  fill: var(--ifm-color-emphasis-600);
+}
+
+.diagramBoxTitle {
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--ifm-heading-color);
+}
+
+.diagramBoxSubtitle {
+  font-size: 10px;
+  fill: var(--ifm-color-emphasis-600);
+}
+
+.diagramCaption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+/* Intro Section */
+.introSection {
+  padding: 2rem 1.5rem 3rem;
+}
+
+.introContent {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.introText {
+  font-size: 1.1rem;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.introText strong {
+  color: var(--ifm-heading-color);
+}
+
+.introCta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 /* Cards Section */
@@ -145,6 +231,56 @@
   transform: translateX(4px);
 }
 
+/* Protocols Section */
+.protocolsSection {
+  padding: 3rem 1.5rem 4rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.protocolsTitle {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--ifm-heading-color);
+}
+
+.protocolsSubtitle {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 2rem;
+}
+
+.protocolsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.protocolCard {
+  background: var(--ifm-card-background-color);
+  border-radius: 10px;
+  padding: 1.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.protocolCard h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--ifm-heading-color);
+}
+
+.protocolCard p {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-600);
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* Dark Mode */
 [data-theme='dark'] .headerBackground {
   background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(13, 148, 136, 0.06) 50%, rgba(30, 58, 95, 0.1) 100%);
@@ -158,6 +294,16 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
+[data-theme='dark'] .diagramLayerTitle,
+[data-theme='dark'] .diagramBoxTitle {
+  fill: #e2e8f0;
+}
+
+[data-theme='dark'] .diagramLayerSubtitle,
+[data-theme='dark'] .diagramBoxSubtitle {
+  fill: #94a3b8;
+}
+
 /* Responsive */
 @media (max-width: 996px) {
   .title {
@@ -168,12 +314,15 @@
     font-size: 1.1rem;
     padding: 0 1rem;
   }
+  
+  .diagramWrapper {
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 576px) {
   .header {
     padding: 2rem 1rem;
-    margin-bottom: 1.5rem;
   }
   
   .title {
@@ -186,5 +335,18 @@
   
   .card {
     padding: 1.25rem;
+  }
+  
+  .introCta {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .introText {
+    font-size: 1rem;
+  }
+  
+  .protocolsGrid {
+    grid-template-columns: 1fr;
   }
 }

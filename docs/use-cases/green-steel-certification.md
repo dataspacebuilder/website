@@ -252,10 +252,10 @@ This pattern applies across supply chains:
 ## Next Steps
 
 <div className="usecase-cta-grid">
-<a href="/docs/architecture/trust-framework" className="usecase-cta-card">
-<span className="usecase-cta-icon">🏛️</span>
-<span className="usecase-cta-title">Trust Framework</span>
-<span className="usecase-cta-desc">How credentials are governed</span>
+<a href="/docs/architecture/identity-hub" className="usecase-cta-card">
+<span className="usecase-cta-icon">🔐</span>
+<span className="usecase-cta-title">Identity Hub</span>
+<span className="usecase-cta-desc">Credentials and trust verification</span>
 </a>
 <a href="/docs/architecture/control-plane" className="usecase-cta-card">
 <span className="usecase-cta-icon">🎛️</span>
