@@ -7,11 +7,11 @@ const config = {
   tagline: 'Build trusted data infrastructure. Together.',
   favicon: 'img/favicon.ico',
 
-  url: 'https://dataspacebuilders.org',
-  baseUrl: '/',
+  url: 'https://dataspacebuilder.github.io',
+  baseUrl: '/website/',
 
-  organizationName: 'dataspace-builders',
-  projectName: 'dataspace-builders',
+  organizationName: 'dataspacebuilder',
+  projectName: 'website',
 
   onBrokenLinks: 'throw',
 
