@@ -4,3 +4,36 @@
 *.base
 .DS_Store
 eca-materials/
+
+# Dependencies
+node_modules/
+
+# Build output
+build/
+.docusaurus/
+
+# Cache
+.cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional npm cache directory
+.npm

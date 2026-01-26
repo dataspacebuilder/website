@@ -1,12 +1,18 @@
-# Stack for Trusted Data Transactions as Foundation for European Data Ecosystems
+# Dataspace Builders
 
-This repository serves as a central point of reference for the Dataspace Builder ecosystem. It is designed to enable:
+**Build trusted data infrastructure. Together.**
+
+This repository is the home of the Dataspace Builders community — a global initiative to advance trusted data sharing using open-source components based on Eclipse Dataspace Components (EDC).
+
+We serve:
 *   **Cloud Providers** looking to offer dataspace capabilities. (e.g. Aruba, OVHcloud, StackIT, CloudTemple))
 *   **Connector Providers** aiming to host and manage thousands of connectors. (Soverty, Cofinity-X, Nexyo)
 *   **Consulting Teams** building dataspaces with EDC (Eclipse Dataspace Components) and DSP (Dataspace Protocol). (Sopra Steria, Think-IT)
 *   **Customers** consume or provide data and want to understand what services and value they receive. (DataHub Europe, Airbus, BMW, Sphin-X)
 
-## Story for the new EDC components 
+---
+
+## Component Ecosystem
 
 Below is a curated list of relevant repositories and sources, categorized by their role in the architecture.
 

@@ -1,0 +1,41 @@
+team:
+  name: Dataspace Builders Team
+  title: Dataspace Builders
+  url: https://dataspacebuilders.org/
+  image_url: https://github.com/eclipse-edc.png
+
+mhartmann:
+  name: Marcus Hartmann
+  title: Principal Solutions Architect
+  url: https://linkedin.com/
+  image_url: https://i.pravatar.cc/150?img=68
+  socials:
+    linkedin: marcushartmann
+    github: mhartmann
+
+sliu:
+  name: Sarah Liu
+  title: Cloud Platform Strategist
+  url: https://linkedin.com/
+  image_url: https://i.pravatar.cc/150?img=47
+  socials:
+    linkedin: sarahliu
+    github: sliu-cloud
+
+jvanderberg:
+  name: Jonas van der Berg
+  title: Technical Evangelist
+  url: https://linkedin.com/
+  image_url: https://i.pravatar.cc/150?img=53
+  socials:
+    linkedin: jonasvanderberg
+    github: jvanderberg
+
+akowalski:
+  name: Anna Kowalski
+  title: Data Sovereignty Lead
+  url: https://linkedin.com/
+  image_url: https://i.pravatar.cc/150?img=44
+  socials:
+    linkedin: annakowalski
+    github: akowalski
