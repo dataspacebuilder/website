@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { HtmlClassNameProvider, ThemeClassNames } from '@docusaurus/theme-common';
 import { BlogPostProvider, useBlogPost } from '@docusaurus/plugin-content-blog/client';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import BlogLayout from '@theme/BlogLayout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
@@ -40,7 +41,7 @@ function ReadingProgressBar() {
 function BlogPostPageContent({ children }) {
   const { metadata, toc } = useBlogPost();
   const { frontMatter } = metadata;
-  const imageUrl = frontMatter?.image;
+  const imageUrl = useBaseUrl(frontMatter?.image);
 
   return (
     <BlogLayout

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "@docusaurus/Link";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import clsx from "clsx";
 import styles from "./styles.module.css";
 
@@ -57,7 +58,7 @@ export default function PostCard({ post }) {
     },
   } = post;
 
-  const imageUrl = frontMatter?.image || '/img/blog-default.svg';
+  const imageUrl = useBaseUrl(frontMatter?.image || '/img/blog-default.svg');
 
   return (
     <article className={clsx("col col--6", styles.postCard)}>

@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 
@@ -193,6 +194,7 @@ function UseCasesSection() {
 }
 
 function ArchitecturePreview() {
+  const stackImageUrl = useBaseUrl('/img/stack.jpeg');
   return (
     <section className={clsx('section', styles.architectureSection)}>
       <div className="container">
@@ -232,7 +234,7 @@ function ArchitecturePreview() {
           </div>
           <div className={styles.architectureImage}>
             <img 
-              src="/img/stack.jpeg" 
+              src={stackImageUrl} 
               alt="Dataspace Builders Architecture - Five-layer stack for trusted data sharing"
             />
           </div>

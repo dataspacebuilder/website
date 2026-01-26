@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import {
   PageMetadata,
   HtmlClassNameProvider,
@@ -44,7 +45,7 @@ function FeaturedPost({ post }) {
     },
   } = post;
 
-  const imageUrl = frontMatter?.image || '/img/blog-default.svg';
+  const imageUrl = useBaseUrl(frontMatter?.image || '/img/blog-default.svg');
   const dateObj = typeof date === 'string' ? new Date(date) : date;
 
   return (
