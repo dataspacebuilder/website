@@ -10,6 +10,21 @@ The Data Plane handles the actual movement of data between parties. After the Co
 
 ---
 
+## Core Functions
+
+The Data Plane implements four of the seven core dataspace functions:
+
+| Function | Purpose | Protocol | Description |
+|----------|---------|----------|-------------|
+| **Push Transfer** | Provider-initiated data delivery | DPS + Wire | Provider sends data to consumer-specified destination |
+| **Pull Transfer** | Consumer-initiated data access | DPS + Wire | Consumer retrieves data from provider-exposed endpoint |
+| **Stream Transfer** | Continuous, non-finite data flows | DPS + Wire | Ongoing data flows for IoT, real-time, or event-driven scenarios |
+| **Service Access** | Expose backend services with controlled access | DPS + Wire | API access, resource collections, sub-permissioning |
+
+The Data Plane is **trust-agnostic**—it executes what the Control Plane has authorized without making trust decisions itself.
+
+---
+
 ## Role in the Architecture
 
 The Data Plane operates under the direction of the Control Plane:
@@ -282,6 +297,32 @@ flowchart LR
 - IoT and sensor data
 - Real-time monitoring
 - Industrial automation
+
+### Service Access
+
+Service Access exposes backend services (APIs, resources) with controlled access. Unlike traditional data transfers, service access enables ongoing API interactions under a single contract:
+
+```mermaid
+flowchart LR
+    consumer["Consumer App"] --> cdp["Consumer DP"]
+    cdp -->|"API Calls"| pdp["Provider DP"]
+    pdp --> api["Backend API"]
+    pdp --> db["Resources"]
+    
+    style pdp fill:#fef3c7,stroke:#f59e0b
+    style cdp fill:#fef3c7,stroke:#f59e0b
+```
+
+**Key capabilities:**
+- **Backend API exposure** — Secure access to REST/GraphQL APIs
+- **Resource collections** — Access to structured data resources
+- **Sub-permissioning** — Fine-grained access control within the contract
+
+**Best for:**
+- Catalog or inventory APIs
+- Query interfaces
+- Resource collections with pagination
+- Long-lived API access under a single agreement
 
 ### Data Address
 

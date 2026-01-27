@@ -10,6 +10,20 @@ The Control Plane handles the business logic of data sharing. It manages catalog
 
 ---
 
+## Core Functions
+
+The Control Plane implements three of the seven core dataspace functions:
+
+| Function | Purpose | Protocol | Component |
+|----------|---------|----------|-----------|
+| **Discovery** | Find participants, assets, and contract offers across the dataspace | DSP | Catalog Service |
+| **Contract Negotiation** | Establish agreements with credential verification | DSP | Contract Service |
+| **Transfer Initiation** | Start and coordinate data transfers | DSP → DPS | Transfer Manager |
+
+These functions work together with the Credential Service (via DCP) to enable trust-based data sharing.
+
+---
+
 ## Role in the Architecture
 
 The Control Plane is the central coordination point for data sharing:
@@ -370,6 +384,21 @@ POST /v3/contractdefinitions
 ---
 
 ## Architecture Details
+
+### Kubernetes Analogy
+
+The Control Plane's role parallels Kubernetes components:
+
+| Kubernetes Component | Control Plane Equivalent | Purpose |
+|---------------------|-------------------------|---------|
+| kube-apiserver | DSP/Management API | API surface, request handling |
+| etcd | State Store | Persistent state for contracts, transfers |
+| RBAC + Admission Controllers | Policy Engine | Evaluates policies, authorizes actions |
+| kube-controller-manager | Transfer Manager | Reconciles desired vs actual state |
+
+This separation ensures clear responsibilities: the Control Plane handles business logic and trust decisions, while the Data Plane focuses purely on efficient execution.
+
+### Component Layout
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

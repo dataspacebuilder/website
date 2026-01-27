@@ -10,7 +10,9 @@ description: Dataspaces exist because organizations need to share data with part
 
 **Dataspaces exist because organizations need to share data with parties they don't inherently trust.** Trust isn't assumed—it's established, verified, and can be revoked. This is the fundamental value proposition of dataspaces.
 
-A **dataspace** is a *context* between one or more *participants* that share data. Participants are typically organizations, but can be any entity such as a service or machine. Dataspaces are decentralized architectures for trusted, policy-controlled data sharing—built on open standards and open-source components, enabling sovereign data exchange without central platforms or vendor lock-in.
+A **dataspace** is a *context* between one or more *participants* that share data. Participants are typically organizations, but can be any entity such as a service or machine. Dataspaces are **distributed, industry-wide zero-trust architectures** for trusted, policy-controlled data sharing—built on open standards and open-source components, enabling sovereign data exchange without central platforms or vendor lock-in.
+
+> "There is no such thing as a 'centralized dataspace' or 'decentralized dataspace'—there is only **distributed data sharing infrastructure** with centralized, federated, or decentralized **use case patterns**."
 
 ---
 
@@ -34,6 +36,34 @@ Dataspaces solve the trust problem through **cryptographically verifiable creden
 3. **Trust can be revoked** at any time—credentials expire, get revoked, policies change
 4. **Infrastructure ensures** trust is maintained throughout the data exchange
 
+### The Distributed Zero-Trust Fabric
+
+Every participant runs their own infrastructure (or delegates to a DSaaS provider). Trust is established per-interaction through verifiable credentials. There's no single point of control, failure, or trust.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         DISTRIBUTED ZERO-TRUST FABRIC                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   Every participant runs their own infrastructure (or delegated to DSaaS)   │
+│   Trust is established per-interaction through verifiable credentials       │
+│   No single point of control, failure, or trust                             │
+│                                                                              │
+│   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐       │
+│   │Participant A│  │Participant B│  │Participant C│  │Participant N│       │
+│   │             │  │             │  │             │  │             │       │
+│   │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │       │
+│   │ │  Stack  │ │  │ │  Stack  │ │  │ │  Stack  │ │  │ │  Stack  │ │       │
+│   │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │       │
+│   └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘       │
+│          ↕                ↕                ↕                ↕               │
+│   ═══════════════════════════════════════════════════════════════════════  │
+│                     Peer-to-Peer Trusted Data Exchange                      │
+│                     (DSP, DCP, DPS, Wire Protocols)                         │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
 ---
 
 ## The Three Layers of Dataspaces
@@ -55,6 +85,56 @@ Dataspaces solve the trust problem through **cryptographically verifiable creden
 ```
 
 **Critical Insight:** At the technical layer, there is only **one role: Participant**. All business roles (provider, consumer, auditor, marketplace) are specializations implemented through the participant role.
+
+---
+
+## Core Functions
+
+Dataspace infrastructure provides seven core functions. Each function maps to specific components and enables specific capabilities:
+
+| Function | Purpose | Component | Protocol |
+|----------|---------|-----------|----------|
+| **Credential Issuance** | Issue and manage verifiable credentials | Credential Service | DCP |
+| **Discovery** | Find participants, assets, and contract offers | Control Plane | DSP |
+| **Contract Negotiation** | Establish agreements with credential verification | Control Plane | DSP |
+| **Push Transfer** | Provider-initiated data delivery | Data Plane | DPS + Wire |
+| **Pull Transfer** | Consumer-initiated data access | Data Plane | DPS + Wire |
+| **Stream Transfer** | Continuous, non-finite data flows | Data Plane | DPS + Wire |
+| **Service Access** | Expose backend services (APIs, resources) with controlled access | Data Plane | DPS + Wire |
+
+These functions map to the component architecture:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           FUNCTION → COMPONENT MAPPING                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   TRUST FRAMEWORK                        CREDENTIAL SERVICE                  │
+│   ┌──────────────────────┐               ┌──────────────────────┐           │
+│   │ • Governance rules   │ ────────────▶ │ • Credential issuance│           │
+│   │ • Issuer registry    │               │ • Revocation lists   │           │
+│   │ • Credential schemas │               │ • Status management  │           │
+│   └──────────────────────┘               └──────────────────────┘           │
+│                                                   │                          │
+│                                                   ▼                          │
+│   POLICY DECISIONS                         CONTROL PLANE                     │
+│   ┌──────────────────────┐               ┌──────────────────────┐           │
+│   │ • Access policies    │ ────────────▶ │ • Discovery (catalog)│           │
+│   │ • Contract policies  │               │ • Contract negotiation│          │
+│   │ • Usage constraints  │               │ • Credential verification│       │
+│   └──────────────────────┘               └──────────────────────┘           │
+│                                                   │                          │
+│                                                   ▼                          │
+│   DATA (SERVICE) ACCESS                       DATA PLANE                    │
+│   ┌──────────────────────┐               ┌──────────────────────┐           │
+│   │ • Push transfers     │ ────────────▶ │ • Transfer execution │           │
+│   │ • Pull transfers     │               │ • Protocol adapters  │           │
+│   │ • Stream transfers   │               │ • Service exposure   │           │
+│   │ • Service access     │               │ • Sub-permissioning  │           │
+│   └──────────────────────┘               └──────────────────────┘           │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -208,12 +288,13 @@ Three standard protocols enable interoperability:
 
 ### Where Trust Lives
 
-| Component | Trust Role |
-|-----------|------------|
-| **Identity Hub** | Trust Store—stores and presents credentials |
-| **Control Plane** | Trust Decisions—policy evaluation, credential verification |
-| **Data Plane** | Trust-Agnostic—executes what Control Plane agreed |
-| **CFM** | Provisions trust infrastructure—NOT involved in runtime decisions |
+| Component | Trust Role | Protocols | Key Functions |
+|-----------|------------|-----------|---------------|
+| **Credential Service** | Trust Store | DCP | Credential storage, presentation, verification |
+| **Control Plane** | Trust Decisions | DSP | Catalog, negotiation, policy enforcement |
+| **Data Plane** | Trust-Agnostic | DPS + Wire | Transfer execution, service access |
+| **Applications** | Trust-Aware | Management API | Business logic, user interfaces |
+| **CFM** | Provisions trust infrastructure | N/A | NOT involved in runtime decisions |
 
 ---
 

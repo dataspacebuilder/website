@@ -159,6 +159,170 @@ Execute tasks, isolated from the provisioner for security:
 | **Identity Hub** | Stores/presents credentials, manages DIDs |
 | **CFM** | Provisions trust infrastructure, NOT involved in runtime trust decisions |
 
+### Provisioning vs Runtime Trust
+
+A critical architectural principle: **CFM provisions infrastructure but is NOT in the runtime trust path**.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    PROVISIONING vs. RUNTIME TRUST                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   PROVISIONING TIME                      RUNTIME (Data Sharing)              │
+│   (CFM involved)                         (CFM NOT involved)                  │
+│                                                                              │
+│   ┌─────────────────────┐               ┌─────────────────────┐             │
+│   │  Tenant Manager     │               │                     │             │
+│   │  • Create tenant    │               │   Participant A     │             │
+│   │  • Create profile   │               │   Control Plane VPA │             │
+│   │  • Provision VPAs   │               │         │           │             │
+│   └─────────┬───────────┘               │         │ DSP       │             │
+│             │                           │         ▼           │             │
+│   ┌─────────▼───────────┐               │   Participant B     │             │
+│   │  Provision Manager  │               │   Control Plane VPA │             │
+│   │  • Orchestrations   │               │                     │             │
+│   │  • Workflows        │               └─────────────────────┘             │
+│   └─────────┬───────────┘                                                   │
+│             │                           Trust decisions happen               │
+│   ┌─────────▼───────────┐               directly between VPAs               │
+│   │  Activity Agents    │               using DSP, DCP protocols             │
+│   │  • Execute tasks    │                                                   │
+│   └─────────────────────┘               CFM failure does NOT                │
+│                                         affect data sharing                  │
+│   Sets up infrastructure                                                     │
+│   Configures credentials                                                     │
+│   Does NOT make trust decisions                                              │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+This separation means:
+- CFM can be unavailable without affecting live data sharing
+- Trust decisions are always peer-to-peer between participants
+- No single point of trust failure in the architecture
+
+### VPA Types
+
+Virtual Participant Agents (VPAs) come in different types, each serving a specific function:
+
+| VPA Type | Component | Function |
+|----------|-----------|----------|
+| **Control Plane VPA** | Control Plane | Catalog, contract negotiation, policy enforcement |
+| **Credential Service VPA** | Identity Hub | DID management, credential storage, presentations |
+| **Data Plane VPA** | Data Plane | Push, pull, stream transfer execution |
+| **Issuer Service VPA** | Issuer Service | Credential issuance, revocation lists |
+
+### User Management and Access Control
+
+Managing dataspace infrastructure requires different access levels for different actors. EDC-V implements a centralized access control model using OAuth2 and role-based authorization.
+
+#### Authentication
+
+All EDC-V components share a single OAuth2 identity provider. Clients authenticate using the **client_credentials** flow to obtain JWT access tokens:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      AUTHENTICATION FLOW                                     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ┌─────────────┐         ┌─────────────────┐         ┌─────────────────┐  │
+│   │   Client    │         │  Identity       │         │   EDC-V API     │  │
+│   │ (App/User)  │         │  Provider       │         │ (Management,    │  │
+│   │             │         │  (IdP)          │         │  Identity, etc) │  │
+│   └──────┬──────┘         └────────┬────────┘         └────────┬────────┘  │
+│          │                         │                           │            │
+│          │  1. Token Request       │                           │            │
+│          │  (client_credentials)   │                           │            │
+│          │ ──────────────────────> │                           │            │
+│          │                         │                           │            │
+│          │  2. JWT Access Token    │                           │            │
+│          │ <────────────────────── │                           │            │
+│          │                         │                           │            │
+│          │  3. API Request (Bearer token)                      │            │
+│          │ ────────────────────────────────────────────────────>│           │
+│          │                         │                           │            │
+│          │  4. Response            │                           │            │
+│          │ <────────────────────────────────────────────────────│           │
+│                                                                              │
+│   Same token works across: Control Plane │ Identity Hub │ Issuer Service   │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Roles and Access Levels
+
+EDC-V defines three principal roles for managing infrastructure:
+
+| Role | Access Level | Use Case |
+|------|--------------|----------|
+| **Admin** | Full access to ALL resources in ALL APIs | Emergency/setup only—never for automated systems |
+| **Provisioner** | Creates participant contexts, IdP entries, IdentityHub contexts | CFM Tenant Manager, automated provisioning |
+| **Participant** | Manages OWN resources (assets, policies, contracts, VCs) | Business applications, integration middleware |
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          ROLE HIERARCHY                                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   ADMIN ──────────────────────────────────────────────────────────────────  │
+│   • Full access to ALL resources │ Similar to root user                     │
+│   • Should NEVER be used by automated systems                               │
+│                                                                              │
+│   PROVISIONER ────────────────────────────────────────────────────────────  │
+│   • Creates/manages participant contexts │ Creates IdP, IdentityHub entries │
+│   • CANNOT access participant-owned resources (assets, policies)            │
+│                                                                              │
+│   PARTICIPANT ────────────────────────────────────────────────────────────  │
+│   • Default role │ Manages OWN resources only                               │
+│   • Access limited to: /participants/{participantContextId}/...             │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Scopes for Fine-Grained Access
+
+Scopes control which APIs and operations a token allows:
+
+| Scope | API | Access Level |
+|-------|-----|--------------|
+| `management-api:read` | Control Plane | Read assets, policies, contracts |
+| `management-api:write` | Control Plane | Create/update/delete resources |
+| `identity-api:read` | Identity Hub | Read credentials, DIDs |
+| `identity-api:write` | Identity Hub | Manage credentials, keys |
+| `data-plane:read` | Data Plane | Read transfer status |
+| `data-plane:write` | Data Plane | Initiate transfers |
+| `issuer-admin-api` | Issuer Service | Full issuer management |
+
+#### Administration APIs by Component
+
+| Component | API | Purpose | Typical Clients |
+|-----------|-----|---------|-----------------|
+| Control Plane | Management API | Assets, policies, contracts | Participant, Provisioner |
+| Identity Hub | Identity API | VCs, key pairs, DID documents | Participant, Provisioner |
+| Issuer Service | Issuer Admin API | Holders, attestations, credential defs | Provisioner |
+| All Components | Observability API | Health, readiness (no auth) | Monitoring |
+
+#### User Types and Access Patterns
+
+Different user types interact with the infrastructure in distinct ways:
+
+| User Type | Responsibility | Access Pattern |
+|-----------|---------------|----------------|
+| **Operator** | Infrastructure setup (K8s, networking) | Kubernetes RBAC, cloud IAM |
+| **Provisioning System** | Onboards participants, creates contexts | `role=provisioner`, IdP write access |
+| **End-User UI Backend** | Manages participant data via UI | `role=participant`, scoped to context |
+| **Business Applications** | M2M integration, custom portals | `role=participant` with specific scopes |
+
+#### Key Access Control Principles
+
+| Principle | Implementation |
+|-----------|---------------|
+| **Single pane of glass** | Same token works across all EDC-V components |
+| **Least privilege** | Request only needed scopes |
+| **Separation of concerns** | Provisioner ≠ participant access |
+| **No shared credentials** | Each client gets unique client_id/secret |
+| **Context isolation** | `participant_context_id` enforces boundaries |
+
 ---
 
 ## Identity Hub
@@ -268,22 +432,35 @@ Different consumers may see different catalogs based on their credentials.
 
 ### Multi-Tenant Operation (EDC-V)
 
-In CFM-managed deployments, the Control Plane serves multiple VPAs:
+In CFM-managed deployments, the Control Plane serves multiple VPAs through **service virtualization**: isolation is achieved through configuration, not process separation.
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              Virtual Control Plane (EDC-V)                       │
-├─────────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │  Tenant A   │  │  Tenant B   │  │  Tenant C   │   ...       │
-│  │  Context    │  │  Context    │  │  Context    │             │
-│  └─────────────┘  └─────────────┘  └─────────────┘             │
-│                                                                  │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │              Shared Control Plane Runtime                │    │
-│  └─────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│              PROCESS-BASED vs. CONFIGURATION-BASED ISOLATION                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   PROCESS-BASED (Traditional)          CONFIGURATION-BASED (EDC-V)          │
+│   ┌─────────────────────────────┐     ┌─────────────────────────────┐       │
+│   │ ┌─────┐ ┌─────┐ ┌─────┐    │     │        Shared Runtime        │       │
+│   │ │ CP  │ │ CP  │ │ CP  │    │     │  ┌───────────────────────┐   │       │
+│   │ │  A  │ │  B  │ │  C  │    │     │  │ VPA A │ VPA B │ VPA C │   │       │
+│   │ └─────┘ └─────┘ └─────┘    │     │  └───────────────────────┘   │       │
+│   │   │       │       │        │     │            │                 │       │
+│   │ ┌─────┐ ┌─────┐ ┌─────┐    │     │  ┌───────────────────────┐   │       │
+│   │ │ DB  │ │ DB  │ │ DB  │    │     │  │   Shared State Store   │   │       │
+│   │ │  A  │ │  B  │ │  C  │    │     │  │  (isolated by context) │   │       │
+│   │ └─────┘ └─────┘ └─────┘    │     │  └───────────────────────┘   │       │
+│   └─────────────────────────────┘     └─────────────────────────────┘       │
+│                                                                              │
+│   • One process per participant        • Shared process, isolated contexts  │
+│   • Linear resource scaling            • Sub-linear resource scaling        │
+│   • Complex migration                  • Simple migration (move metadata)   │
+│   • Full isolation (heavyweight)       • Context isolation (lightweight)    │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
+
+**Key insight**: VPA metadata is stored in persistent stores. When a request arrives, the runtime loads the correct context configuration. Migration becomes moving metadata and updating routing—not redeploying processes.
 
 Each tenant has isolated catalog, contracts, policies, and API paths.
 
