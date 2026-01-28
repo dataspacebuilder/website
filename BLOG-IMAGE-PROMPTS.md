@@ -128,6 +128,25 @@ For visual consistency across all blog images:
 
 ---
 
+---
+
+## 7. Blueprint for Building Domain-Specific Dataspaces with AI-Assisted Specification-Driven Development
+
+**Save as:** `static/img/blog/spec-driven-dataspace-ai.jpeg`
+
+```
+Abstract visualization of specification documents transforming into running code through AI assistance, blueprint architectural drawings morphing into 3D infrastructure components, five ascending phases represented as glowing pathway steps from specification to deployment, AI neural network patterns subtly integrated with dataspace connector shapes, teal and purple gradient with orange accent highlights for AI elements, modern DevOps meets AI aesthetic, clean geometric shapes representing specifications ODRL and OpenAPI schemas, professional software engineering workflow visualization, compliance checkmarks and TCK testing badges as decorative elements
+```
+
+**Alternative prompt:**
+```
+Isometric illustration of a development workflow from specification to production, GitHub Spec Kit interface elements as floating cards, domain branches (healthcare cross, manufacturing gear, aerospace wing) emanating from central MVD template repository, AI coding assistant represented as glowing helper robot or neural network overlay, five BLUEPRINT phases as ascending hexagonal platforms, teal foundation with purple AI glow and orange compliance certification badges, modern software development lifecycle aesthetic, clean professional technical illustration, specification-driven development concept visualization
+```
+
+**SEO-optimized alt text:** "Specification-driven dataspace development workflow showing BLUEPRINT methodology phases from specification through AI-assisted implementation to TCK compliance testing, with domain customization branches for healthcare, manufacturing, and aerospace"
+
+---
+
 ## Quick Reference
 
 | Post | Filename | Key Theme | Primary Colors |
@@ -138,3 +157,4 @@ For visual consistency across all blog images:
 | Zero to Dataspace | `zero-to-dataspace.jpeg` | Implementation/action | Orange + Teal |
 | JAD Demonstrator | `jad-demonstrator.jpeg` | Reference implementation | Teal + Navy + Orange |
 | First Steps Builder | `first-steps-builder.jpeg` | Onboarding/pathways | Navy + Teal + Green + Purple |
+| Spec-Driven Dataspace AI | `spec-driven-dataspace-ai.jpeg` | AI-assisted SDD/BLUEPRINT | Teal + Purple + Orange |
