@@ -24,7 +24,7 @@ The technical foundation consists of the [Rulebook](https://docs.internationalda
 
 Public municipalities, states, and ministries should retain sovereignty over their processes while simultaneously ensuring interoperability at the EU level. The Federal Administration Office and the Digitalization Ministry now face the major task of modernizing and interconnecting hundreds of different registries — theoretical concepts must now be translated into a production-ready architecture. GovTech Deutschland has already successfully completed the first three proof-of-concepts.
 
-## NOOTS and the German Registry Landscape
+## The German Registry Landscape
 
 The **National Once-Only Technical System** (NOOTS) strategically functions as an intermediary for registry communication. In the [architecture planning](https://gitlab.opencode.de/noots/public/ad-noots/Architektur/-/blob/main/README.md), NOOTS was primarily addressed as a "high-level concept for intermediary platforms." It structures the process by which authorities as consumers can automatically retrieve evidence from providers (the registries). A standardized mediation layer model is to be introduced.
 
@@ -33,7 +33,7 @@ The **National Once-Only Technical System** (NOOTS) strategically functions as a
 
 **Strategic Assessment:** As a technological backbone, NOOTS eliminates the need for citizens to act as "postmen between authorities." The efficiency gain lies in the machine-readable provision of evidence. However, to ensure scalability across national borders, this architecture must be integrated into European middleware solutions like SIMPL to achieve true protocol convergence.
 
-## GovTech's POCs with Tax ID and Data Protection Cockpit
+## GovTech's POCs 
 
 [GovTech Deutschland](https://www.egovernment.de/raas-grundlage-fuer-die-cloud-register-steht-a-13eef8eb45ca044d66577dc77679c89f/) is driving the modernization of **Identity Data Retrieval** (IDA). Currently, the **Tax Identification Number** is used to uniquely assign persons.
 
@@ -49,7 +49,7 @@ To eliminate redundancies in German administration, work is being done on a comm
 - The map is the foundation for harmonizing data models across all administrative levels
 - Through this overview, the correct registry can now be addressed
 
-## SIMPL: The European Middleware
+## The European Middleware
 
 [SIMPL](https://code.europa.eu/simpl/simpl-open/documentation/user-manual/-/blob/main/README.md) is the EU Commission's open-source answer to the fragmentation of European dataspaces. It is a modular software stack that serves as technical middleware enabling collaboration between providers, consumers, and infrastructure operators.
 
@@ -124,7 +124,7 @@ This trust model is essential for the **95,825 public sector bodies** across the
 
 The [Eclipse Identity Hub](https://github.com/eclipse-edc/IdentityHub) implements this Trust Triangle, providing the technical foundation for BusinessWallet integration in dataspace ecosystems.
 
-## Why Should NOOTS Use Dataspace Specifications?
+## Why Public Administrations should use Dataspace Specifications?
 
 Security in modern dataspaces follows the principle: "Trust provided they trust assertions." This marks the transition to a **Zero Trust Architecture** where trust is not generated through network membership but through dynamic identity assertions provided by cryptographic decentralized identities, access and usage policies, and legally binding data contracts.
 
@@ -145,13 +145,13 @@ The document [NIST SP 800-207](https://nvlpubs.nist.gov/nistpubs/SpecialPublicat
 
 The transformation of German administration requires consistent alignment with international standards.
 
-**Benefits for German authorities:**
+**Benefits for public authorities:**
 
 - **Technology neutrality:** Independence from cloud hyperscalers through open standards (Eclipse Dataspace / SIMPL)
 - **EU-wide compatibility:** Seamless connection to the European single market
 - **End of isolated solutions:** Harmonization through standardization initiatives like the [eIDAS 2.0](https://www.digitale-verwaltung.de/Webs/DV/DE/digitale-identitaeten/eidas-2-0/eidas-2-0-node.html) regulation and the German [EUDIWallet](https://www.sprind.org/eudi-wallet) for citizens and [BusinessWallet](https://digital-strategy.ec.europa.eu/de/policies/business-wallets) for businesses and authorities
 
-**Challenges for German authorities:**
+**Challenges for public authorities:**
 
 - **Implementation complexity:** High demand for experienced professionals for integrating eIDAS 2.0 compatible EUDIWallets
 - **Legacy integration:** Connecting monolithic legacy systems to modern connector structures
