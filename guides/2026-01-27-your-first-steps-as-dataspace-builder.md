@@ -67,7 +67,7 @@ If you're representing an organization that wants to participate in data sharing
 
 1. **Understand the value proposition.** [What Are Dataspaces?](/guides/what-are-dataspaces-plain-language) explains why this is different from traditional B2B integrations.
 
-2. **See real applications.** Browse our [use cases](/use-cases) to see how dataspaces solve actual business problems—from emergency spare parts to carbon credentials.
+2. **See real applications.** Look at how industry dataspaces like Catena-X and Manufacturing-X solve actual business problems—from supply chain visibility to carbon credentials.
 
 3. **Find a provider.** Several cloud providers and specialized vendors now offer managed dataspace services. You don't need to run the infrastructure yourself.
 
@@ -137,7 +137,7 @@ The core components are used in production dataspaces today (Catena-X, for examp
 
 - [GitHub Discussions](https://github.com/eclipse-edc/Connector/discussions) for technical questions
 - [Eclipse Dataspace Working Group](https://dataspace.eclipse.org/) for standards and governance
-- Our [community page](/community) for contribution opportunities
+- [GitHub Repositories](https://github.com/eclipse-edc) for contribution opportunities
 
 ---
 
