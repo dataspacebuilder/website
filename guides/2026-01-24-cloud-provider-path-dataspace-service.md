@@ -2,9 +2,9 @@
 slug: cloud-provider-path-dataspace-service
 title: The Cloud Provider's Path to Dataspace-as-a-Service
 authors: [mhartmann]
-tags: [cloud-providers, architecture, implementation]
+tags: [implementation]
 description: A practical guide for cloud providers building hosted dataspace services — from architecture to business model.
-image: /img/blog/cloud-provider-path.jpeg
+image: /img/guides/cloud-provider-path.jpeg
 ---
 
 You've decided dataspaces are worth pursuing. Now what? This guide walks through the architecture, components, and decisions involved in building a hosted dataspace service on your cloud infrastructure.
@@ -244,4 +244,4 @@ Base subscription + usage overage — predictable costs with growth upside.
 
 ---
 
-**Coming next:** [What Are Data Spaces? A Plain-Language Guide](/blog/what-are-dataspaces-plain-language) — Share this with colleagues who need the fundamentals.
+**Coming next:** [What Are Data Spaces? A Plain-Language Guide](/guides/what-are-dataspaces-plain-language) — Share this with colleagues who need the fundamentals.

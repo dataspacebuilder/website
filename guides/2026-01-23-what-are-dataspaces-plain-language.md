@@ -2,9 +2,9 @@
 slug: what-are-dataspaces-plain-language
 title: What Are Data Spaces? A Plain-Language Guide for Technical Leaders
 authors: [jvanderberg]
-tags: [concepts, introduction, technical-leaders]
+tags: [getting-started]
 description: A jargon-free explanation of dataspaces for CTOs, architects, and technical decision makers evaluating the technology.
-image: /img/blog/what-are-dataspaces.jpeg
+image: /img/guides/what-are-dataspaces.jpeg
 ---
 
 You've heard "dataspace" in meetings, seen it in EU policy documents, maybe noticed it in vendor pitches. But what actually is it? This guide explains dataspaces in practical terms — what problems they solve, how they work, and why they're different from what came before.
@@ -214,4 +214,4 @@ If you're evaluating dataspaces for your organization:
 
 ---
 
-**Coming next:** [From Zero to Dataspace: Concrete Steps for Rapid Adoption](/blog/zero-to-dataspace-rapid-adoption) — A practical guide for engineering teams.
+**Coming next:** [From Zero to Dataspace: Concrete Steps for Rapid Adoption](/guides/zero-to-dataspace-rapid-adoption) — A practical guide for engineering teams.

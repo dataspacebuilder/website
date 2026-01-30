@@ -2,9 +2,9 @@
 slug: your-first-steps-as-dataspace-builder
 title: "Your First Steps as a Dataspace Builder"
 authors: [jvanderberg]
-tags: [getting-started, onboarding, architecture, developers]
+tags: [getting-started]
 description: "Ready to build with dataspaces? Here's your personalized roadmap based on whether you're a cloud provider, developer, or organization looking to join the ecosystem."
-image: /img/blog/first-steps-builder.jpeg
+image: /img/guides/first-steps-builder.jpeg
 ---
 
 You've heard about dataspaces. You understand why they matter. Now you're ready to actually build something. But where do you start?
@@ -23,13 +23,13 @@ If you're a cloud provider looking to add dataspace capabilities to your portfol
 
 **Your roadmap:**
 
-1. **Understand the opportunity.** Read [Why Dataspaces Matter for Cloud Providers](/blog/why-dataspaces-matter-cloud-providers) to see why this is a strategic play, not just a technical one.
+1. **Understand the opportunity.** Read [Why Dataspaces Matter for Cloud Providers](/guides/why-dataspaces-matter-cloud-providers) to see why this is a strategic play, not just a technical one.
 
-2. **Learn the architecture.** The [architecture overview](/docs/architecture/overview) explains what dataspaces are and why they matter. The [components guide](/docs/architecture/components) shows how Identity Hub, Control Plane, and Data Plane work together. Pay special attention to [deployment topologies](/docs/architecture/deployment-topologies)—this is where your infrastructure advantage becomes real.
+2. **Learn the architecture.** The [EDC documentation](https://eclipse-edc.github.io/documentation/) explains the core concepts and components. Understand how Identity Hub, Control Plane, and Data Plane work together. Pay special attention to deployment topologies—this is where your platform advantage becomes real.
 
 3. **Study the economics.** Multi-tenant EDC-V (Virtual Connector) is the key to margin at scale. One control plane serving thousands of tenants changes the unit economics entirely.
 
-4. **See it running.** The [JAD Demonstrator](/blog/jad-demonstrator-dataspace-as-a-service) shows the complete Dataspace-as-a-Service experience—tenant onboarding, credential issuance, catalog publishing, contract negotiation, and data transfer.
+4. **See it running.** The [JAD Demonstrator](/guides/jad-demonstrator-dataspace-as-a-service) shows the complete Dataspace-as-a-Service experience—tenant onboarding, credential issuance, catalog publishing, contract negotiation, and data transfer.
 
 **Key insight:** You don't need to build everything from scratch. The open-source components are production-ready. Your value-add is the managed service layer, SLAs, and integration with your existing cloud offerings.
 
@@ -41,9 +41,9 @@ If you're a developer or technical architect, you'll want to get hands-on quickl
 
 **Your roadmap:**
 
-1. **Get the mental model.** Start with [What Are Dataspaces?](/blog/what-are-dataspaces-plain-language) to understand the concepts without drowning in specifications.
+1. **Get the mental model.** Start with [What Are Dataspaces?](/guides/what-are-dataspaces-plain-language) to understand the concepts without drowning in specifications.
 
-2. **Understand the flow.** [From Zero to Dataspace](/blog/zero-to-dataspace-rapid-adoption) walks through what actually happens when two organizations negotiate a data sharing agreement.
+2. **Understand the flow.** [From Zero to Dataspace](/guides/zero-to-dataspace-rapid-adoption) walks through what actually happens when two organizations negotiate a data sharing agreement.
 
 3. **Run the MVD.** The [Minimum Viable Dataspace](https://github.com/eclipse-edc/MinimumViableDataspace) is a complete, runnable demo you can spin up locally:
 
@@ -65,7 +65,7 @@ If you're representing an organization that wants to participate in data sharing
 
 **Your roadmap:**
 
-1. **Understand the value proposition.** [What Are Dataspaces?](/blog/what-are-dataspaces-plain-language) explains why this is different from traditional B2B integrations.
+1. **Understand the value proposition.** [What Are Dataspaces?](/guides/what-are-dataspaces-plain-language) explains why this is different from traditional B2B integrations.
 
 2. **See real applications.** Browse our [use cases](/use-cases) to see how dataspaces solve actual business problems—from emergency spare parts to carbon credentials.
 
@@ -148,7 +148,7 @@ Here's a suggested schedule for your first week as a Dataspace Builder:
 | Day | Activity |
 |-----|----------|
 | **Day 1** | Read the conceptual guides (What Are Dataspaces?, Zero to Dataspace) |
-| **Day 2** | Study the [architecture overview](/docs/architecture/overview) and [component interactions](/docs/architecture/components) |
+| **Day 2** | Study the [EDC documentation](https://eclipse-edc.github.io/documentation/) and component interactions |
 | **Day 3** | Clone and run the MVD locally |
 | **Day 4** | Walk through a use case end-to-end |
 | **Day 5** | Explore the EDC documentation for your specific use case |
@@ -161,8 +161,8 @@ By the end of the week, you'll have a working mental model and hands-on experien
 
 Ready to go deeper? Here's where to head next:
 
-- **[Explore the Architecture](/docs/architecture/overview)** — Understand dataspace architecture in detail
-- **[Read More Articles](/blog)** — Learn from real-world insights and implementation patterns
-- **[Join the Community](/community)** — Connect with other builders, ask questions, and contribute
+- **[EDC Documentation](https://eclipse-edc.github.io/documentation/)** — Understand dataspace architecture in detail
+- **[Read More Guides](/guides)** — Learn from real-world insights and implementation patterns
+- **[Eclipse Dataspace Working Group](https://dataspace.eclipse.org/)** — Connect with other builders and contribute
 
-Welcome to the community. Let's build trusted data infrastructure—together.
+Welcome to the community. Let's build trusted data sharing—together.

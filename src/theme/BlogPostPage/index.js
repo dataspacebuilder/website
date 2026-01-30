@@ -38,7 +38,8 @@ function ReadingProgressBar() {
   );
 }
 
-function BlogPostPageContent({ children }) {
+function GuidePostPageContent({ children }) {
+  // Note: useBlogPost is a Docusaurus plugin hook
   const { metadata, toc } = useBlogPost();
   const { frontMatter } = metadata;
   const imageUrl = useBaseUrl(frontMatter?.image);
@@ -61,7 +62,7 @@ function BlogPostPageContent({ children }) {
         </div>
       )}
 
-      <div className={clsx(styles.blogPostContent, imageUrl && styles.hasHeroImage)}>
+      <div className={clsx(styles.guidePostContent, imageUrl && styles.hasHeroImage)}>
         <BlogPostItem>{children}</BlogPostItem>
       </div>
 
@@ -74,21 +75,25 @@ function BlogPostPageContent({ children }) {
   );
 }
 
+// Note: Export name must remain BlogPostPage for Docusaurus theme swizzling
 export default function BlogPostPage(props) {
-  const BlogPostContent = props.content;
+  const GuideContent = props.content;
 
   return (
+    // BlogPostProvider is a Docusaurus plugin component
     <BlogPostProvider content={props.content} isBlogPostPage>
       <HtmlClassNameProvider
         className={clsx(
+          // These ThemeClassNames are Docusaurus internals
           ThemeClassNames.wrapper.blogPages,
           ThemeClassNames.page.blogPostPage
         )}
       >
+        {/* BlogPostPageMetadata is imported from @theme/BlogPostPage/Metadata */}
         <BlogPostPageMetadata />
-        <BlogPostPageContent>
-          <BlogPostContent />
-        </BlogPostPageContent>
+        <GuidePostPageContent>
+          <GuideContent />
+        </GuidePostPageContent>
       </HtmlClassNameProvider>
     </BlogPostProvider>
   );

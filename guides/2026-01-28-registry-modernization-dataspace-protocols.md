@@ -2,9 +2,9 @@
 slug: registry-modernization-dataspace-protocols-eu-middleware
 title: "Registry Modernization with Dataspace Protocols and EU Middleware"
 authors: [mbuchhorn]
-tags: [government, interoperability, NOOTS, SIMPL, once-only, EU, registry, identity, DSP, DCP, BusinessWallet, Eclipse]
+tags: [government, integration]
 description: "How dataspace protocols and EU middleware like SIMPL enable secure, sovereign registry interconnection across 95,825 European public sector bodies — implementing the Once-Only principle with Eclipse Dataspace Components and the new EU BusinessWallet framework."
-image: /img/blog/registry-modernization-cover.jpeg
+image: /img/guides/registry-modernization-cover.jpeg
 keywords: [registry modernization, dataspace protocol, SIMPL, NOOTS, Once-Only principle, EU interoperability, government digitalization, decentralized identity, verifiable credentials, Zero Trust, GDPR compliance, BusinessWallet, Eclipse Dataspace Components, public sector bodies, COM(2025)838]
 ---
 
@@ -28,7 +28,7 @@ Public municipalities, states, and ministries should retain sovereignty over the
 
 The **National Once-Only Technical System** (NOOTS) strategically functions as an intermediary for registry communication. In the [architecture planning](https://gitlab.opencode.de/noots/public/ad-noots/Architektur/-/blob/main/README.md), NOOTS was primarily addressed as a "high-level concept for intermediary platforms." It structures the process by which authorities as consumers can automatically retrieve evidence from providers (the registries). A standardized mediation layer model is to be introduced.
 
-![NOOTS architecture diagram showing how Data Consumer and Data Provider connect through NOOTS components for secure government registry data exchange](/img/blog/registry-noots-architecture.jpeg)
+![NOOTS architecture diagram showing how Data Consumer and Data Provider connect through NOOTS components for secure government registry data exchange](/img/guides/registry-noots-architecture.jpeg)
 *Connection concept for Data Consumer and Data Provider through NOOTS components*
 
 **Strategic Assessment:** As a technological backbone, NOOTS eliminates the need for citizens to act as "postmen between authorities." The efficiency gain lies in the machine-readable provision of evidence. However, to ensure scalability across national borders, this architecture must be integrated into European middleware solutions like SIMPL to achieve true protocol convergence.
@@ -61,7 +61,7 @@ The SIMPL ecosystem is divided into:
 
 The first technological milestone was the integration of [eDelivery (AS4)](https://ec.europa.eu/digital-building-blocks/sites/spaces/DIGITAL/pages/845480153/eDelivery+AS4+-+2.0). This occurs at the **Data Plane** level to conduct highly secure and certified physical data transfer after contract negotiation is complete.
 
-![SIMPL-Open agents architecture showing secure data exchange between dataspace participants using standardized protocols](/img/blog/registry-simpl-agents.jpeg)
+![SIMPL-Open agents architecture showing secure data exchange between dataspace participants using standardized protocols](/img/guides/registry-simpl-agents.jpeg)
 *Simpl-Open agents enable secure data exchange between participants*
 
 **Strategic Assessment:** The synergy between SIMPL and the **Dataspace Protocol** is exciting for registry modernization. Through SIMPL extensions for EDC, provisioning of cloud resources via a dedicated API is enabled. Particularly noteworthy is the **Infrastructure-PUSH** transfer type, which allows deployment scripts within the SIMPL context to be triggered directly from the Data Plane. This transforms registry communication from pure data exchange to dynamic resource orchestration. However, integration of modern digital identities is currently still missing, which would consistently implement Zero Trust principles.
@@ -73,7 +73,7 @@ Interoperability in multi-cloud administration environments is only achievable t
 - **[Dataspace Protocol (DSP)](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/):** In final version **1.0**, DSP forms the foundation for metadata catalogs based on [W3C DCAT](https://www.w3.org/TR/vocab-dcat-3/) and contractual assurance via access and usage policies through [W3C ODRL](https://www.w3.org/TR/odrl-model/).
 - **[Decentralized Claims Protocol (DCP)](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/):** DCP governs trust establishment. It uses **JSON-LD** and decentralized identities ([W3C DIDs](https://www.w3.org/TR/did-1.1/)).
 
-![Diagram showing the paradigm shift required for interoperable administration implementing the Once-Only principle through dataspace protocols](/img/blog/registry-protocols-standards.jpeg)
+![Diagram showing the paradigm shift required for interoperable administration implementing the Once-Only principle through dataspace protocols](/img/guides/registry-protocols-standards.jpeg)
 *The path to interoperable administration with the "Once-Only" principle requires a paradigm shift*
 
 **Strategic Assessment:** Using standards like W3C DID, DCAT, and ODRL enables data to be found interoperably and shared with a legally binding contract. The separation of Control and Data Plane in DSP is the prerequisite for **Policy Enforcement**. It ensures that data only leaves the provider's jurisdiction when the Control Plane has validated a cryptographically signed contract against the ODRL policy. This guarantees high availability and sovereignty in registry communication.
@@ -82,7 +82,7 @@ Interoperability in multi-cloud administration environments is only achievable t
 
 Industry is moving away from central Identity Providers (IdP) toward **Self-Sovereign Identity (SSI)**. In this model, registries function as sovereign participants holding and managing identity attributes in digital **Wallets**.
 
-![Architecture diagram showing how decentralized identities and verifiable credentials automate trust in government registry systems](/img/blog/registry-decentralized-identity.jpeg)
+![Architecture diagram showing how decentralized identities and verifiable credentials automate trust in government registry systems](/img/guides/registry-decentralized-identity.jpeg)
 *Automating trust through decentralized identities and verifiable credentials*
 
 The technical implementation of decentralized identities occurs through specific profiles:
@@ -94,7 +94,7 @@ The technical implementation of decentralized identities occurs through specific
 
 While development and test environments can rely on self-issued **did:web** identities, productive government operations could require a trust anchor such as a [Gaia-X Digital Clearing House (GXDCH)](https://gaia-x.eu/services-deliverables/digital-clearing-house/). It must still be examined whether an independent instance should verify compliance of digital credentials, or whether—as in the DCP specification—the DID Service [issues](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/v1.0.1/#issuance-flow), [presents](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/v1.0.1/#presentation-flow), and verifies the digital did:web identity.
 
-![Illustration showing the necessity of Decentralized Identities (W3C DID) for secure government registry interconnection](/img/blog/registry-did-necessity.jpeg)
+![Illustration showing the necessity of Decentralized Identities (W3C DID) for secure government registry interconnection](/img/guides/registry-did-necessity.jpeg)
 *The necessity of Decentralized Identities (W3C DID)*
 
 **Strategic Assessment:** Using decentralized identities removes central instances from the role of "Single Point of Failure." Trust can thus be established through cryptographic proofs directly between registries, which massively increases the resilience of the overall system.
@@ -136,7 +136,7 @@ The document [NIST SP 800-207](https://nvlpubs.nist.gov/nistpubs/SpecialPublicat
 - **Interoperability:** Use of the [Eclipse Conformity Assessment Policy and Credential Profile](https://projects.eclipse.org/projects/technology.dataspace-cap) and the [Technical Compliance KIT](https://projects.eclipse.org/projects/technology.dataspacetck) prevents proprietary lock-in effects. The [TCK Compatibility Reports](https://eclipse-edc.github.io/documentation/compatibility/) ensure all vendors have concretely implemented the standards
 - **Transparency:** Complete audit trails via a Clearing House secure legal compliance
 
-![Diagram showing legally compliant registry modernization through DIDs, policies, and data contracts](/img/blog/registry-legal-compliance.jpeg)
+![Diagram showing legally compliant registry modernization through DIDs, policies, and data contracts](/img/guides/registry-legal-compliance.jpeg)
 *Legally compliant registry modernization with DID, policies, and data contracts*
 
 **Strategic Assessment:** Only through the combination of ODRL-based policies and cryptographically signed Verifiable Credentials is legally compliant registry modernization possible that simultaneously meets the requirements of GDPR and national security regulations.
@@ -159,7 +159,7 @@ The transformation of German administration requires consistent alignment with i
 
 Registry modernization is the fundamental prerequisite for the digital sovereignty of Germany and Europe. The success of this endeavor stands and falls with the consistent use of open-source components like the Eclipse Dataspace Initiative and SIMPL middleware. These components ensure that the public sector does not fall into new dependencies but builds an independent interoperability stack.
 
-![Architecture diagram showing implementation of Zero Trust architecture, data sovereignty, and EU Data Act compliance](/img/blog/registry-zero-trust.jpeg)
+![Architecture diagram showing implementation of Zero Trust architecture, data sovereignty, and EU Data Act compliance](/img/guides/registry-zero-trust.jpeg)
 *Implementing Zero Trust Architecture, Data Sovereignty, and the EU Data Act*
 
 ## The EU BusinessWallet Proposal: A New Foundation for Government-to-Business Trust
@@ -237,6 +237,6 @@ Our modern, networked, and sovereign administration — serving **95,825 public 
 ---
 
 **Related articles:**
-- [What Are Dataspaces? A Plain-Language Explanation](/blog/what-are-dataspaces-plain-language) — Understanding the basics
-- [The Cloud Provider's Path to Dataspace-as-a-Service](/blog/cloud-provider-path-dataspace-service) — Architecture for service providers
-- [From Zero to Dataspace: Concrete Steps for Rapid Adoption](/blog/zero-to-dataspace-rapid-adoption) — Implementation guide
+- [What Are Dataspaces? A Plain-Language Explanation](/guides/what-are-dataspaces-plain-language) — Understanding the basics
+- [The Cloud Provider's Path to Dataspace-as-a-Service](/guides/cloud-provider-path-dataspace-service) — Architecture for service providers
+- [From Zero to Dataspace: Concrete Steps for Rapid Adoption](/guides/zero-to-dataspace-rapid-adoption) — Implementation guide

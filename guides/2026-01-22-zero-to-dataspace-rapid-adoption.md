@@ -2,9 +2,9 @@
 slug: zero-to-dataspace-rapid-adoption
 title: "From Zero to Dataspace: Concrete Steps for Rapid Adoption"
 authors: [akowalski]
-tags: [implementation, engineering, getting-started]
+tags: [implementation]
 description: A hands-on guide for engineering teams evaluating or implementing dataspace technology.
-image: /img/blog/zero-to-dataspace.jpeg
+image: /img/guides/zero-to-dataspace.jpeg
 ---
 
 Your organization has decided dataspaces are worth exploring. Now someone needs to make it work. This guide is for the engineering team tasked with evaluation, prototyping, or production implementation.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate registry modernization blog images using DALL-E 3.
+Generate registry modernization guide images using DALL-E 3.
 These images replace the German versions with English text.
 """
 
@@ -9,7 +9,7 @@ from openai import OpenAI
 
 client = OpenAI()
 
-# Image prompts for registry modernization blog post - ALL IN ENGLISH
+# Image prompts for registry modernization guide - ALL IN ENGLISH
 REGISTRY_IMAGES = {
     "registry-noots-architecture.jpeg": """
 Technical architecture diagram showing NOOTS (National Once-Only Technical System) data flow.
@@ -100,7 +100,7 @@ modern European digital government aesthetic, inspiring and forward-looking mood
 """
 }
 
-def generate_image(prompt: str, filename: str, output_dir: str = "static/img/blog"):
+def generate_image(prompt: str, filename: str, output_dir: str = "static/img/guides"):
     """Generate an image using DALL-E 3 and save it."""
     print(f"Generating: {filename}...")
     
@@ -111,7 +111,7 @@ def generate_image(prompt: str, filename: str, output_dir: str = "static/img/blo
         response = client.images.generate(
             model="dall-e-3",
             prompt=clean_prompt,
-            size="1792x1024",  # Landscape for blog headers
+            size="1792x1024",  # Landscape for guide headers
             quality="standard",
             n=1,
         )
@@ -132,11 +132,11 @@ def generate_image(prompt: str, filename: str, output_dir: str = "static/img/blo
 def main():
     """Generate all registry images."""
     print("=" * 60)
-    print("Registry Modernization Blog Image Generator")
+    print("Registry Modernization Guide Image Generator")
     print("Generating English versions of all images...")
     print("=" * 60)
     
-    output_dir = "static/img/blog"
+    output_dir = "static/img/guides"
     os.makedirs(output_dir, exist_ok=True)
     
     success_count = 0

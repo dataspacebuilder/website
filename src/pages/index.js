@@ -1,7 +1,5 @@
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 
@@ -17,40 +15,24 @@ function HeroSection() {
             European Cloud Accelerator Initiative
           </div>
           <Heading as="h1" className={styles.heroTitle}>
-            Build Trusted Data Infrastructure.<br />
+            Build Trusted Data Sharing.<br />
             <span className={styles.heroTitleAccent}>Together.</span>
           </Heading>
           <p className={styles.heroSubtitle}>
             Join the global community building sovereign data sharing with open-source components. 
-            No central platform. No vendor lock-in. Just trusted, policy-controlled data exchange.
+            No central platform. No vendor lock-in. Just trusted, policy-controlled collaboration.
           </p>
           <div className={styles.heroButtons}>
             <Link
               className="button button--primary button--lg"
-              to="/blog/your-first-steps-as-dataspace-builder">
-              Start Building
+              to="/guides">
+              Read the Guides
             </Link>
             <Link
               className="button button--secondary button--lg"
-              to="/blog">
-              Read the Blog
+              href="https://github.com/eclipse-edc">
+              View on GitHub
             </Link>
-          </div>
-          <div className={styles.heroStats}>
-            <div className={styles.heroStat}>
-              <span className={styles.heroStatNumber}>5+</span>
-              <span className={styles.heroStatLabel}>Cloud Providers Building</span>
-            </div>
-            <div className={styles.heroStatDivider}></div>
-            <div className={styles.heroStat}>
-              <span className={styles.heroStatNumber}>100%</span>
-              <span className={styles.heroStatLabel}>Open Source</span>
-            </div>
-            <div className={styles.heroStatDivider}></div>
-            <div className={styles.heroStat}>
-              <span className={styles.heroStatNumber}>DSP/DCP</span>
-              <span className={styles.heroStatLabel}>Standards-Based</span>
-            </div>
           </div>
         </div>
       </div>
@@ -58,63 +40,37 @@ function HeroSection() {
   );
 }
 
-function TrustBar() {
-  const logos = [
-    { name: 'Eclipse Foundation', type: 'foundation' },
-    { name: 'IDSA', type: 'foundation' },
-    { name: 'Gaia-X', type: 'foundation' },
-    { name: 'Catena-X', type: 'industry' },
-    { name: 'DECADE-X', type: 'industry' },
-  ];
-
-  return (
-    <section className={styles.trustBar}>
-      <div className="container">
-        <p className={styles.trustBarLabel}>
-          Built on Eclipse Dataspace Components — Trusted by leading organizations
-        </p>
-        <div className={styles.trustBarLogos}>
-          {logos.map((logo, idx) => (
-            <span key={idx} className={clsx(styles.trustBarLogo, styles[`trustBarLogo--${logo.type}`])}>
-              {logo.name}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 const Pathways = [
   {
-    id: 'cloud-providers',
-    title: 'Cloud Providers',
-    subtitle: 'Offer Dataspace-as-a-Service',
-    description: 'Add trusted data sharing to your cloud portfolio. Multi-tenant architecture means margin. Open standards mean no lock-in for your customers.',
-    icon: '☁️',
-    cta: 'See the Business Case',
-    ctaLink: '/blog/why-dataspaces-matter-cloud-providers',
-    highlights: ['New revenue stream', 'Multi-tenant EDC-V', 'Managed identity services'],
+    id: 'decision-makers',
+    title: 'Decision Makers',
+    subtitle: 'The Strategic Case for DSaaS',
+    description: 'When data flows, business grows. Understand why trusted data sharing matters and how Dataspace-as-a-Service creates new business opportunities.',
+    icon: '📊',
+    cta: 'Read the Strategic Guide',
+    ctaLink: '/guides/why-dataspaces-matter-cloud-providers',
+    highlights: ['Business opportunities', 'Market potential', 'DSaaS deployment'],
+  },
+  {
+    id: 'architects',
+    title: 'Enterprise Architects',
+    subtitle: 'DSaaS Implementation',
+    description: 'From complexity to commodity. Turn data sharing capabilities into a managed service. Deploy the EDC stack on your platform.',
+    icon: '🏗️',
+    cta: 'Implementation Guide',
+    ctaLink: '/guides/zero-to-dataspace-rapid-adoption',
+    highlights: ['EDC stack walkthrough', 'Production operations', 'Multi-tenant setup'],
   },
   {
     id: 'developers',
-    title: 'Developers',
-    subtitle: 'Build with Open Components',
-    description: 'Production-ready building blocks for identity, trust, contracts, and data transfer. If you know APIs and OAuth, you\'re 80% there.',
+    title: 'Enterprise Developers',
+    subtitle: 'DS Integration',
+    description: 'From weeks to days. Learn how to integrate dataspace capabilities into your systems and build applications on DSaaS.',
     icon: '👩‍💻',
-    cta: 'Read the Technical Guide',
-    ctaLink: '/blog/zero-to-dataspace-rapid-adoption',
-    highlights: ['Eclipse EDC stack', 'Verifiable credentials', 'Policy-based exchange'],
-  },
-  {
-    id: 'organizations',
-    title: 'Organizations',
-    subtitle: 'Join a Dataspace',
-    description: 'Share data with partners on your own terms. Participate in industry ecosystems like Manufacturing-X, DECADE-X, or build your own.',
-    icon: '🏢',
-    cta: 'Understand Dataspaces',
-    ctaLink: '/blog/what-are-dataspaces-plain-language',
-    highlights: ['Data sovereignty', 'Automated trust', 'Regulatory compliance'],
+    cta: 'Integration Guide',
+    ctaLink: '/guides/what-are-dataspaces-plain-language',
+    highlights: ['DSaaS integration', 'On-premise data planes', 'Application development'],
   },
 ];
 
@@ -126,7 +82,7 @@ function PathwaysSection() {
           Your Path to Dataspaces
         </Heading>
         <p className="section__subtitle">
-          Whether you're building infrastructure, developing software, or joining an ecosystem—there's a clear path forward.
+          Whether you're offering dataspace services, deploying the stack, or integrating with it—there's a clear path forward.
         </p>
         <div className={styles.pathwaysGrid}>
           {Pathways.map((pathway) => (
@@ -153,96 +109,6 @@ function PathwaysSection() {
   );
 }
 
-const UseCases = [
-  {
-    title: 'Emergency Parts Data in Minutes',
-    description: 'A wind farm operator needs urgent access to a supplier\'s inventory. Trust credentials verify the emergency role, and data flows within minutes—not days.',
-    industry: 'Energy',
-    link: '/docs/use-cases/critical-spare-part',
-  },
-  {
-    title: 'Carbon Credentials Without Exposure',
-    description: 'A steel manufacturer proves sustainability compliance without exposing proprietary process data. Verifiable credentials travel with the batch.',
-    industry: 'Manufacturing',
-    link: '/docs/use-cases/green-steel-certification',
-  },
-];
-
-function UseCasesSection() {
-  return (
-    <section className={clsx('section section--alt', styles.useCasesSection)}>
-      <div className="container">
-        <Heading as="h2" className="section__title">
-          See It in Action
-        </Heading>
-        <p className="section__subtitle">
-          Real problems, solved by trusted data sharing.
-        </p>
-        <div className={styles.useCasesGrid}>
-          {UseCases.map((useCase, idx) => (
-            <Link to={useCase.link} key={idx} className={styles.useCaseCard}>
-              <span className={styles.useCaseIndustry}>{useCase.industry}</span>
-              <h3 className={styles.useCaseTitle}>{useCase.title}</h3>
-              <p className={styles.useCaseDescription}>{useCase.description}</p>
-              <span className={styles.useCaseLink}>Read the use case →</span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ArchitecturePreview() {
-  const stackImageUrl = useBaseUrl('/img/stack.jpeg');
-  return (
-    <section className={clsx('section', styles.architectureSection)}>
-      <div className="container">
-        <div className={styles.architectureContent}>
-          <div className={styles.architectureText}>
-            <Heading as="h2" className={styles.architectureSectionTitle}>
-              A Clear, Layered Architecture
-            </Heading>
-            <p className={styles.architectureSubtitle}>
-              Five layers that work together to enable trusted, policy-controlled data sharing across organizations.
-            </p>
-            <div className={styles.architectureLayers}>
-              <div className={clsx(styles.architectureLayer, styles.layerTrustFramework)}>
-                <span className={styles.layerName}>Trust Frameworks</span>
-                <span className={styles.layerDesc}>Governance & credential schemas</span>
-              </div>
-              <div className={clsx(styles.architectureLayer, styles.layerTrustPlane)}>
-                <span className={styles.layerName}>Trust Plane</span>
-                <span className={styles.layerDesc}>Identity Hub & verifiable credentials</span>
-              </div>
-              <div className={clsx(styles.architectureLayer, styles.layerControlPlane)}>
-                <span className={styles.layerName}>Control Plane</span>
-                <span className={styles.layerDesc}>Catalog, negotiation & policies</span>
-              </div>
-              <div className={clsx(styles.architectureLayer, styles.layerDataPlane)}>
-                <span className={styles.layerName}>Data Plane</span>
-                <span className={styles.layerDesc}>Secure data transfer</span>
-              </div>
-              <div className={clsx(styles.architectureLayer, styles.layerInfrastructure)}>
-                <span className={styles.layerName}>Infrastructure</span>
-                <span className={styles.layerDesc}>Cloud, edge, on-premises</span>
-              </div>
-            </div>
-            <Link className="button button--primary" to="/docs/architecture/overview">
-              Explore the Full Architecture
-            </Link>
-          </div>
-          <div className={styles.architectureImage}>
-            <img 
-              src={stackImageUrl} 
-              alt="Dataspace Builders Architecture - Five-layer stack for trusted data sharing"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 const WhyNowReasons = [
   {
@@ -286,6 +152,51 @@ function WhyNowSection() {
   );
 }
 
+function CommunitySection() {
+  return (
+    <section className={clsx('section', styles.communitySection)}>
+      <div className="container">
+        <Heading as="h2" className="section__title">
+          Join the Community
+        </Heading>
+        <p className="section__subtitle">
+          Dataspace Builders is an open source project that anyone in the community can use, improve, and enjoy. We'd love you to join us!
+        </p>
+        <div className={styles.communityGrid}>
+          <div className={styles.communityCard}>
+            <h3 className={styles.communityCardTitle}>Learn and Connect</h3>
+            <p className={styles.communityCardDescription}>
+              Using or want to use Eclipse Dataspace Components? Find out more here:
+            </p>
+            <ul className={styles.communityLinks}>
+              <li>
+                <Link href="https://dataspace.eclipse.org/">Eclipse Dataspace Working Group</Link>
+              </li>
+              <li>
+                <Link href="https://eclipse-edc.github.io/documentation/">EDC Documentation</Link>
+              </li>
+            </ul>
+          </div>
+          <div className={styles.communityCard}>
+            <h3 className={styles.communityCardTitle}>Develop and Contribute</h3>
+            <p className={styles.communityCardDescription}>
+              If you want to get more involved by contributing to the project, join us here:
+            </p>
+            <ul className={styles.communityLinks}>
+              <li>
+                <Link href="https://github.com/eclipse-edc">GitHub Repositories</Link>
+              </li>
+              <li>
+                <Link href="https://github.com/eclipse-edc/Connector/blob/main/CONTRIBUTING.md">Contribution Guidelines</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CTASection() {
   return (
     <section className="section">
@@ -296,11 +207,11 @@ function CTASection() {
             Get started with EDC-based trusted data sharing. Open source, open standards, open community.
           </p>
           <div className={styles.ctaButtons}>
-            <Link className="button button--primary button--lg" to="/blog/your-first-steps-as-dataspace-builder">
-              Get Started
+            <Link className="button button--primary button--lg" to="/guides">
+              Read the Guides
             </Link>
-            <Link className="button button--secondary button--lg" to="/community">
-              Join the Community
+            <Link className="button button--secondary button--lg" href="https://github.com/eclipse-edc">
+              View on GitHub
             </Link>
           </div>
         </div>
@@ -312,15 +223,13 @@ function CTASection() {
 export default function Home() {
   return (
     <Layout
-      title="Build Trusted Data Infrastructure Together"
-      description="Dataspace Builders is the global community building trusted data infrastructure with open-source components. Join us to build dataspaces with Eclipse EDC. No vendor lock-in, just sovereign data exchange.">
+      title="Build Trusted Data Sharing Together"
+      description="Dataspace Builders is the global community building trusted data sharing with open-source components. Join us to build dataspaces with Eclipse EDC. No vendor lock-in, just sovereign collaboration.">
       <HeroSection />
-      <TrustBar />
       <main>
         <PathwaysSection />
-        <UseCasesSection />
-        <ArchitecturePreview />
         <WhyNowSection />
+        <CommunitySection />
         <CTASection />
       </main>
     </Layout>

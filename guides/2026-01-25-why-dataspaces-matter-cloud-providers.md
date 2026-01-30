@@ -2,9 +2,9 @@
 slug: why-dataspaces-matter-cloud-providers
 title: Why Data Spaces Matter Now — And Why Cloud Providers Should Care
 authors: [sliu]
-tags: [business, cloud-providers, market-opportunity]
+tags: [strategy]
 description: The dataspace market is emerging rapidly. Here's why cloud providers are uniquely positioned to capture it.
-image: /img/blog/why-dataspaces-matter.jpeg
+image: /img/guides/why-dataspaces-matter.jpeg
 ---
 
 Data sharing between organizations is nothing new. What's new is the regulatory mandate, the technology maturity, and the market timing. For cloud providers, dataspaces represent a significant new service category — one that plays directly to your existing strengths.
@@ -115,7 +115,7 @@ The economics improve with scale. The Virtual Connector's multi-tenant architect
 
 If you're evaluating dataspace services for your cloud platform:
 
-1. **Understand the architecture** — Read [The Cloud Provider's Path to Dataspace-as-a-Service](/blog/cloud-provider-path-dataspace-service)
+1. **Understand the architecture** — Read [The Cloud Provider's Path to Dataspace-as-a-Service](/guides/cloud-provider-path-dataspace-service)
 2. **See it running** — Try [JAD (Just Another Demonstrator)](https://github.com/Metaform/jad) to deploy a complete dataspace locally
 3. **Engage the ecosystem** — Join the [Eclipse Dataspace Working Group](https://dataspace.eclipse.org/)
 4. **Talk to early adopters** — Connect with providers already building these services
@@ -124,4 +124,4 @@ The infrastructure exists. The standards are stabilizing. The market demand is r
 
 ---
 
-**Coming next:** [The Cloud Provider's Path to Dataspace-as-a-Service](/blog/cloud-provider-path-dataspace-service) — A technical and business guide to building your offering.
+**Coming next:** [The Cloud Provider's Path to Dataspace-as-a-Service](/guides/cloud-provider-path-dataspace-service) — A technical and business guide to building your offering.

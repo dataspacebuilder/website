@@ -11,41 +11,42 @@ import Layout from '@theme/Layout';
 import BlogListPaginator from '@theme/BlogListPaginator';
 import SearchMetadata from '@theme/SearchMetadata';
 import Link from '@docusaurus/Link';
-import PostCard from '@site/src/components/Blog/PostCard';
+import PostCard from '@site/src/components/Guides/PostCard';
 import styles from './styles.module.css';
 
-function BlogListPageMetadata(props) {
+function GuideListPageMetadata(props) {
   const {metadata} = props;
   const {
     siteConfig: {title: siteTitle},
   } = useDocusaurusContext();
-  const {blogDescription, blogTitle, permalink} = metadata;
-  const isBlogOnlyMode = permalink === '/';
-  const title = isBlogOnlyMode ? siteTitle : blogTitle;
+  // Note: blogDescription/blogTitle come from Docusaurus plugin metadata
+  const {blogDescription: guideDescription, blogTitle: guideTitle, permalink} = metadata;
+  const isGuideOnlyMode = permalink === '/';
+  const title = isGuideOnlyMode ? siteTitle : guideTitle;
   
   return (
     <>
-      <PageMetadata title={title} description={blogDescription} />
-      <SearchMetadata tag="blog_posts_list" />
+      <PageMetadata title={title} description={guideDescription} />
+      <SearchMetadata tag="guide_posts_list" />
     </>
   );
 }
 
 // Featured/Hero post component
 function FeaturedPost({ post }) {
+  if (!post?.metadata) return null;
+  
+  const { metadata } = post;
   const {
-    metadata: {
-      permalink,
-      title,
-      description,
-      date,
-      readingTime,
-      tags,
-      frontMatter,
-    },
-  } = post;
+    permalink,
+    title,
+    description,
+    date,
+    readingTime,
+    frontMatter,
+  } = metadata;
 
-  const imageUrl = useBaseUrl(frontMatter?.image || '/img/blog-default.svg');
+  const imageUrl = useBaseUrl(frontMatter?.image || '/img/guide-default.svg');
   const dateObj = typeof date === 'string' ? new Date(date) : date;
 
   return (
@@ -103,7 +104,7 @@ function TagFilters({ tags, activeTag, onTagClick }) {
   );
 }
 
-function BlogListPageContent(props) {
+function GuideListPageContent(props) {
   const {metadata, items} = props;
   const [activeTag, setActiveTag] = useState(null);
   
@@ -111,7 +112,7 @@ function BlogListPageContent(props) {
   const allTags = useMemo(() => {
     const tagSet = new Set();
     items.forEach(({content}) => {
-      content.metadata.tags?.forEach((tag) => tagSet.add(tag.label));
+      content?.metadata?.tags?.forEach((tag) => tagSet.add(tag.label));
     });
     return Array.from(tagSet).sort();
   }, [items]);
@@ -120,7 +121,7 @@ function BlogListPageContent(props) {
   const filteredItems = useMemo(() => {
     if (!activeTag) return items;
     return items.filter(({content}) => 
-      content.metadata.tags?.some((tag) => tag.label === activeTag)
+      content?.metadata?.tags?.some((tag) => tag.label === activeTag)
     );
   }, [items, activeTag]);
 
@@ -129,13 +130,13 @@ function BlogListPageContent(props) {
   
   return (
     <Layout>
-      <main className={styles.blogMain}>
-        <div className={styles.blogHeader}>
+      <main className={styles.guideMain}>
+        <div className={styles.guideHeader}>
           <div className={styles.headerBackground} />
           <div className={styles.headerContent}>
-            <h1 className={styles.blogTitle}>Blog</h1>
-            <p className={styles.blogSubtitle}>
-              Insights on dataspaces, trusted data sharing, and the evolving data economy
+            <h1 className={styles.guideTitle}>Guides</h1>
+            <p className={styles.guideSubtitle}>
+              Practical guides for building trusted data infrastructure with dataspaces
             </p>
           </div>
         </div>
@@ -148,17 +149,19 @@ function BlogListPageContent(props) {
           />
         </div>
         
-        {featuredItem && (
+        {featuredItem?.content && (
           <FeaturedPost post={featuredItem.content} />
         )}
         
         {restItems.length > 0 && (
           <div className={styles.contentContainer}>
             <h3 className={styles.sectionTitle}>More Articles</h3>
-            <div className={clsx('row', styles.blogGrid)}>
-              {restItems.map(({content: BlogPostContent}) => (
-                <PostCard key={BlogPostContent.metadata.permalink} post={BlogPostContent} />
-              ))}
+            <div className={clsx('row', styles.guideGrid)}>
+              {restItems
+                .filter(item => item?.content?.metadata?.permalink)
+                .map(({content: GuideContent}) => (
+                  <PostCard key={GuideContent.metadata.permalink} post={GuideContent} />
+                ))}
             </div>
           </div>
         )}
@@ -171,15 +174,17 @@ function BlogListPageContent(props) {
   );
 }
 
+// Note: Export name must remain BlogListPage for Docusaurus theme swizzling
 export default function BlogListPage(props) {
   return (
     <HtmlClassNameProvider
       className={clsx(
+        // These ThemeClassNames are Docusaurus internals
         ThemeClassNames.wrapper.blogPages,
         ThemeClassNames.page.blogListPage,
       )}>
-      <BlogListPageMetadata {...props} />
-      <BlogListPageContent {...props} />
+      <GuideListPageMetadata {...props} />
+      <GuideListPageContent {...props} />
     </HtmlClassNameProvider>
   );
 }

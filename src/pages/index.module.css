@@ -483,6 +483,69 @@
 }
 
 /* ========================================
+   Community Section
+   ======================================== */
+
+.communitySection {
+  padding: 5rem 0;
+}
+
+.communityGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.communityCard {
+  background: var(--ifm-card-background-color);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.communityCardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  color: var(--ifm-heading-color);
+}
+
+.communityCardDescription {
+  font-size: 0.95rem;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.communityLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.communityLinks li {
+  font-size: 0.95rem;
+}
+
+.communityLinks a {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.communityLinks a:hover {
+  color: var(--ifm-color-primary-dark);
+  text-decoration: underline;
+}
+
+/* ========================================
    CTA Section
    ======================================== */
 
@@ -532,39 +595,15 @@
     margin: 0 auto;
   }
 
-  .useCasesGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .architectureContent {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .architectureSectionTitle {
-    text-align: center;
-  }
-
-  .architectureSubtitle {
-    text-align: center;
-  }
-
-  .architectureText {
-    text-align: center;
-  }
-
-  .architectureText .button {
-    margin: 0 auto;
-  }
-
-  .architectureImage {
-    order: -1;
-  }
-
   .whyNowGrid {
     grid-template-columns: 1fr;
     max-width: 500px;
     margin: 0 auto;
+  }
+
+  .communityGrid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
   }
 
   .trustBarLogos {
@@ -625,18 +664,12 @@
     padding: 1.5rem;
   }
 
-  .useCaseCard {
-    padding: 1.5rem;
-  }
-
   .whyNowCard {
     padding: 1.5rem;
   }
 
-  .architectureLayer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
+  .communityCard {
+    padding: 1.5rem;
   }
 
   .ctaButtons {
@@ -691,12 +724,7 @@
   border-color: rgba(13, 148, 136, 0.3);
 }
 
-[data-theme='dark'] .useCaseIndustry {
-  background: rgba(245, 158, 11, 0.2);
-  color: #FBBF24;
-}
-
-[data-theme='dark'] .useCaseCard:nth-child(2) .useCaseIndustry {
-  background: rgba(16, 185, 129, 0.2);
-  color: #34D399;
+[data-theme='dark'] .communityCard {
+  background: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-emphasis-300);
 }

@@ -1,10 +1,13 @@
 // @ts-check
 import { themes as prismThemes } from 'prism-react-renderer';
 
+// Feature flag for architecture docs
+const ENABLE_ARCHITECTURE = process.env.ENABLE_ARCHITECTURE === 'true';
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Dataspace Builders',
-  tagline: 'Build trusted data infrastructure. Together.',
+  tagline: 'Build trusted data sharing. Together.',
   favicon: 'img/favicon.ico',
 
   url: 'https://dataspacebuilder.github.io',
@@ -39,13 +42,15 @@ const config = {
           editUrl: 'https://github.com/dataspace-builders/dataspace-builders/tree/main/',
         },
         blog: {
+          path: 'guides',
+          routeBasePath: 'guides',
           showReadingTime: true,
           feedOptions: {
             type: ['rss', 'atom'],
             xslt: true,
           },
           editUrl: 'https://github.com/dataspace-builders/dataspace-builders/tree/main/',
-          blogSidebarTitle: 'All posts',
+          blogSidebarTitle: 'All guides',
           blogSidebarCount: 'ALL',
         },
         theme: {
@@ -66,10 +71,14 @@ const config = {
           src: 'img/logo.png',
         },
         items: [
-          { to: '/blog', label: 'Blog', position: 'left' },
-          { to: '/architecture', label: 'Architecture', position: 'left' },
-          { to: '/use-cases', label: 'Use Cases', position: 'left' },
-          { to: '/community', label: 'Community', position: 'left' },
+          { to: '/guides', label: 'Guides', position: 'left' },
+          // Architecture link conditionally enabled via ENABLE_ARCHITECTURE env var
+          ...(ENABLE_ARCHITECTURE ? [{ to: '/docs/architecture/overview', label: 'Architecture', position: 'left' }] : []),
+          { 
+            href: 'https://github.com/eclipse-edc', 
+            label: 'GitHub', 
+            position: 'right',
+          },
         ],
       },
       footer: {
@@ -78,8 +87,8 @@ const config = {
           {
             title: 'Learn',
             items: [
-              { label: 'Architecture', to: '/architecture' },
-              { label: 'Use Cases', to: '/use-cases' },
+              { label: 'Guides', to: '/guides' },
+              { label: 'EDC Documentation', href: 'https://eclipse-edc.github.io/documentation/' },
             ],
           },
           {
@@ -87,13 +96,6 @@ const config = {
             items: [
               { label: 'Eclipse Dataspace WG', href: 'https://dataspace.eclipse.org/' },
               { label: 'GitHub', href: 'https://github.com/eclipse-edc' },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              { label: 'Blog', to: '/blog' },
-              { label: 'EDC Documentation', href: 'https://eclipse-edc.github.io/documentation/' },
             ],
           },
         ],

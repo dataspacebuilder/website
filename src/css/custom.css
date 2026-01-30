@@ -296,42 +296,43 @@
   background: var(--layer-infrastructure);
 }
 
-/* Blog card improvements */
-.blog-card {
+/* Guide card improvements */
+.guide-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.blog-card:hover {
+.guide-card:hover {
   transform: translateY(-4px);
 }
 
-/* Blog List Page enhancements */
-.blog-list-page .main-wrapper {
+/* Guide List Page enhancements */
+.guide-list-page .main-wrapper {
   padding-top: 1rem;
   overflow-x: hidden;
 }
 
 /* Prevent horizontal scroll from full-width elements */
+/* Note: blogListPage is a Docusaurus internal class name */
 [class*="blogListPage"] main {
   overflow-x: hidden;
 }
 
 /* Featured/Latest post highlight */
-.blog-post-featured {
+.guide-post-featured {
   border-left: 4px solid var(--ifm-color-primary);
 }
 
-/* Blog sidebar styling */
+/* Guide sidebar styling */
 aside[class*="docSidebarContainer"] {
   background: var(--ifm-color-emphasis-100);
 }
 
-/* Tag pills in blog */
-.blog-tags-list a {
+/* Tag pills in guides */
+.guide-tags-list a {
   transition: transform 0.2s ease;
 }
 
-.blog-tags-list a:hover {
+.guide-tags-list a:hover {
   transform: translateY(-2px);
 }
 
@@ -400,7 +401,7 @@ button:focus-visible {
 }
 
 /* ========================================
-   Blog Article Reading Experience
+   Guide Article Reading Experience
    ======================================== */
 
 /* Article Title */
@@ -631,14 +632,14 @@ article .markdown img {
   border-left-color: var(--ifm-color-primary);
 }
 
-/* Blog Tags at Bottom */
-.blog-tags-post {
+/* Guide Tags at Bottom */
+.guide-tags-post {
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid var(--ifm-color-emphasis-200);
 }
 
-.blog-tags-post a {
+.guide-tags-post a {
   display: inline-block;
   padding: 0.375rem 1rem;
   margin: 0.25rem;
@@ -650,7 +651,7 @@ article .markdown img {
   text-decoration: none;
 }
 
-.blog-tags-post a:hover {
+.guide-tags-post a:hover {
   background: var(--ifm-color-primary);
   color: white;
   text-decoration: none;

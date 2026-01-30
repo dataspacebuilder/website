@@ -2,9 +2,9 @@
 slug: jad-demonstrator-dataspace-as-a-service
 title: "JAD: The Reference Implementation for Dataspace-as-a-Service"
 authors: [mhartmann]
-tags: [cloud-providers, implementation, demo, architecture, getting-started]
+tags: [implementation, getting-started]
 description: A deep dive into JAD (Just Another Demonstrator) — the complete reference implementation showing cloud providers how to deploy dataspaces as a service.
-image: /img/blog/jad-demonstrator.jpeg
+image: /img/guides/jad-demonstrator.jpeg
 ---
 
 import Tabs from '@theme/Tabs';
@@ -512,5 +512,5 @@ The [Minimum Viable Dataspace (MVD)](https://github.com/eclipse-edc/MinimumViabl
 ---
 
 **Related articles:**
-- [The Cloud Provider's Path to Dataspace-as-a-Service](/blog/cloud-provider-path-dataspace-service) — Architecture overview for CSPs
-- [From Zero to Dataspace: Concrete Steps for Rapid Adoption](/blog/zero-to-dataspace-rapid-adoption) — Engineering implementation guide
+- [The Cloud Provider's Path to Dataspace-as-a-Service](/guides/cloud-provider-path-dataspace-service) — Architecture overview for CSPs
+- [From Zero to Dataspace: Concrete Steps for Rapid Adoption](/guides/zero-to-dataspace-rapid-adoption) — Engineering implementation guide

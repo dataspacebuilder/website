@@ -46,19 +46,20 @@ const ReadingTime = ({ readingTime }) => {
 };
 
 export default function PostCard({ post }) {
+  if (!post?.metadata) return null;
+  
+  const { metadata } = post;
   const {
-    metadata: {
-      permalink,
-      title,
-      description,
-      date,
-      readingTime,
-      tags,
-      frontMatter,
-    },
-  } = post;
+    permalink,
+    title,
+    description,
+    date,
+    readingTime,
+    tags,
+    frontMatter,
+  } = metadata;
 
-  const imageUrl = useBaseUrl(frontMatter?.image || '/img/blog-default.svg');
+  const imageUrl = useBaseUrl(frontMatter?.image || '/img/guide-default.svg');
 
   return (
     <article className={clsx("col col--6", styles.postCard)}>

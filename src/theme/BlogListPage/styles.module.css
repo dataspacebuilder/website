@@ -1,12 +1,12 @@
 /* Main Container - Full Width */
-.blogMain {
+.guideMain {
   width: 100%;
   max-width: 100%;
   padding: 0;
 }
 
 /* Header Section */
-.blogHeader {
+.guideHeader {
   position: relative;
   text-align: center;
   padding: 3rem 1.5rem;
@@ -14,7 +14,7 @@
   overflow: visible;
 }
 
-.blogHeader::before {
+.guideHeader::before {
   content: '';
   position: absolute;
   top: 0;
@@ -36,7 +36,7 @@
   margin: 0 auto;
 }
 
-.blogTitle {
+.guideTitle {
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 1rem;
@@ -46,7 +46,7 @@
   background-clip: text;
 }
 
-.blogSubtitle {
+.guideSubtitle {
   font-size: 1.25rem;
   color: var(--ifm-color-emphasis-600);
   line-height: 1.6;
@@ -218,15 +218,15 @@
   color: var(--ifm-heading-color);
 }
 
-/* Blog Grid */
-.blogGrid {
+/* Guide Grid */
+.guideGrid {
   display: flex;
   flex-wrap: wrap;
   margin: 0 -1rem;
 }
 
 /* Dark mode adjustments */
-[data-theme='dark'] .blogHeader::before {
+[data-theme='dark'] .guideHeader::before {
   background: linear-gradient(135deg, rgba(13, 148, 136, 0.08) 0%, rgba(16, 185, 129, 0.06) 50%, rgba(124, 58, 237, 0.05) 100%);
 }
 
@@ -249,11 +249,11 @@
 
 /* Responsive adjustments */
 @media (max-width: 996px) {
-  .blogTitle {
+  .guideTitle {
     font-size: 2.5rem;
   }
   
-  .blogSubtitle {
+  .guideSubtitle {
     font-size: 1.1rem;
     padding: 0 1rem;
   }
@@ -272,11 +272,11 @@
 }
 
 @media (max-width: 576px) {
-  .blogHeader {
+  .guideHeader {
     padding: 2rem 1rem;
   }
   
-  .blogTitle {
+  .guideTitle {
     font-size: 2rem;
   }
   

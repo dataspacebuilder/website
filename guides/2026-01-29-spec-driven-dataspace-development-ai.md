@@ -2,10 +2,10 @@
 slug: spec-driven-dataspace-development-ai
 title: "Blueprint for Building Domain-Specific Dataspaces with AI-Assisted Specification-Driven Development"
 authors: [mbuchhorn]
-tags: [dataspace, specification-driven-development, AI, blueprint, compliance, EDC, DCP, DSP, TCK]
+tags: [implementation, integration]
 description: "Learn how to build production-grade, compliant dataspaces using the BLUEPRINT methodology, GitHub Spec Kit, and AI-assisted development. Discover how specification-driven development accelerates your path from concept to certified dataspace."
 keywords: [dataspace development, spec-driven development, AI coding assistant, Eclipse EDC, Dataspace Protocol, DCP, verifiable credentials, compliance testing, TCK, domain-specific dataspace]
-image: /img/blog/titleSDD.png
+image: /img/guides/titleSDD.png
 ---
 
 
@@ -435,4 +435,4 @@ Ready to build? [Fork the MVD repository](https://github.com/ma3u/MinimumViableD
 
 ---
 
-*Want to see this in action? Check out the [JAD Demonstrator](/blog/jad-demonstrator-dataspace-as-a-service) for a complete Dataspace-as-a-Service experience, or explore our [architecture documentation](/docs/architecture/overview) for deep dives into each component.*
+*Want to see this in action? Check out the [JAD Demonstrator](/guides/jad-demonstrator-dataspace-as-a-service) for a complete Dataspace-as-a-Service experience, or explore the [EDC documentation](https://eclipse-edc.github.io/documentation/) for deep dives into each component.*

@@ -1,8 +1,10 @@
 import React from 'react';
 import { PageMetadata } from '@docusaurus/theme-common';
+// Note: useBlogPost is a Docusaurus plugin hook
 import { useBlogPost } from '@docusaurus/plugin-content-blog/client';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
+// Note: Export name must remain BlogPostPageMetadata for Docusaurus theme swizzling
 export default function BlogPostPageMetadata() {
   const { metadata } = useBlogPost();
   const { title, description, date, tags, authors, frontMatter } = metadata;
