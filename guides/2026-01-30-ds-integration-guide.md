@@ -1,6 +1,6 @@
 ---
 slug: ds-integration-guide
-title: "From Weeks to Days: How DSaaS Makes Enterprise Data Sharing Finally Practical"
+title: "Enterprise Data Sharing with Eclipse DSaaS?
 authors: [ndkrimbacher]
 tags: [integration, enterprise, data-plane, application-development]
 description: "A comprehensive guide for enterprise architects and developers on integrating dataspace capabilities into existing IT infrastructure. Learn to use the managed stack, deploy custom data planes, and build applications on top of trusted data sharing."
@@ -8,15 +8,15 @@ keywords: [dataspace integration, enterprise architecture, EDC stack, data plane
 image: /img/guides/ds-integration/ds-int-cover.jpeg
 ---
 
-Your organization has decided to join a dataspace. The business case is clear, the contracts are signed, and now it's your job to make it work. As an enterprise architect or developer, you're looking at a stack you've never seen before—Identity Hubs, Control Planes, Data Planes, protocols with acronyms like DSP and DCP.
+Your organization has decided to join a dataspace. The business case is clear, the contracts are signed, and now it's your job to make it work. As an enterprise architect or developer, you're looking at specifications you are not familiar with [Datespace Protocol](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/) (DSP),[ Decentralized Claims Protocol](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/v1.0.1/) (DCP), [Data Plane Signaling](https://github.com/eclipse-dataplane-signaling/dataplane-signaling) (DPS) and wondering how to integrate these new concepts into your existing IT infrastructure.
 
-The good news? With Dataspace-as-a-Service (DSaaS), what used to take weeks of infrastructure setup now takes days. This guide shows you exactly how to integrate dataspace capabilities into your existing IT infrastructure, taking you from first principles through to production-ready applications.
+With Dataspace-as-a-Service (DSaaS), it will take takes days, instead weeks. This guide shows you exactly how to integrate dataspace capabilities into your existing IT infrastructure, taking you from first principles through to production-ready applications.
 
 <!-- truncate -->
 
 ## Who This Guide Is For
 
-This guide is written primarily for enterprise architects who need to understand how the EDC stack integrates with existing IT systems, and for enterprise developers who will build the integrations and applications. Dataspace project developers building custom solutions will also find this material valuable.
+This guide is written primarily for enterprise architects who need to understand how the [EDC stack](https://eclipse-edc.github.io/documentation/for-adopters/) integrates with existing IT systems, and for enterprise developers who will build the integrations and applications. Dataspace project developers building custom solutions will also find this material valuable.
 
 By the end of this guide, you will understand how the EDC stack works from a user's perspective, how to onboard your organization and connect your data services, how to deploy and customize Data Planes for your specific infrastructure needs, and how to build applications that leverage trusted data sharing.
 
