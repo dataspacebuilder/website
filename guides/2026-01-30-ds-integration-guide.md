@@ -24,7 +24,7 @@ By the end of this guide, you will understand how the EDC stack works from a use
 
 ## Part 1: Understanding the EDC Stack
 
-Before integrating anything, you need a mental model of what you're working with. The EDC stack isn't a black box—it's a well-structured architecture designed specifically for trusted data sharing between organizations that don't inherently trust each other.
+Before integrating anything, you need a mental model of what you're working with. The EDC stack its a well-structured architecture designed specifically for trusted data sharing between organizations as part of the implementation of a modern the Zero Trust Security Architecture like [NIST SP 1800-35 Implementing a Zero Trust Architecture](https://www.nccoe.nist.gov/projects/implementing-zero-trust-architecture#project-promo) describes.
 
 ![The Trusted Data Sharing Stack from Developer's Perspective](/img/guides/ds-integration/ds-int-1.jpeg)
 
