@@ -29,7 +29,7 @@ This guide is designed for enterprise architects who need a clear picture of wha
 
 Before you can run something, you need to understand what you're running. The EDC stack for Dataspace-as-a-Service consists of four distinct layers, each with a specific responsibility. These layers work together to provide a complete trusted data sharing infrastructure.
 
-![Dataspace-as-a-Service Stack for Cloud Operators](/img/guides/dsaas-implementation/dsaas-impl-1.jpeg)
+![Dataspace-as-a-Service Stack for Cloud Operators](/img/guides/dsaas-implementation/dsaas-impl-1.png)
 
 ### The Protocol Foundation
 
@@ -79,7 +79,7 @@ This shift has profound implications for cost, operations, and scalability. Inst
 
 When an organisation wants to use your DSaaS platform, a structured onboarding process transforms them from an unknown entity into a trusted participant capable of sharing data across dataspaces. This section walks through the complete onboarding flow.
 
-![Organisation Onboarding to Dataspace-as-a-Service](/img/guides/dsaas-implementation/dsaas-impl-2.jpeg)
+![Organisation Onboarding to Dataspace-as-a-Service](/img/guides/dsaas-implementation/dsaas-impl-2.png)
 
 ### Understanding the Data Model
 
@@ -133,7 +133,7 @@ All APIs use the OAuth2 client_credentials flow, and the same token works across
 
 Once onboarded, organisations use the platform in two primary patterns, each suited to different business needs. Understanding these patterns helps you position your DSaaS offering correctly and design appropriate service tiers.
 
-![DSaaS Usage Patterns](/img/guides/dsaas-implementation/dsaas-impl-3.jpeg)
+![DSaaS Usage Patterns](/img/guides/dsaas-implementation/dsaas-impl-3.png)
 
 ### Pattern A: Simple API Sharing
 
@@ -171,7 +171,7 @@ Templates accelerate onboarding by pre-configuring the right architecture for ea
 
 Running DSaaS in production requires careful attention to high availability, observability, and clear service level targets. This section covers the operational aspects that differentiate a proof-of-concept from a production-grade service.
 
-![Production Operations for DSaaS](/img/guides/dsaas-implementation/dsaas-impl-4.jpeg)
+![Production Operations for DSaaS](/img/guides/dsaas-implementation/dsaas-impl-cover.jpeg)
 
 ### Building a High Availability Architecture
 

@@ -1,6 +1,6 @@
 ---
 slug: ds-integration-guide
-title: "Enterprise Data Sharing with Eclipse DSaaS?
+title: "Enterprise Data Sharing with Eclipse DSaaS?"
 authors: [ndkrimbacher]
 tags: [integration, enterprise, data-plane, application-development]
 description: "A comprehensive guide for enterprise architects and developers on integrating dataspace capabilities into existing IT infrastructure. Learn to use the managed stack, deploy custom data planes, and build applications on top of trusted data sharing."
@@ -26,7 +26,7 @@ By the end of this guide, you will understand how the EDC stack works from a use
 
 Before integrating anything, you need a mental model of what you're working with. The EDC stack its a well-structured architecture designed specifically for trusted data sharing between organizations as part of the implementation of a modern the Zero Trust Security Architecture like [NIST SP 1800-35 Implementing a Zero Trust Architecture](https://www.nccoe.nist.gov/projects/implementing-zero-trust-architecture#project-promo) describes.
 
-![The Trusted Data Sharing Stack from Developer's Perspective](/img/guides/ds-integration/ds-int-1.jpeg)
+![The Trusted Data Sharing Stack from Developer's Perspective](/img/guides/ds-integration/ds-int-cover.jpeg)
 
 ### The Three Core Components
 
@@ -63,7 +63,7 @@ You don't need to understand the internal details of DSP, DCP, or DPS to use the
 
 With an understanding of the components in place, you can now connect your organization to the dataspace. The key insight here is that dataspace concepts map naturally to structures you already have in your IT environment.
 
-![From Organisation to Dataspace: Connecting Users, Services & Assets](/img/guides/ds-integration/ds-int-2.jpeg)
+![From Organisation to Dataspace: Connecting Users, Services & Assets](/img/guides/ds-integration/ds-int-cover.jpeg)
 
 ### Mapping Your Existing Systems
 
@@ -168,7 +168,7 @@ Policies are evaluated automatically. When another participant requests your cat
 
 The Data Plane is where your integration choices have the most significant impact on your architecture. Unlike the Control Plane and Identity Hub, which are typically managed by your DSaaS provider, the Data Plane is where you can customize the stack to fit your specific infrastructure requirements.
 
-![The Data Plane Ecosystem: Transfer Types, Deployment Options & Custom Development](/img/guides/ds-integration/ds-int-3.jpeg)
+![The Data Plane Ecosystem: Transfer Types, Deployment Options & Custom Development](/img/guides/ds-integration/ds-int-cover.jpeg)
 
 ### The Relationship Between Control Plane and Data Plane
 
@@ -227,7 +227,7 @@ The Control Plane uses this registration information to generate appropriate cat
 
 With the infrastructure understood and your organization onboarded, you can now build applications that leverage trusted data sharing. The EDC stack exposes clear interfaces that your applications consume, whether you're building a data consumer that discovers and accesses external datasets or a data provider that shares your organization's resources with partners.
 
-![Interface of Stack to Application: Building on the Dataspace](/img/guides/ds-integration/ds-int-4.jpeg)
+![Interface of Stack to Application: Building on the Dataspace](/img/guides/ds-integration/ds-int-cover.jpeg)
 
 ### Integration Patterns
 
