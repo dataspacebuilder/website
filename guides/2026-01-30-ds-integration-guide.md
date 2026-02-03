@@ -1,6 +1,6 @@
 ---
 slug: ds-integration-guide
-title: "Enterprise Data Sharing with Eclipse DSaaS?"
+title: "Enterprise Data Sharing with Eclipse DSaaS"
 authors: [ndkrimbacher]
 tags: [integration, enterprise, data-plane, application-development]
 description: "A comprehensive guide for enterprise architects and developers on integrating dataspace capabilities into existing IT infrastructure. Learn to use the managed stack, deploy custom data planes, and build applications on top of trusted data sharing."
@@ -32,9 +32,9 @@ Before integrating anything, you need a mental model of what you're working with
 
 The stack consists of three main components, each serving a distinct purpose in the data sharing process.
 
-The **Identity Hub** functions as the trust store for your organization. Using the Decentralized Claims Protocol (DCP), it manages your organization's decentralized identifier ([W3C DID](https://www.w3.org/TR/did-1.1/)), stores the verifiable credentials you've received from trusted issuers, and creates presentations when you need to prove your attributes to other participants. When another organization asks "who are you?", the Identity Hub provides the cryptographic proof of a Self-Sovereign Identity (SSI) that underpins all trust in the dataspace.
+The **Identity Hub** functions as the trust store for your organization. Using the Decentralized Claims Protocol (DCP), it manages your organization's decentralized identifier (DID), stores the verifiable credentials you've received from trusted issuers, and creates presentations when you need to prove your attributes to other participants. When another organization asks "who are you?", the Identity Hub provides the cryptographic proof.
 
-The **Control Plane** is where trust decisions happen. Operating via the Dataspace Protocol (DSP), it publishes your data offerings in a catalog, negotiates contracts with potential consumers, enforces the [W3C ODRL](https://www.w3.org/TR/odrl-model/) policies you've defined, and manages the lifecycle of data transfers. Think of it as answering the question "what do you offer, and can we agree on terms?" Every access decision flows through the Control Plane's policy engine.
+The **Control Plane** is where trust decisions happen. Operating via the Dataspace Protocol (DSP), it publishes your data offerings in a catalog, negotiates contracts with potential consumers, enforces the policies you've defined, and manages the lifecycle of data transfers. Think of it as answering the question "what do you offer, and can we agree on terms?" Every access decision flows through the Control Plane's policy engine.
 
 The **Data Plane** handles the actual movement of data. Coordinated through Data Plane Signaling (DPS), it executes transfers via HTTP, S3, or custom protocols. Crucially, the Data Plane is trust-agnostic—it simply executes what the Control Plane has already authorized. This separation is intentional and enables flexible deployment patterns. You can run Data Planes in the cloud, at the edge, or on-premise without compromising the trust model.
 
@@ -42,11 +42,11 @@ The **Data Plane** handles the actual movement of data. Coordinated through Data
 
 Above the stack sits the Trust Framework, which represents the governance layer of your dataspace. This framework defines which organizations can issue credentials (such as membership certificates or compliance attestations), which issuers your organization chooses to trust, and the policies that all participants must follow.
 
-[Digital Credentials](https://www.w3.org/TR/digital-credentials/) flow down from trusted issuers into your Identity Hub. When the Control Plane needs to make an access decision, it queries the Identity Hub for relevant credentials and evaluates them against your policies. This creates a complete chain of trust from governance rules through to data access.
+Credentials flow down from trusted issuers into your Identity Hub. When the Control Plane needs to make an access decision, it queries the Identity Hub for relevant credentials and evaluates them against your policies. This creates a complete chain of trust from governance rules through to data access.
 
 ### Your Entry Point: The Management API
 
-As a developer, you interact with the stack primarily through the [EDC Management API](https://github.com/eclipse-tractusx/tractusx-edc/tree/main/docs/usage/management-api-walkthrough). This REST API abstracts away the complexity of the underlying protocols, giving you straightforward endpoints for common operations.
+As a developer, you interact with the stack primarily through the Management API. This REST API abstracts away the complexity of the underlying protocols, giving you straightforward endpoints for common operations.
 
 ```
 /v3/assets              → Register data you want to share
