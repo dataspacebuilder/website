@@ -482,17 +482,6 @@ For customers with data sovereignty requirements or edge deployments, several pa
 
 These patterns are common in practice: they help keep the trust model stable while letting data stay where it must. Service virtualization lets participants mix these patterns without rewriting policy logic for each transport.
 
-### Deployment Templates
-
-Pre-configured templates accelerate onboarding by giving customers a starting point matched to their use case.
-
-| Template | Components | Ideal for |
-| --- | --- | --- |
-| API Sharing | Control Plane, HTTP Data Plane, Credential Service | SaaS providers, API monetization |
-| Industrial Edge | Control Plane, multiple edge Data Planes, Credential Service | Manufacturing, IoT, OT networks |
-| File Exchange | Control Plane, S3 Data Plane, Credential Service | B2B file sharing and batch data |
-| Hybrid Sovereign | Control Plane, customer-hosted Data Plane, Credential Service | Regulated industries and data residency |
-
 ---
 
 ## Part 4: Production Operations
