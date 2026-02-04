@@ -20,7 +20,7 @@ The guide is structured around three perspectives that together form the foundat
 
 - **What you operate** — the cloud-native foundation, `CFM` management plane, and the shared runtime cells that host `VPA`s.
 - **What participants experience** — onboarding, credential handling, catalog publication, and sharing workflows surfaced through your deployment’s end-user UI.
-- **How data moves across boundaries** — the protocol choreography, trust evaluation, and separation of control-plane and data-plane responsibilities that enable federated sharing.
+- **How data is shared across boundaries** — the protocol choreography, trust evaluation, and separation of control-plane and data-plane responsibilities that enable trusted data sharing.
 
 These perspectives help establish the operational boundaries that matter most: where trust is evaluated, where configuration lives, and where runtime work is executed. Once those boundaries are clear, the system becomes significantly easier to scale, secure, and automate.
 
@@ -56,7 +56,7 @@ This architecture becomes clearer once you can answer three questions without ha
 
 1. **What you run** (platform architecture)
 2. **What your customers do** (tenant experience)
-3. **How data actually moves** (federated runtime)
+3. **How data actually moves** (sharing runtime)
 
 Use this as a map. Each part introduces a boundary (operational, product, network) that the later parts assume—so if something feels unclear, it’s usually because a boundary hasn’t been made explicit yet.
 
@@ -362,7 +362,7 @@ Once you have the token, you send it as `Authorization: Bearer <token>` to the `
 
 ---
 
-## Part 3: How Data Actually Moves — Federated Runtime & Deployment Patterns
+## Part 3: How Data Actually Moves — Data Planes & Deployment Patterns
 
 The first two perspectives showed you the platform and the user experience. Now we examine what makes trusted data sharing actually work: how data flows between organizations while maintaining sovereignty and security.
 
