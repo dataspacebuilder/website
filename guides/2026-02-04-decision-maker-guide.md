@@ -15,7 +15,7 @@ Data has become the currency of modern business. But while organizations have ma
 
 {/* truncate */}
 
-:::tip What You'll Learn
+:::tip What You'll Learn today
 This guide provides a business-level understanding of trusted data sharing: why it matters, how it works, what's driving adoption, and how DSaaS enables you to participate or provide this capability to others. Whether you're a cloud service provider exploring new offerings or an organization evaluating dataspace participation, this guide will help you understand the opportunity.
 :::
 
