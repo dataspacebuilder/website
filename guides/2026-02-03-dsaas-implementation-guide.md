@@ -12,33 +12,41 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Image from '@site/src/components/Image';
 
-Operating multi-tenant dataspace environments requires an architectural model that is both scalable and predictable. `EDC-V`, combined with the `Connector Fabric Manager (CFM)`, provides exactly that: a way to deliver dataspace capabilities as a managed platform rather than a collection of individual connector deployments. Instead of treating each participant as a separate infrastructure footprint, service virtualization turns participant contexts into lightweight, repeatable units that the platform can provision and operate at scale.
+Operating multi-tenant dataspace environments requires an architectural model that is both scalable and predictable. **EDC-V**, combined with the Connector Fabric Manager (**CFM**), provides exactly that: a way to deliver dataspace capabilities as a managed platform rather than a collection of individual connector deployments. Instead of treating each participant as a separate infrastructure footprint, service virtualization turns participant contexts into lightweight, repeatable units that the platform can provision and operate at scale.
 
 In practice, this is how cloud providers and enterprises build digital ecosystems at scale: by making partner participation repeatable, governed, and interoperable without per-tenant infrastructure.
 
-This guide explains how to run that platform effectively. It brings the core pieces of the `EDC-V` ecosystem—identity, policy evaluation, negotiation, and data transfer—into a coherent operational model that cloud providers and enterprise platform teams can adopt with confidence. Whether you're onboarding participants, automating `VPA` provisioning, or scaling runtime capacity, the goal is to give you a blueprint for reliable operations across multiple dataspaces.
+This guide explains how to run that platform effectively. It brings the core pieces of the EDC-V ecosystem—identity, policy evaluation, negotiation, and data transfer—into a coherent operational model that cloud providers and enterprise platform teams can adopt with confidence. Whether you're onboarding participants, automating Virtual Participant Agent (**VPA**) provisioning, or scaling runtime capacity, the goal is to give you a blueprint for reliable operations across multiple dataspaces.
 
-The guide is structured around three perspectives that together form the foundation for operating `EDC-V` in production:
+The guide is structured around three perspectives that together form the foundation for operating EDC-V in production:
 
-- **What you operate** — the cloud-native foundation, `CFM` management plane, and the shared runtime cells that host `VPA`s.
+- **What you operate** — the cloud-native foundation, the CFM management plane, and the shared runtime cells that host VPA contexts.
 - **What participants experience** — onboarding, credential handling, catalog publication, and sharing workflows easily manageable through the customer portal.
 - **How data is shared across boundaries** — the protocol choreography, trust evaluation, and separation of control-plane and data-plane responsibilities that enable trusted data sharing.
 
 These perspectives help establish the operational boundaries that matter most: where trust is evaluated, where configuration lives, and where runtime work is executed. Once those boundaries are clear, the system becomes significantly easier to scale, secure, and automate.
 
-This guide is written for teams responsible for running `EDC-V` as a service—those who need to understand not only how the components work individually, but how they behave as a platform. The aim is to provide a practical, implementation-oriented view of multi-tenant operation: one that turns dataspaces from conceptual architecture into a dependable, production-ready environment.
+This guide is written for teams responsible for running EDC-V as a service—those who need to understand not only how the components work individually, but how they behave as a platform. The aim is to provide a practical, implementation-oriented view of multi-tenant operation: one that turns dataspaces from conceptual architecture into a dependable, production-ready environment.
 
 {/* truncate */}
 
 ## TL;DR
 
-At a high level, operating `EDC-V` at scale means running a **management plane** (`CFM`) plus a **shared runtime** that hosts isolated `VPA` contexts. The goal is to keep that runtime predictable to operate and straightforward to scale.
+At a high level, operating **EDC-V** at scale means running a **management plane** (**CFM**) plus a **shared runtime** that hosts isolated **VPA** contexts. The goal is to keep that runtime predictable to operate and straightforward to scale.
 
-- **You run**: a management plane (`CFM`) plus shared runtime cells hosting **Virtual Participant Agents (VPAs)**.
-- **Your customers use**: the Customer Portal to onboard, manage `DID`s/credentials, publish and contract data, and configure data planes.
-- **Data moves**: peer-to-peer between participants using open protocols (`DCP`/`DSP`/`DPS`) across a strict security boundary.
+- **You run**: a management plane (CFM) plus shared runtime cells hosting **Virtual Participant Agents (VPAs)**.
+- **Your customers use**: the Customer Portal to onboard, manage **Decentralized Identifiers (DIDs)** and credentials, publish and contract data, and configure data planes.
+- **Data moves**: peer-to-peer between participants using open protocols (**DCP**, **DSP**, **DPS**) across a strict security boundary.
 
 Operationally, onboarding and lifecycle are centralized, while trust and transfer decisions remain decentralized between participants.
+
+If you want the “go deeper, now” resources as you read:
+
+- **EDC documentation (control/data plane, APIs, deployment)**: [Eclipse EDC docs](https://eclipse-edc.github.io/documentation/) and [Control Plane (adopter view)](https://eclipse-edc.github.io/documentation/for-adopters/control-plane/)
+- **CFM architecture (what you operate and extend as a cloud provider)**: [CFM system architecture](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md)
+- **EDC-V / service virtualization (VPA model, security boundaries, admin APIs)**: [Virtual Connector repo](https://github.com/eclipse-edc/Virtual-Connector) and [Administration API](https://github.com/eclipse-edc/Virtual-Connector/blob/main/docs/administration_api.md)
+- **Protocol specs**: [DCP v1.0.1](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/v1.0.1/), [DSP 2025-1 (err1)](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/), and [Data Plane Signaling (DPS)](https://github.com/eclipse-dataplane-signaling/dataplane-signaling/blob/main/docs/signaling.md)
+- **Interoperability testing**: [DSP TCK](https://github.com/eclipse-dataspacetck/dsp-tck) and [DCP TCK](https://github.com/eclipse-dataspacetck/dcp-tck)
 
 ## Benefits Summary
 
@@ -70,7 +78,7 @@ This guide is written for people who will be on-call for the stack or have to de
 - **Enterprise architects** who need the runtime model and trust boundaries
 - **Solutions architects** mapping customer constraints to deployment patterns
 
-If you’re building business apps on top of `EDC-V`, you’ll still benefit from the “how data moves” section—but you’ll want the integration guide for concrete app and connector configuration.
+If you’re building business apps on top of `EDC-V`, you’ll still benefit from the “how data moves” section—but you’ll want the [DS Integration Guide](/guides/ds-integration-guide) for concrete app and connector configuration.
 
 ---
 
@@ -121,6 +129,8 @@ In Kubernetes-based environments, a `Kubernetes Operator` can be a practical way
 ### The Connector Fabric Manager
 
 The Connector Fabric Manager (CFM) is your management plane. It provisions participant contexts and automates the lifecycle of `VPA`s. You can think of it as an orchestration layer for service virtualization: it creates runtime, but it is not the runtime.
+
+For the full architectural model (and the key “where do I extend this as a cloud provider?” details), see the [CFM system architecture documentation](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md).
 
 At a minimum, `CFM` is designed to run as a reliable message-based system backed by a `PostgreSQL` database and a messaging middleware (by default, `NATS JetStream`). That bias toward asynchronous coordination is what lets provisioning workflows span multiple steps without tight coupling between subsystems.
 
@@ -177,6 +187,10 @@ Instances can be distributed across `cells`, and `CFM` can re-target `VPA` metad
   <TabItem value="credential-service" label="Credential Service VPA">
 
     A `Credential Service VPA` stores `verifiable credentials` and produces the cryptographic material needed to prove identity and claims. It’s where `DID` lifecycle (`DID Manager`) and proof/presentation composition (`Claim Management`) live.
+
+    **Identity Hub note:** In the Eclipse ecosystem, the canonical implementation that provides wallet/credential capabilities is the [`eclipse-edc/IdentityHub`](https://github.com/eclipse-edc/IdentityHub) project. In this guide we use the runtime role name **Credential Service** (because that’s how operators and API surfaces usually frame it), but the underlying implementation and concepts align.
+
+    If you need the underlying standards vocabulary: [W3C DID Core](https://www.w3.org/TR/did-1.0/), [DID:web method](https://w3c-ccg.github.io/did-method-web/), and [W3C Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model/).
 
     This keeps identity concerns out of your business apps and out of the transfer engine.
 
@@ -271,6 +285,11 @@ Authorization and issuance are separate on purpose. Governance decides who can j
 
 The Customer Portal is what your customers see and use day-to-day. For this guide, treat it as a the interface where participants manage their Dataspace environment on top of `EDC-V` Administration APIs. Only the UI backend is typically internet-facing; it holds machine credentials and calls APIs on behalf of logged-in users.
 
+Two useful reference implementations for this “portal + backend” layer are:
+
+- **Cloud-provider UI backend (BFF) reference**: [`Metaform/redline`](https://github.com/Metaform/redline)
+- **End-user onboarding GUI reference** (SME onboarding demonstrator): [`FraunhoferISST/End-User-API`](https://github.com/FraunhoferISST/End-User-API)
+
 The portal manages a clear hierarchy of concepts that reflects how organizations actually think about their dataspace participation:
 
 | Concept | Description |
@@ -289,6 +308,11 @@ An automotive supplier might have one Dataspace Profile for Catena-X and another
 From the customer's perspective, the runtime presents three main touchpoints. The important detail is isolation: the same shared services handle many participants, but each `VPA` represents a distinct administrative and runtime context.
 
 Under the hood, the Customer Portal and its backend talk to a small set of Administration APIs. These APIs are for machine clients (automation and UI backends), not direct human use.
+
+For the canonical Admin API surface and access model, keep these docs bookmarked:
+
+- [EDC-V Administration API](https://github.com/eclipse-edc/Virtual-Connector/blob/main/docs/administration_api.md)
+- [EDC-V access control model](https://github.com/eclipse-edc/Virtual-Connector/blob/main/docs/access_control.md)
 
 | Administration API | Exposed by | Purpose | Auth (typical) |
 | --- | --- | --- | --- |
@@ -425,9 +449,15 @@ Three standardized protocols make dataspaces interoperable:
 
 | Protocol | Connects | Purpose |
 | --- | --- | --- |
-| `DCP` | Credential Service to Credential Service | Identity verification and claims exchange |
-| `DSP` | Control Plane to Control Plane | Catalog discovery and contract negotiation |
-| `DPS` | Control Plane to Data Plane | Transfer signaling and execution |
+| `DCP` | Credential Service to Credential Service | Identity verification and claims exchange ([spec](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/v1.0.1/)) |
+| `DSP` | Control Plane to Control Plane | Catalog discovery and contract negotiation ([spec](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/)) |
+| `DPS` | Control Plane to Data Plane | Transfer signaling and execution ([spec/prototype](https://github.com/eclipse-dataplane-signaling/dataplane-signaling/blob/main/docs/signaling.md)) |
+
+If you’re implementing or debugging these hops, these are the most useful “next clicks”:
+
+- **`DCP`**: [spec](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/v1.0.1/) and conformance checks in the [DCP TCK](https://github.com/eclipse-dataspacetck/dcp-tck)
+- **`DSP`**: [spec](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/), implementation docs in [EDC documentation](https://eclipse-edc.github.io/documentation/) (Control Plane), conformance checks in the [DSP TCK](https://github.com/eclipse-dataspacetck/dsp-tck)
+- **`DPS`**: signaling contract in the [DPS doc](https://github.com/eclipse-dataplane-signaling/dataplane-signaling/blob/main/docs/signaling.md), and data-plane building blocks in [Eclipse Data Plane Core](https://github.com/eclipse-dataplane-core)
 
 Each protocol is a single hop between two roles. When you debug interoperability, identify which hop you’re in before you look at payloads and policy details.
 
@@ -452,6 +482,30 @@ This is also a fast triage heuristic: `DCP` failures are usually credential/iden
 
 Data sharing happens peer-to-peer directly between `Data Plane`s after trust and agreement are established.
 
+### The Data Plane Ecosystem
+
+At runtime, the `Data Plane` is the component that actually transmits data from a provider to a consumer on behalf of the `Control Plane`. It is intentionally designed to use existing wire protocols and platforms (`HTTP`, object storage, streaming/messaging systems, industrial gateways), and it can be implemented as a third-party service, an off-the-shelf product, or a custom component.
+
+This is why “one data plane” rarely fits all. As soon as your platform needs to connect to multiple protocols or environments, you benefit from a data plane ecosystem: specialized implementations that remain interoperable because the control plane and data plane communicate through a standardized signaling contract (`DPS`). The signaling work is developed under the Eclipse Dataspace Working Group alongside the other core protocol specifications.
+
+Use this checklist when deciding whether to add or adopt a dedicated `Data Plane` implementation:
+
+- You need a wire protocol that isn’t covered by your current deployment (`S3`, `OPC-UA`, streaming, proprietary industrial endpoints).
+- You need a push-oriented delivery model (provider sends to consumer) instead of pull-only.
+- You need an edge placement close to data sources (latency, connectivity, data residency).
+- You need to scale transfer execution independently from catalog and negotiation workloads.
+
+The operational outcome is composability: you can evolve transfer capabilities (protocols, edge patterns, throughput) without changing the trust-decision model in the `Control Plane`.
+
+#### Data plane ecosystem pointers
+
+When your deployment reaches “real data” (object stores, APIs, industrial gateways), these references help you connect the signaling contract to concrete implementations:
+
+- **Data plane runtime building blocks (SDKs, libraries)**: [Eclipse Data Plane Core](https://github.com/eclipse-dataplane-core) and the [Go SDK](https://github.com/eclipse-dataplane-core/dataplane-sdk-go)
+- **Signaling and control/data-plane contract**: [Data Plane Signaling (DPS)](https://github.com/eclipse-dataplane-signaling/dataplane-signaling/blob/main/docs/signaling.md) and the Eclipse proposal: [Eclipse Data Plane Signaling](https://projects.eclipse.org/proposals/eclipse-data-plane-signaling)
+
+Data plane SDKs exist across multiple ecosystems (for example `Java`, `Go`, `.NET`, `Rust`, `TypeScript`), which makes it feasible to build a data plane that matches your operational environment while still speaking `DPS`.
+
 ### Protocol Choreography
 
 When a partner wants to access data from one of your customers, the protocols execute in sequence:
@@ -469,6 +523,15 @@ Partner CP --DSP--> Provider CP
 Provider CP --DPS--> Provider DP
 Provider DP <----data----> Partner DP
 ```
+
+#### Validate interoperability with TCKs
+
+Before you diagnose “mysterious partner failures” in production, run the conformance checks that match your protocol surfaces:
+
+- **Dataspace Protocol (DSP) TCK**: [`eclipse-dataspacetck/dsp-tck`](https://github.com/eclipse-dataspacetck/dsp-tck)
+- **Decentralized Claims Protocol (DCP) TCK**: [`eclipse-dataspacetck/dcp-tck`](https://github.com/eclipse-dataspacetck/dcp-tck)
+
+Treat TCK results as your baseline. They help distinguish protocol interoperability issues from deployment-specific configuration and operations issues.
 
 ### Deployment Patterns
 
@@ -494,13 +557,15 @@ The architecture supports multiple deployment patterns, each suited to different
 
 ### Transfer Types and Edge Patterns
 
-The Data Sharing connection supports three fundamental transfer patterns:
+One transfer type does not fit all. The data sharing runtime supports three fundamental transfer patterns:
 
 | Type | Direction | Use cases |
 | --- | --- | --- |
 | Pull | Consumer fetches from provider | API access, on-demand queries, real-time data |
 | Push | Provider sends to consumer | Batch exports, event-driven delivery, file transfers |
 | Stream | Continuous flow until terminated | IoT sensors, telemetry, real-time monitoring |
+
+In concrete terms, pull often looks like a consumer fetching from an `HTTP` endpoint or subscribing to a provider queue. Push often looks like a provider uploading to consumer object storage or publishing to a consumer endpoint. `Data Plane` implementations are where these wire-protocol details live.
 
 For customers with data sovereignty requirements or edge deployments, several patterns address common scenarios:
 
@@ -640,8 +705,11 @@ With the architectural understanding from this guide, you're ready to begin impl
 Implementation goes faster when you build intuition before you build automation. Use this path to get from concepts to a running stack:
 
 1. Read the **Decision Maker Guide** for the strategic "why"
-2. Deploy **JAD (Just Another Demonstrator)** for hands-on exploration
-3. Study the architecture docs on VPAs, Cells, Service Virtualization, and trust model rationale
+2. Deploy **JAD (Just Another Demonstrator)** for hands-on exploration: [`Metaform/jad`](https://github.com/Metaform/jad)
+3. Study the architecture docs on VPAs, Cells, Service Virtualization, and trust model rationale:
+   - **EDC-V concepts & security model**: [task-based architecture](https://github.com/eclipse-edc/Virtual-Connector/blob/main/docs/task_based_architecture.md), [security boundaries](https://github.com/eclipse-edc/Virtual-Connector/blob/main/docs/security_boundaries.md), [administration API](https://github.com/eclipse-edc/Virtual-Connector/blob/main/docs/administration_api.md), [access control](https://github.com/eclipse-edc/Virtual-Connector/blob/main/docs/access_control.md), and [dynamic policy evaluation (CEL)](https://github.com/eclipse-edc/Virtual-Connector/blob/main/docs/common_expression_language.md)
+   - **CFM (operator extension points + orchestration model)**: [CFM system architecture](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md)
+   - **EDC baseline docs**: [Eclipse EDC documentation](https://eclipse-edc.github.io/documentation/)
 
 After this, you should be able to sketch your own “cells + `VPA`s + trust boundary” diagram and explain it to both SREs and architects. If not, revisit Part 1 and Part 3—those are the load-bearing models.
 
@@ -661,11 +729,49 @@ Document your answers. They'll inform decisions throughout implementation and he
 
 The dataspace ecosystem is collaborative by nature:
 
-- Eclipse EDC GitHub repositories for source code and issues
+- Eclipse EDC GitHub repositories for source code and issues (start at [`eclipse-edc/Connector`](https://github.com/eclipse-edc/Connector) and [`eclipse-edc/Virtual-Connector`](https://github.com/eclipse-edc/Virtual-Connector))
 - EDC Community Discussions for questions and knowledge sharing
-- Dataspace Working Group for broader ecosystem engagement
+- Dataspace Working Group for broader ecosystem engagement: [Eclipse Dataspace Working Group](https://projects.eclipse.org/working-group/eclipse-dataspace)
 
 Operationally, this matters because you’re building on evolving standards and reference implementations. Staying close to the upstream community is how you de-risk protocol changes, security fixes, and interoperability edge cases.
+
+---
+
+## Curated Technical Resources (by persona)
+
+Use this section as a “link index” after you’ve built the mental model.
+
+### Participant developer (connect data, publish catalog, run transfers)
+
+- **Start here (docs)**: [Eclipse EDC documentation](https://eclipse-edc.github.io/documentation/) and [Control Plane (adopter view)](https://eclipse-edc.github.io/documentation/for-adopters/control-plane/)
+- **Reference environments**:
+  - Minimum viable developer setup: [`eclipse-edc/MinimumViableDataspace`](https://github.com/eclipse-edc/MinimumViableDataspace)
+  - Sample assets, policies, transfer flows: [`eclipse-edc/Samples`](https://github.com/eclipse-edc/Samples)
+- **Core runtimes**:
+  - Baseline connector: [`eclipse-edc/Connector`](https://github.com/eclipse-edc/Connector)
+  - Service-virtualized runtime: [`eclipse-edc/Virtual-Connector`](https://github.com/eclipse-edc/Virtual-Connector)
+- **Identity / wallet implementation** (background reading): [`eclipse-edc/IdentityHub`](https://github.com/eclipse-edc/IdentityHub)
+- **Hands-on “how do I connect data?” walkthrough**: [DS Integration Guide](/guides/ds-integration-guide)
+- **Data plane wiring** (when you implement real transfers): [DPS signaling doc](https://github.com/eclipse-dataplane-signaling/dataplane-signaling/blob/main/docs/signaling.md) and [Eclipse Data Plane Core](https://github.com/eclipse-dataplane-core)
+- **Interoperability testing**: [DSP TCK](https://github.com/eclipse-dataspacetck/dsp-tck), [DCP TCK](https://github.com/eclipse-dataspacetck/dcp-tck)
+
+### Cloud provider / operator (run the platform, automate provisioning, scale cells)
+
+- **Provisioning & lifecycle**: [`Metaform/connector-fabric-manager`](https://github.com/Metaform/connector-fabric-manager) and its [system architecture](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md)
+- **Demo environments you can run/adapt**:
+  - JAD (newest demo environment): [`Metaform/jad`](https://github.com/Metaform/jad)
+  - Aruba PoC: [`Metaform/aruba-poc`](https://github.com/Metaform/aruba-poc)
+  - Fulcrum PoC: [`Metaform/fulcrum-poc`](https://github.com/Metaform/fulcrum-poc)
+- **Portal/BFF references**:
+  - BFF for a CSP-style UI: [`Metaform/redline`](https://github.com/Metaform/redline)
+  - Onboarding GUI for SMEs: [`FraunhoferISST/End-User-API`](https://github.com/FraunhoferISST/End-User-API)
+
+### Protocols & data plane ecosystem (when you debug “on-the-wire” behavior)
+
+- **DCP (identity & claims)**: [DCP v1.0.1 spec](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/v1.0.1/)
+- **DSP (catalog + contract negotiation)**: [DSP 2025-1 (err1) spec](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1-err1/)
+- **DPS (control-plane ↔ data-plane signaling)**: [DPS signaling doc](https://github.com/eclipse-dataplane-signaling/dataplane-signaling/blob/main/docs/signaling.md)
+- **Data plane SDK ecosystem**: [Eclipse Data Plane Core](https://github.com/eclipse-dataplane-core) and [dataplane-sdk-go](https://github.com/eclipse-dataplane-core/dataplane-sdk-go)
 
 ---
 
