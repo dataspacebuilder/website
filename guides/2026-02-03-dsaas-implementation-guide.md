@@ -14,12 +14,14 @@ import Image from '@site/src/components/Image';
 
 Operating multi-tenant dataspace environments requires an architectural model that is both scalable and predictable. `EDC-V`, combined with the `Connector Fabric Manager (CFM)`, provides exactly that: a way to deliver dataspace capabilities as a managed platform rather than a collection of individual connector deployments. Instead of treating each participant as a separate infrastructure footprint, service virtualization turns participant contexts into lightweight, repeatable units that the platform can provision and operate at scale.
 
+In practice, this is how cloud providers and enterprises build digital ecosystems at scale: by making partner participation repeatable, governed, and interoperable without per-tenant infrastructure.
+
 This guide explains how to run that platform effectively. It brings the core pieces of the `EDC-V` ecosystem—identity, policy evaluation, negotiation, and data transfer—into a coherent operational model that cloud providers and enterprise platform teams can adopt with confidence. Whether you're onboarding participants, automating `VPA` provisioning, or scaling runtime capacity, the goal is to give you a blueprint for reliable operations across multiple dataspaces.
 
 The guide is structured around three perspectives that together form the foundation for operating `EDC-V` in production:
 
 - **What you operate** — the cloud-native foundation, `CFM` management plane, and the shared runtime cells that host `VPA`s.
-- **What participants experience** — onboarding, credential handling, catalog publication, and sharing workflows surfaced through your deployment’s end-user UI.
+- **What participants experience** — onboarding, credential handling, catalog publication, and sharing workflows easily manageable through the customer portal.
 - **How data is shared across boundaries** — the protocol choreography, trust evaluation, and separation of control-plane and data-plane responsibilities that enable trusted data sharing.
 
 These perspectives help establish the operational boundaries that matter most: where trust is evaluated, where configuration lives, and where runtime work is executed. Once those boundaries are clear, the system becomes significantly easier to scale, secure, and automate.
@@ -33,7 +35,7 @@ This guide is written for teams responsible for running `EDC-V` as a service—t
 At a high level, operating `EDC-V` at scale means running a **management plane** (`CFM`) plus a **shared runtime** that hosts isolated `VPA` contexts. The goal is to keep that runtime predictable to operate and straightforward to scale.
 
 - **You run**: a management plane (`CFM`) plus shared runtime cells hosting **Virtual Participant Agents (VPAs)**.
-- **Your customers use**: a deployment-specific `End-User UI` to onboard, manage `DID`s/credentials, publish catalogs, and configure sharing.
+- **Your customers use**: the Customer Portal to onboard, manage `DID`s/credentials, publish and contract data, and configure data planes.
 - **Data moves**: peer-to-peer between participants using open protocols (`DCP`/`DSP`/`DPS`) across a strict security boundary.
 
 Operationally, onboarding and lifecycle are centralized, while trust and transfer decisions remain decentralized between participants.
@@ -43,8 +45,8 @@ Operationally, onboarding and lifecycle are centralized, while trust and transfe
 This operating model is worth implementing when you’re trying to make `EDC`-based data sharing repeatable and supportable. The goal is to turn “deploy a connector project” into “provision a participant context.”
 
 - **Reduced operations cost**: operate shared `cells` and automate provisioning instead of running per-tenant stacks.
-- **Faster onboarding**: move onboarding from hand-crafted infrastructure to `CFM` workflows and templates.
-- **Better scalability**: add capacity by scaling `cells`, not by multiplying bespoke deployments.
+- **Faster onboarding**: move onboarding from hand-crafted deployments to `CFM` workflows and templates.
+- **Better scalability for ecosystem growth**: add capacity by scaling `cells`, not by multiplying bespoke deployments.
 - **Interoperability with any dataspace**: `DCP`/`DSP`/`DPS` keep you compatible with external and self-hosted participants.
 - **Sovereignty-friendly runtime**: policy decisions stay peer-to-peer; `Data Plane`s run close to the data.
 
@@ -114,6 +116,8 @@ Keep the platform “cloud-native by default.” If you need bespoke infra to ru
 
 Put complexity where it pays: trust, policy, and interoperability. Where possible, rely on well-understood primitives for orchestration, persistence, and IAM.
 
+In Kubernetes-based environments, a `Kubernetes Operator` can be a practical way to standardize how you deploy and wire the core runtime components inside a `cell` (for example `Control Plane`, `Data Plane`, and `Credential Service`). It won’t replace `CFM`—but it can reduce drift and make cell bring-up and baseline configuration repeatable across clusters.
+
 ### The Connector Fabric Manager
 
 The Connector Fabric Manager (CFM) is your management plane. It provisions participant contexts and automates the lifecycle of `VPA`s. You can think of it as an orchestration layer for service virtualization: it creates runtime, but it is not the runtime.
@@ -126,7 +130,7 @@ The CFM comprises three subsystems:
 | --- | --- |
 | Tenant Manager (TM) | Persists tenancy and virtualization metadata; exposes a REST API; initiates deployments |
 | Provision Manager (PM) | Executes stateful orchestrations (workflows) for onboarding and `VPA` lifecycle |
-| Activity Agents | Execute the infrastructure tasks of orchestration steps in isolated security contexts |
+| Activity Agents | Asynchronously process orchestration steps in isolated security contexts |
 
 In an `EDC-V` environment, treat the `Tenant Manager` as the **metadata control point** and the `Provision Manager` as the **execution engine**. The `Tenant Manager` modifies virtualization entities (e.g., tenant, participant profile, `VPA` targeting) and sends message-based requests to the `Provision Manager`, which runs an orchestration until completion and reports status back asynchronously.
 
@@ -143,7 +147,7 @@ This separation keeps provisioning reliable under change: you can roll upgrades,
 Communication happens through `NATS JetStream`, providing reliable, decoupled messaging between components. JetStream persistence and durable consumption is what makes long-running orchestrations resilient to restarts and transient failures.
 
 :::tip Critical Architectural Insight
-The CFM provisions trust infrastructure but is **not** in the runtime trust path. The CFM can be completely unavailable—undergoing maintenance, experiencing an outage, being upgraded—and live data sharing continues uninterrupted. Trust decisions happen directly between participant VPAs with no dependency on the CFM.
+The `CFM` provisions participant contexts and runtime configuration, but it is **not** in the trust-decision path. The `CFM` can be completely unavailable—undergoing maintenance, experiencing an outage, being upgraded—and live data sharing continues uninterrupted. Trust decisions are made locally, per interaction, between participant `VPA`s with no dependency on `CFM`.
 :::
 
 Operationally, this split lets you plan downtime, upgrades, and incident response without turning every change into a full dataspace outage.
@@ -152,13 +156,15 @@ Operationally, this split lets you plan downtime, upgrades, and incident respons
 - Outages block onboarding and provisioning, not runtime sharing
 - Separate SLOs for management plane vs runtime
 
-The practical consequence is that you can run “platform SRE” playbooks for `CFM` without touching the trust runtime. That’s exactly the separation you want when onboarding is degraded but existing participants are actively negotiating and transferring.
+The practical consequence is that you can run “platform SRE” playbooks for `CFM` without touching the runtime trust decisions and transfer execution. That’s exactly the separation you want when onboarding is degraded but existing participants are actively negotiating and transferring.
 
 ### Virtual Participant Agents
 
 Virtual Participant Agents are the runtime components that serve participant profiles in a service-virtualized `EDC-V` deployment. Rather than deploying separate infrastructure for each organization, `VPA`s provide isolated contexts within shared infrastructure. This is the mechanism that makes multi-tenant operation economically viable at scale.
 
-Three VPA types exist, each with a distinct trust role.
+Three `VPA` types exist, each with a distinct trust role. In production, you should expect **multiple instances of each type**: for capacity, for isolation boundaries, and because a single participant may need more than one `Data Plane` (for example, separate transfer engines for `HTTP`, `S3`, or `OPC-UA`).
+
+Instances can be distributed across `cells`, and `CFM` can re-target `VPA` metadata when you need to rebalance capacity or migrate contexts.
 
 <Tabs>
   <TabItem value="data-plane" label="Data Plane VPA">
@@ -213,7 +219,7 @@ This shift makes scaling sub-linear rather than linear with tenant count. You ma
 
 ## Part 2: What Your Customers Do — Tenant Experience & Dataspace Workflows
 
-Now that you understand what you're operating, let's look at the platform from your users' perspective. How do organizations onboard? What do they interact with? How does the trust infrastructure connect to the broader dataspace ecosystem?
+Now that you understand what you're operating, let's look at the platform from your users' perspective. How do organizations onboard? What do they interact with? How do trust frameworks, claims, and policies connect to day-to-day platform workflows?
 
 <Image src="/img/guides/dsaas-implementation/dsaas-impl-2.png" alt="EDC-V User Experience — Tenant View" style={{ maxWidth: '70%', margin: '2rem auto', display: 'block' }} />
 
@@ -223,7 +229,7 @@ From the tenant’s point of view, your platform is a thin “product surface”
 | --- | --- | --- |
 | Dataspace Governance Authority | Rules, onboarding, issuers, compliance gates | You integrate; you don’t arbitrate membership |
 | `EDC-V` runtime | Catalog, negotiation, identity proofs, transfer execution | You provide runtime primitives with service virtualization |
-| Customer Portal | Self-service workflows and configuration | In practice: a deployment-specific `End-User UI` that calls Administration APIs |
+| Customer Portal | Self-service workflows and configuration | In practice: The interface for the participant to manage there Dataspace environment |
 
 > **Key Message:** Customers don't need to understand EDC internals. Your platform abstracts them.
 
@@ -232,6 +238,8 @@ From the tenant’s point of view, your platform is a thin “product surface”
 The Dataspace Governance Authority isn't your platform—it's the governing body that defines who can participate in the dataspace and what credentials they need. For industry dataspaces like Catena-X or Manufacturing-X, this is the consortium or foundation that establishes the rules. For private dataspaces, it might be a lead organization or industry group.
 
 Understanding this separation is crucial for positioning your platform correctly. The governance body decides who can join; your platform turns approved organizations into runnable participants by provisioning `VPA`s and wiring identity and policy flows.
+
+This is what lets your deployment function as a neutral ecosystem platform: governance sets participation rules, while the runtime evaluates claims and policies at interaction time to enable interoperability.
 
 :::tip Principle
 Your platform handles the technical layer; the Governance Authority handles the legal and trust layer.
@@ -253,7 +261,7 @@ If you need one diagram for “who does what,” use this flow. It makes clear w
 Onboarding Service  --->  Credential Issuer  --->  Credential Service VPA  --->  Control Plane VPA
 ```
 
-This eliminates a common misconception: your `EDC-V` deployment is not the onboarding authority. It’s the infrastructure that makes approved participants usable and interoperable.
+This eliminates a common misconception: your `EDC-V` deployment is not the onboarding authority. It’s the technical layer that turns approved participants into interoperable runtime contexts.
 
 :::tip
 Authorization and issuance are separate on purpose. Governance decides who can join; your platform executes the technical flow.
@@ -261,7 +269,7 @@ Authorization and issuance are separate on purpose. Governance decides who can j
 
 ### The Customer Portal
 
-The Customer Portal is what your customers see and use day-to-day. For this guide, treat it as a deployment-specific `End-User UI` that models participant workflows on top of `EDC-V` Administration APIs. Only the UI backend is typically internet-facing; it holds machine credentials and calls APIs on behalf of logged-in users.
+The Customer Portal is what your customers see and use day-to-day. For this guide, treat it as a the interface where participants manage their Dataspace environment on top of `EDC-V` Administration APIs. Only the UI backend is typically internet-facing; it holds machine credentials and calls APIs on behalf of logged-in users.
 
 The portal manages a clear hierarchy of concepts that reflects how organizations actually think about their dataspace participation:
 
@@ -280,7 +288,7 @@ An automotive supplier might have one Dataspace Profile for Catena-X and another
 
 From the customer's perspective, the runtime presents three main touchpoints. The important detail is isolation: the same shared services handle many participants, but each `VPA` represents a distinct administrative and runtime context.
 
-Under the hood, the `End-User UI` and its backend talk to a small set of Administration APIs. These APIs are for machine clients (automation and UI backends), not direct human use.
+Under the hood, the Customer Portal and its backend talk to a small set of Administration APIs. These APIs are for machine clients (automation and UI backends), not direct human use.
 
 | Administration API | Exposed by | Purpose | Auth (typical) |
 | --- | --- | --- | --- |
@@ -298,6 +306,8 @@ Under the hood, the `End-User UI` and its backend talk to a small set of Adminis
   <TabItem value="control-plane" label="Control Plane VPA">
 
     This is where tenants publish offerings, define policies, and negotiate contracts. The value of service virtualization here is DX: tenants work with manageable concepts while the platform handles the `DSP` choreography behind the scenes.
+
+    If you need to evolve policy evaluation without redeploying the runtime, `EDC-V` can support dynamic policy evaluation using `CEL` (Common Expression Language). For the technical details, see [Dynamic policy evaluation in EDC-V with Common Expression Language (CEL)](https://raw.githubusercontent.com/eclipse-edc/Virtual-Connector/main/docs/common_expression_language.md).
 
   </TabItem>
   <TabItem value="data-plane" label="Data Plane VPA">
@@ -330,7 +340,7 @@ Credential acquisition often involves processes outside your platform entirely�
 
 ### Authentication and Access Control
 
-`EDC-V` Administration APIs are designed for machine clients and use centralized access control with `OAuth2`. In practice, you’ll see four logical roles in a deployment: `operator` (infrastructure), `admin` (emergency), `provisioner` (automation), and `participant` (tenant-scoped operations).
+`EDC-V` Administration APIs are designed for machine clients and use centralized access control with `OAuth2`. In the API model, `EDC-V` defines three roles: `admin`, `provisioner`, and `participant`. Operationally, most deployments also distinguish an `operator` role for infrastructure access, but that role typically sits outside the Administration API authorization model.
 
 | Role | Access | Use case |
 | --- | --- | --- |
@@ -348,7 +358,13 @@ Two claims matter for correctness:
 
 Participant-scoped endpoints are typically rooted under `"/participants/{participant_context_id}/..."`, which is how the platform enforces isolation at the API surface.
 
+This boundary is not optional: in `EDC-V`, identities, roles, scopes, and access privileges are tied to the participant context. Treat `participant_context_id` as the security unit for both API access and operational troubleshooting.
+
+It is also generally recommended that the OAuth2 `client_id` is **not** the same value as the `participant_context_id`. Treat the participant context as the stable platform identifier, and the client ID as a credential handle that you can rotate and segment.
+
 For participant-scoped tokens, scopes are a key part of least privilege: the `role=participant` token should carry a `scope` claim that limits what the client can do. Keep `role=admin` for emergencies only, and use `role=provisioner` for automation that creates and manages contexts without mutating participant-owned data.
+
+In practice, scope naming is often API-surface oriented (for example `management-api:read`/`management-api:write`, `data-plane:read`/`data-plane:write`, `identity-api:read`/`identity-api:write`). Keep scopes minimal and explicit; avoid “wildcard” tokens for participant clients.
 
 In practice, this is the simplest model for platform automation: service accounts and CI/CD pipelines can call provisioning and runtime APIs without user sessions, while you still enforce least privilege via role-separated clients.
 
@@ -359,6 +375,14 @@ curl -X POST "$TOKEN_URL" \
 ```
 
 Once you have the token, you send it as `Authorization: Bearer <token>` to the `CFM` APIs and the tenant-facing runtime APIs. This keeps auth consistent across the stack and reduces “which token goes where?” confusion during onboarding.
+
+#### Vault Access Boundary (Secrets Isolation)
+
+Most deployments rely on a secrets system (“vault”) for key material and sensitive configuration. Vault access should follow the same isolation boundary as API access: **one participant context should only be able to read its own secrets**.
+
+A common hardening pattern is to use a dedicated client identity for vault access that is still bound to the same `participant_context_id`, but is *separate* from the client identity used for Administration API access. This reduces blast radius (compromising an API client secret does not automatically grant vault access) and supports least privilege if the token requirements differ.
+
+For long-running or asynchronous workflows, `JWT`-based vault authentication is often a good fit, because it aligns with the `OAuth2`/`JWT` approach used for API access while still allowing you to enforce participant-scoped ACLs in the vault.
 
 ---
 
@@ -380,12 +404,14 @@ The Security Boundary represents a critical architectural division with far-reac
 
 | Above the boundary | Below the boundary |
 | --- | --- |
-| Trust infrastructure: Control Plane and Credential Service | Data infrastructure: Data Plane and data sources |
-| Policies evaluated and credentials verified | Transfers executed after authorization |
+| Trust decisions: Control Plane and Credential Service | Transfer execution: Data Plane and data sources |
+| Policies evaluated and claims verified | Transfers executed after authorization |
 
 Benefits of this separation:
 
 You want this boundary because it turns trust evaluation into control-plane work and keeps transfers fast and deployable near the data.
+
+When policy requirements change frequently across dataspaces, dynamic policy evaluation can reduce operational coupling between policy updates and runtime deployments. For one approach used in `EDC-V`, see [Dynamic policy evaluation in EDC-V with Common Expression Language (CEL)](https://raw.githubusercontent.com/eclipse-edc/Virtual-Connector/main/docs/common_expression_language.md).
 
 - Performance optimization: no policy evaluation during transfer
 - Edge deployment: Data Planes run close to data sources
@@ -404,6 +430,8 @@ Three standardized protocols make dataspaces interoperable:
 | `DPS` | Control Plane to Data Plane | Transfer signaling and execution |
 
 Each protocol is a single hop between two roles. When you debug interoperability, identify which hop you’re in before you look at payloads and policy details.
+
+Security-wise, keep the surfaces separate: Administration APIs are intra-deployment and scoped by `participant_context_id`, while protocol interactions (`DCP`/`DSP`/`DPS`) include their own authentication and authorization mechanisms between participants.
 
 ```text
 DCP (identity proofs)
@@ -489,6 +517,10 @@ These patterns are common in practice: they help keep the trust model stable whi
 Running `EDC-V` in production requires attention to high availability, observability, and clear service level targets. This section covers the operational aspects that differentiate a proof-of-concept from a production-grade service.
 
 The transition from development to production is where many dataspace initiatives stumble. The technology works in the lab, but operating it reliably for paying customers demands a different level of rigor. The good news: the `EDC-V` + `CFM` architecture was designed with production operations in mind.
+
+Most production deployments use shared infrastructure components (databases, message buses, and clusters) across many participant contexts. Isolation comes from the data model and access control: every resource is associated with a `participant_context_id`, and queries and API access are filtered accordingly.
+
+Policy change is an operational concern. If your deployment uses dynamic policy evaluation (for example via `CEL`), treat policy updates like production configuration changes: validate them, version them, and make them auditable.
 
 ### Building High Availability
 
@@ -597,13 +629,13 @@ For usage-based pricing, track metrics that align with delivered value.
 | Data volume shared | Actual sharing |
 | API requests | Catalog queries and negotiations |
 | Edge Data Plane instances | On-premise deployments |
-| Credential issuances | Trust infrastructure usage |
+| Credential issuances | Trust framework usage (credentials issued and verified) |
 
 ---
 
 ## Getting Started
 
-With the architectural understanding from this guide, you're ready to begin implementation. The path from documentation to production infrastructure has several stages, and rushing through them often creates problems expensive to fix later.
+With the architectural understanding from this guide, you're ready to begin implementation. The path from documentation to production setup has several stages, and rushing through them often creates problems expensive to fix later.
 
 Implementation goes faster when you build intuition before you build automation. Use this path to get from concepts to a running stack:
 
@@ -643,9 +675,9 @@ This guide presented an operator’s view of `EDC-V` with `CFM` through three pe
 
 | Perspective | Core message |
 | --- | --- |
-| Operations | CFM provisions infrastructure but is not in the runtime trust path |
+| Operations | `CFM` provisions runtime contexts but is not in the trust-decision path |
 | User | Customers do not need to understand EDC internals; the platform abstracts them |
-| Data Plane | Trust is decentralized while operations are centralized, enabling scale |
+| Data Plane | Trust is decentralized while operations are centralized, enabling digital ecosystems to scale without linear operational overhead |
 
 The architecture succeeds because it chooses the right abstractions for a managed service. You operate cells and provisioning workflows, while tenants operate policies and integrations. Interoperability holds because `DCP`/`DSP`/`DPS` keep deployment choices out of the protocol contract.
 
