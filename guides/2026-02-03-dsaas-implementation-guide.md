@@ -28,6 +28,7 @@ We'll explore the stack through three perspectives:
 
 By the end, your team should be able to deploy the EDC stack independently and understand the operational model for running DSaaS at scale.
 
+
 ---
 
 ## Part 1: The Operations Perspective
