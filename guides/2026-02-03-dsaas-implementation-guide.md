@@ -1,124 +1,202 @@
 ---
 slug: dsaas-implementation-guide
-title: "Implementing DSaaS"
+title: "Operating Multi-Tenant Dataspace Environments with EDC-V and CFM"
 authors: [ndkrimbacher]
 tags: [implementation, architecture, cloud-providers]
-description: "A comprehensive guide for cloud platform teams on deploying the EDC stack as Dataspace-as-a-Service. Learn the architecture from operations and user perspectives, plus data plane deployment scenarios."
-keywords: [DSaaS, Dataspace-as-a-Service, EDC, Eclipse Dataspace Components, CFM, Connector Fabric Manager, cloud provider, multi-tenant, VPA, Virtual Participant Agent]
+description: "An operator’s guide to running EDC-V with CFM: service virtualization, VPAs, cells, and production operations for multi-tenant dataspace environments."
+keywords: [EDC-V, EDC, Eclipse Dataspace Components, CFM, Connector Fabric Manager, service virtualization, multi-tenant, VPA, Virtual Participant Agent, cell]
 image: /img/guides/dsaas-implementation/dsaas-impl-cover.jpeg
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Image from '@site/src/components/Image';
 
-Cloud providers looking to offer trusted data sharing as a managed service face a significant challenge: the dataspace stack is sophisticated, with multiple components handling identity, policy, negotiation, and transfer. This guide transforms that complexity into a clear implementation path.
+Operating multi-tenant dataspace environments requires an architectural model that is both scalable and predictable. `EDC-V`, combined with the `Connector Fabric Manager (CFM)`, provides exactly that: a way to deliver dataspace capabilities as a managed platform rather than a collection of individual connector deployments. Instead of treating each participant as a separate infrastructure footprint, service virtualization turns participant contexts into lightweight, repeatable units that the platform can provision and operate at scale.
+
+This guide explains how to run that platform effectively. It brings the core pieces of the `EDC-V` ecosystem—identity, policy evaluation, negotiation, and data transfer—into a coherent operational model that cloud providers and enterprise platform teams can adopt with confidence. Whether you're onboarding participants, automating `VPA` provisioning, or scaling runtime capacity, the goal is to give you a blueprint for reliable operations across multiple dataspaces.
+
+The guide is structured around three perspectives that together form the foundation for operating `EDC-V` in production:
+
+- **What you operate** — the cloud-native foundation, `CFM` management plane, and the shared runtime cells that host `VPA`s.
+- **What participants experience** — onboarding, credential handling, catalog publication, and sharing workflows surfaced through your deployment’s end-user UI.
+- **How data moves across boundaries** — the protocol choreography, trust evaluation, and separation of control-plane and data-plane responsibilities that enable federated sharing.
+
+These perspectives help establish the operational boundaries that matter most: where trust is evaluated, where configuration lives, and where runtime work is executed. Once those boundaries are clear, the system becomes significantly easier to scale, secure, and automate.
+
+This guide is written for teams responsible for running `EDC-V` as a service—those who need to understand not only how the components work individually, but how they behave as a platform. The aim is to provide a practical, implementation-oriented view of multi-tenant operation: one that turns dataspaces from conceptual architecture into a dependable, production-ready environment.
 
 {/* truncate */}
 
-We'll explore the stack through three perspectives:
+## TL;DR
 
-1. **Operations Perspective** — what you're actually running: components, relationships, and how they work together
-2. **User Perspective** — how organizations onboard and interact with your platform
-3. **Data Plane Perspective** — how data flows while maintaining sovereignty and security
+At a high level, operating `EDC-V` at scale means running a **management plane** (`CFM`) plus a **shared runtime** that hosts isolated `VPA` contexts. The goal is to keep that runtime predictable to operate and straightforward to scale.
+
+- **You run**: a management plane (`CFM`) plus shared runtime cells hosting **Virtual Participant Agents (VPAs)**.
+- **Your customers use**: a deployment-specific `End-User UI` to onboard, manage `DID`s/credentials, publish catalogs, and configure sharing.
+- **Data moves**: peer-to-peer between participants using open protocols (`DCP`/`DSP`/`DPS`) across a strict security boundary.
+
+Operationally, onboarding and lifecycle are centralized, while trust and transfer decisions remain decentralized between participants.
+
+## Benefits Summary
+
+This operating model is worth implementing when you’re trying to make `EDC`-based data sharing repeatable and supportable. The goal is to turn “deploy a connector project” into “provision a participant context.”
+
+- **Reduced operations cost**: operate shared `cells` and automate provisioning instead of running per-tenant stacks.
+- **Faster onboarding**: move onboarding from hand-crafted infrastructure to `CFM` workflows and templates.
+- **Better scalability**: add capacity by scaling `cells`, not by multiplying bespoke deployments.
+- **Interoperability with any dataspace**: `DCP`/`DSP`/`DPS` keep you compatible with external and self-hosted participants.
+- **Sovereignty-friendly runtime**: policy decisions stay peer-to-peer; `Data Plane`s run close to the data.
+
+If you need the strategic framing and business outcomes, read the [Decision Maker Guide](/guides/decision-maker-guide). This guide stays focused on what you have to build and operate.
+
+## How to Read This Guide
+
+This architecture becomes clearer once you can answer three questions without hand-waving: what you operate, what your participants touch, and what actually happens on the wire. We’ll build that mental model in one pass, then reuse it for deployment and operations decisions.
+
+1. **What you run** (platform architecture)
+2. **What your customers do** (tenant experience)
+3. **How data actually moves** (federated runtime)
+
+Use this as a map. Each part introduces a boundary (operational, product, network) that the later parts assume—so if something feels unclear, it’s usually because a boundary hasn’t been made explicit yet.
 
 **Who This Guide Is For:**
-- Enterprise architects who need a clear picture of running the EDC stack in their infrastructure
-- Platform teams who will deploy and operate DSaaS
-- Solutions architects evaluating deployment patterns for different customer scenarios
 
-By the end, your team should be able to deploy the EDC stack independently and understand the operational model for running DSaaS at scale.
+This guide is written for people who will be on-call for the stack or have to defend its trust boundaries in architecture reviews.
 
+- **Platform teams** deploying and operating `EDC-V` with `CFM`
+- **Enterprise architects** who need the runtime model and trust boundaries
+- **Solutions architects** mapping customer constraints to deployment patterns
+
+If you’re building business apps on top of `EDC-V`, you’ll still benefit from the “how data moves” section—but you’ll want the integration guide for concrete app and connector configuration.
 
 ---
 
-## Part 1: The Operations Perspective
+## Part 1: What You Run — The EDC-V Platform Architecture (with CFM)
 
-Before you can run something, you need to understand what you're running. Let's examine the DSaaS stack from an operator's viewpoint—the components you deploy, manage, and monitor.
+Start with the operator’s view: what you deploy, monitor, and scale. Keep user workflows and transfer choreography out of your head for now. We’ll add those once the platform model is stable.
 
-![Dataspace-as-a-Service Stack — Operations View](/img/guides/dsaas-implementation/dsaas-impl-1.png)
+<Image src="/img/guides/dsaas-implementation/dsaas-impl-1.png" alt="EDC-V Platform Architecture — Operations View" style={{ maxWidth: '70%', margin: '2rem auto', display: 'block' }} />
 
-The DSaaS stack consists of three layers working together:
+The platform is intentionally layered so you can reason about responsibility and failure modes. Think in three planes: a cloud-native foundation, a management plane that provisions participant contexts, and a runtime plane where the dataspace protocols execute.
 
-- **Cloud-native infrastructure** forms the foundation
-- **Connector Fabric Manager** provides orchestration in the middle
-- **Virtual Participant Agents** serve your tenants at the top
+In the operations view, runtime isolation is configuration-based: `VPA` metadata defines the context, and cells provide the underlying capacity. This is what enables the same shared services to host many participants while keeping contexts separated.
 
-Two user types interact with the system: Participants who use the Customer Portal to manage their data sharing, and Admins who use the Operations UI to manage the platform itself.
+| Layer | What it is | What it’s responsible for |
+| --- | --- | --- |
+| Cloud-native infrastructure | `Kubernetes`, storage, secrets, DNS, IAM, observability | Reliability primitives, persistence, identity, operational tooling |
+| `Connector Fabric Manager (CFM)` | Management plane | Provisioning workflows, tenant metadata, and `VPA` lifecycle automation |
+| `Virtual Participant Agents (VPAs)` | Runtime plane | Protocol endpoints, policy decisions, transfer execution |
+
+Two user types interact with the system:
+
+| Role | UI | Responsibilities |
+| --- | --- | --- |
+| Participant | Customer Portal | Publish catalogs, define policies, negotiate contracts |
+| Operator | Operations UI | Provision contexts, monitor health, scale cells |
 
 ### The Infrastructure Foundation
 
-The infrastructure layer relies on standard cloud-native components that every platform team already knows:
+Run `EDC-V` on standard cloud-native infrastructure. You want predictable failure modes and well-known runbooks.
 
-- **Kubernetes** — container orchestration and scaling
-- **PostgreSQL** — state persistence across all components
-- **Vault** — secrets and credential storage
-- **DNS** — request routing and DID resolution
-- **Observability stack** — metrics, logging, and tracing (Prometheus, Grafana, ELK, or your existing tools)
-- **IAM/IDP** — authentication
+| Component | Purpose |
+| --- | --- |
+| `Kubernetes` | Container orchestration and scaling |
+| `PostgreSQL` | State persistence across components |
+| `Vault` / `STS` | Secrets, key material, and token-related infrastructure |
+| `DNS` | Request routing and `DID` resolution |
+| Observability stack | Metrics, logging, and tracing |
+| `IAM`/`IDP` | Authentication for admins and participants |
 
-This deliberate choice of boring, proven technology matters. The DSaaS stack doesn't require exotic infrastructure or specialized knowledge. It runs on the same foundation you already operate, using patterns your team already understands. Your operations team won't need to learn new orchestration paradigms or adopt unfamiliar database technologies. The skills they've developed managing other cloud-native applications transfer directly.
+:::tip
+Keep the platform “cloud-native by default.” If you need bespoke infra to run `EDC-V`, you’re adding cost without improving trust.
+:::
 
-This design philosophy reflects a broader principle in dataspace architecture: complexity should exist only where it adds value. The value of dataspaces lies in enabling trusted data sharing across organizational boundaries—not in reinventing container orchestration or database management. By building on proven foundations, the architecture lets your team focus their attention on the genuinely novel aspects of multi-tenant trust infrastructure.
-
-> **Key Insight:** The innovation happens in the layers above, not in reinventing infrastructure.
+Put complexity where it pays: trust, policy, and interoperability. Where possible, rely on well-understood primitives for orchestration, persistence, and IAM.
 
 ### The Connector Fabric Manager
 
-The Connector Fabric Manager sits between your infrastructure and the runtime. It's your management plane—the orchestration layer that makes multi-tenant operation possible. Understanding its role is essential because it fundamentally changes how you think about deploying dataspace infrastructure.
+The Connector Fabric Manager (CFM) is your management plane. It provisions participant contexts and automates the lifecycle of `VPA`s. You can think of it as an orchestration layer for service virtualization: it creates runtime, but it is not the runtime.
 
-The CFM comprises two primary subsystems:
+At a minimum, `CFM` is designed to run as a reliable message-based system backed by a `PostgreSQL` database and a messaging middleware (by default, `NATS JetStream`). That bias toward asynchronous coordination is what lets provisioning workflows span multiple steps without tight coupling between subsystems.
 
-- **Provision Manager** — handles stateful orchestration workflows, coordinating the multi-step processes required to bring new participants online. When a new tenant signs up, it orchestrates creation of their VPAs, Vault namespaces, DNS entries, and credentials.
-- **Tenant Manager** — provides the REST API for CRUD operations on tenants, participants, and VPAs. This is what the Operations UI calls to manage the platform.
+The CFM comprises three subsystems:
 
-**Activity Agents** execute the actual infrastructure tasks:
+| Subsystem | Role |
+| --- | --- |
+| Tenant Manager (TM) | Persists tenancy and virtualization metadata; exposes a REST API; initiates deployments |
+| Provision Manager (PM) | Executes stateful orchestrations (workflows) for onboarding and `VPA` lifecycle |
+| Activity Agents | Execute the infrastructure tasks of orchestration steps in isolated security contexts |
+
+In an `EDC-V` environment, treat the `Tenant Manager` as the **metadata control point** and the `Provision Manager` as the **execution engine**. The `Tenant Manager` modifies virtualization entities (e.g., tenant, participant profile, `VPA` targeting) and sends message-based requests to the `Provision Manager`, which runs an orchestration until completion and reports status back asynchronously.
+
+The `CFM` runtime is also designed to be modular: it can be composed from discrete modules (“service assemblies”) with explicit dependencies and lifecycle stages. This keeps the default architecture small while allowing you to adapt the runtime to different environments and operational requirements.
+
+Activity Agents are where you integrate with your cloud platform and enforce consistency across tenants. They also isolate infrastructure secrets and access from the `Provision Manager`, creating bounded security contexts even within a single provisioning workflow.
+
 - Deploy to Kubernetes
 - Configure Vault namespaces
 - Set up DNS entries
 
-Communication happens through **NATS Jetstream**, providing reliable, decoupled messaging between components. This separation means the system remains resilient even when individual components are being updated or experience issues.
+This separation keeps provisioning reliable under change: you can roll upgrades, restart workers, or throttle onboarding without rewriting the control flow logic that defines “what a participant context is.”
 
-> **Critical Architectural Insight:** The CFM provisions trust infrastructure but is **not** in the runtime trust path.
+Communication happens through `NATS JetStream`, providing reliable, decoupled messaging between components. JetStream persistence and durable consumption is what makes long-running orchestrations resilient to restarts and transient failures.
 
-This decision has profound operational implications:
+:::tip Critical Architectural Insight
+The CFM provisions trust infrastructure but is **not** in the runtime trust path. The CFM can be completely unavailable—undergoing maintenance, experiencing an outage, being upgraded—and live data sharing continues uninterrupted. Trust decisions happen directly between participant VPAs with no dependency on the CFM.
+:::
 
-- The CFM can be completely unavailable—undergoing maintenance, experiencing an outage, being upgraded—and **live data sharing continues uninterrupted**
-- Trust decisions happen directly between participant VPAs with no dependency on the CFM
-- You're not creating a single point of failure in the trust model
+Operationally, this split lets you plan downtime, upgrades, and incident response without turning every change into a full dataspace outage.
+
+- Maintenance windows are possible without stopping transfers
+- Outages block onboarding and provisioning, not runtime sharing
+- Separate SLOs for management plane vs runtime
+
+The practical consequence is that you can run “platform SRE” playbooks for `CFM` without touching the trust runtime. That’s exactly the separation you want when onboarding is degraded but existing participants are actively negotiating and transferring.
 
 ### Virtual Participant Agents
 
-Virtual Participant Agents are the components that actually serve your tenants. Rather than deploying separate infrastructure for each organization, VPAs provide isolated contexts within shared infrastructure.
+Virtual Participant Agents are the runtime components that serve participant profiles in a service-virtualized `EDC-V` deployment. Rather than deploying separate infrastructure for each organization, `VPA`s provide isolated contexts within shared infrastructure. This is the mechanism that makes multi-tenant operation economically viable at scale.
 
-> **Why This Matters:** VPAs are the innovation that makes DSaaS economically viable at scale.
+Three VPA types exist, each with a distinct trust role.
 
-Three VPA types exist, each with a distinct trust role. This separation of concerns is fundamental to the architecture's security model and operational flexibility.
+<Tabs>
+  <TabItem value="data-plane" label="Data Plane VPA">
 
-**Data Plane VPA** — Contains the Data Engine that executes actual data transfers
-- Deliberately trust-agnostic: moves data but doesn't decide whether data should move
-- Can be optimized purely for throughput
-- Enables flexible deployment patterns including edge scenarios
+    A `Data Plane VPA` is the “data mover.” It executes transfers once a decision has been made, and it is optimized for throughput and proximity to data sources.
 
-**Credential Service VPA** — Serves as the trust store for each participant
-- *DID Manager* — handles Decentralized Identifiers
-- *Credential Store* — stores verifiable credentials
-- *Claim Management* — creates presentations when participants need to prove their identity or attributes
+    Treat it as trust-agnostic by design: it focuses on transfer execution, not on authorization decisions.
 
-**Control Plane VPA** — Where trust decisions actually happen
-- *Catalog* — publishes data offerings
-- *Contract Manager* — handles negotiations
-- *Policy Engine* — evaluates access requests against defined policies
-- *Sharing Orchestrator* — coordinates the entire data sharing workflow
+  </TabItem>
+  <TabItem value="credential-service" label="Credential Service VPA">
 
-When a consumer requests access to data, the Control Plane evaluates their credentials against the provider's policies and decides whether to grant access. This evaluation happens in real-time, using the credentials the consumer presents and the policies the provider has defined. The decision is binary—access is either granted with a contract, or denied—and the entire negotiation happens through standardized protocols that work identically regardless of where each party's infrastructure is deployed.
+    A `Credential Service VPA` stores `verifiable credentials` and produces the cryptographic material needed to prove identity and claims. It’s where `DID` lifecycle (`DID Manager`) and proof/presentation composition (`Claim Management`) live.
 
-**Context Isolation** ensures that while VPAs share infrastructure, they're logically isolated. Tenant A's VPAs cannot see or access Tenant B's data, credentials, or configuration. Isolation happens through configuration, not through separate processes or infrastructure. This approach is similar to how modern databases isolate schemas or how Kubernetes isolates namespaces—the boundary is enforced through access controls and configuration rather than physical separation. The result is strong isolation with efficient resource utilization.
+    This keeps identity concerns out of your business apps and out of the transfer engine.
+
+  </TabItem>
+  <TabItem value="control-plane" label="Control Plane VPA">
+
+    A `Control Plane VPA` is the policy and negotiation layer. It publishes catalogs, negotiates contracts, evaluates policies, and orchestrates the end-to-end sharing workflow.
+
+    If you can explain one component to an architect, make it this one: it’s where trust decisions happen.
+
+  </TabItem>
+</Tabs>
+
+When a consumer requests access, the `Control Plane VPA` asks for proofs, evaluates policies, and either establishes a contract or rejects the request. Only after that decision does the transfer get signaled and executed by data planes.
+
+:::note
+**Context Isolation** ensures that while `VPA`s share infrastructure, they are logically isolated. One participant context cannot see or access another participant’s data, credentials, or configuration.
+:::
 
 ### The Mental Model Shift
 
-If you're coming from traditional single-tenant connector deployments, the operational model changes fundamentally. Traditional deployments follow a simple equation: one connector equals one process. You deploy separate infrastructure for each tenant, scale by adding containers, migrate by redeploying, and manage operations on a per-tenant basis.
+If you're coming from traditional single-tenant connector deployments, the operational model changes fundamentally. Traditional deployments follow a simple equation: one connector equals one process. You deploy separate infrastructure for each tenant, scale by adding containers, and manage operations on a per-tenant basis.
 
-CFM-managed deployments invert this model. One runtime serves many VPAs. You provision VPA metadata rather than deploying infrastructure. You scale by adding cells—logical groupings of shared resources—rather than individual containers. You migrate by moving metadata, and you manage operations centrally rather than per-tenant.
+CFM-managed deployments invert this model. One runtime serves many VPAs. You provision VPA metadata rather than deploying infrastructure. You scale by adding cells—logical groupings of shared resources—rather than individual containers. You manage operations centrally rather than per-tenant.
+
+The table below captures the shift you’re making: from per-tenant deployments to shared runtimes, from “scale containers” to “scale cells,” and from manual operations to configuration-driven provisioning.
 
 | Traditional Deployment | CFM-Managed Deployment |
 |----------------------|----------------------|
@@ -127,431 +205,407 @@ CFM-managed deployments invert this model. One runtime serves many VPAs. You pro
 | Scale by adding containers | Scale by adding cells |
 | Manage operations per-tenant | Manage operations centrally |
 
-This shift has profound implications for cost and operations. Resource scaling becomes sub-linear rather than linear with tenant count because tenants share infrastructure. Instead of managing hundreds of separate deployments—each with their own monitoring, updates, and troubleshooting—you manage a smaller number of cells with centralized tooling.
+:::tip
+This shift makes scaling sub-linear rather than linear with tenant count. You manage fewer cells with centralized tooling instead of hundreds of per-tenant deployments.
+:::
 
 ---
 
-## Part 2: The User Perspective
+## Part 2: What Your Customers Do — Tenant Experience & Dataspace Workflows
 
 Now that you understand what you're operating, let's look at the platform from your users' perspective. How do organizations onboard? What do they interact with? How does the trust infrastructure connect to the broader dataspace ecosystem?
 
-![Dataspace-as-a-Service Stack — User View](/img/guides/dsaas-implementation/dsaas-impl-2.png)
+<Image src="/img/guides/dsaas-implementation/dsaas-impl-2.png" alt="EDC-V User Experience — Tenant View" style={{ maxWidth: '70%', margin: '2rem auto', display: 'block' }} />
 
-The user-facing architecture consists of three layers:
+From the tenant’s point of view, your platform is a thin “product surface” on top of a governance-defined trust framework and a protocol-driven runtime. The separation is deliberate: governance decides who is allowed to participate, while your `EDC-V` + `CFM` deployment makes participation operationally easy.
 
-- **Dataspace Governance Authority** — establishes the trust framework (the rules of the game)
-- **DSaaS Stack** — provides the runtime capabilities
-- **Customer Portal** — where organizations interact with your platform
+| Layer | What the tenant experiences | What it means for your product |
+| --- | --- | --- |
+| Dataspace Governance Authority | Rules, onboarding, issuers, compliance gates | You integrate; you don’t arbitrate membership |
+| `EDC-V` runtime | Catalog, negotiation, identity proofs, transfer execution | You provide runtime primitives with service virtualization |
+| Customer Portal | Self-service workflows and configuration | In practice: a deployment-specific `End-User UI` that calls Administration APIs |
+
+> **Key Message:** Customers don't need to understand EDC internals. Your platform abstracts them.
 
 ### The Governance Layer
 
 The Dataspace Governance Authority isn't your platform—it's the governing body that defines who can participate in the dataspace and what credentials they need. For industry dataspaces like Catena-X or Manufacturing-X, this is the consortium or foundation that establishes the rules. For private dataspaces, it might be a lead organization or industry group.
 
-Understanding this separation is crucial for positioning your DSaaS offering correctly. You're not the gatekeeper deciding who can join a dataspace—that responsibility belongs to the governance body. Your role is to provide the technical infrastructure that enables organizations, once approved, to participate effectively. This separation of concerns protects you from governance disputes while letting you focus on what you do best: running reliable infrastructure.
+Understanding this separation is crucial for positioning your platform correctly. The governance body decides who can join; your platform turns approved organizations into runnable participants by provisioning `VPA`s and wiring identity and policy flows.
 
-The Governance Authority operates two key services that interact with your DSaaS platform:
+:::tip Principle
+Your platform handles the technical layer; the Governance Authority handles the legal and trust layer.
+:::
 
-**Onboarding Service**
-- Where organizations apply to join the dataspace
-- Handles business verification, legal agreements, and compliance checks
-- Typically operated by the Governance Authority, not by you as the DSaaS provider
-- You're providing infrastructure, not making governance decisions
+The Governance Authority operates two key services that interact with your platform:
 
-**Issuer Service**
-- Creates verifiable credentials once an organization is approved
-- Receives authorization from the Onboarding Service when an organization passes verification
-- Issues credentials that flow into your DSaaS Stack's Credential Service
+| Service | Purpose | Operated by |
+| --- | --- | --- |
+| Onboarding Service | Business verification, legal agreements, compliance checks | Governance Authority |
+| Credential Issuer | Creates `verifiable credentials` after approval | Governance Authority |
 
-> **Important Separation:** Authorization vs. issuance keeps governance decisions with the governance body while your platform handles technical execution.
+Depending on the dataspace, the issuer may be a governance-operated external service or a hosted issuer service integrated into your environment. The operational interface to your runtime stays the same: issued credentials are stored and presented via the `Credential Service VPA`.
+
+If you need one diagram for “who does what,” use this flow. It makes clear where governance ends and where your runtime begins.
+
+```text
+(1) Apply & verify        (2) Issue credential                (3) Store & use in runtime
+Onboarding Service  --->  Credential Issuer  --->  Credential Service VPA  --->  Control Plane VPA
+```
+
+This eliminates a common misconception: your `EDC-V` deployment is not the onboarding authority. It’s the infrastructure that makes approved participants usable and interoperable.
+
+:::tip
+Authorization and issuance are separate on purpose. Governance decides who can join; your platform executes the technical flow.
+:::
 
 ### The Customer Portal
 
-Participants authenticate through your IAM/IDP integration to access the Customer Portal—your platform's user interface and what your customers actually see and use day-to-day. The portal experience you provide significantly impacts customer satisfaction and adoption. Organizations joining a dataspace are often navigating unfamiliar concepts, and your portal should make their journey intuitive.
+The Customer Portal is what your customers see and use day-to-day. For this guide, treat it as a deployment-specific `End-User UI` that models participant workflows on top of `EDC-V` Administration APIs. Only the UI backend is typically internet-facing; it holds machine credentials and calls APIs on behalf of logged-in users.
 
-The Customer Portal manages a clear hierarchy of concepts. This hierarchy reflects how organizations actually think about their dataspace participation—starting with their identity as an organization, then their specific configurations for different dataspaces, and finally the applications that use these capabilities.
+The portal manages a clear hierarchy of concepts that reflects how organizations actually think about their dataspace participation:
 
 | Concept | Description |
-|---------|-------------|
-| **Tenant** | Top-level container representing the organization—your customer, billing entity, support relationship |
-| **Participant Profiles** | Links a Decentralized Identifier to the organization. Most have one DID; enterprises might need multiple for different business units |
-| **Dataspace Profiles** | Configuration specific to each dataspace the organization participates in |
-| **Sharing Apps** | Business applications that discover catalogs, negotiate contracts, and transfer data |
+| --- | --- |
+| Tenant | Organization itself: customer, billing entity, support relationship |
+| Participant Profiles | Links DIDs to the organization; may be multiple for business units |
+| Dataspace Profiles | Configuration per dataspace (requirements, policies) |
+| Sharing Apps | Apps that discover catalogs, negotiate contracts, and transfer data |
 
-**Real-world example:** An automotive supplier might have:
-- One Dataspace Profile for Catena-X with its credential requirements and policies
-- Another Dataspace Profile for Manufacturing-X with different settings
-- A single infrastructure instance serving both
+:::note Example
+An automotive supplier might have one Dataspace Profile for Catena-X and another for Manufacturing-X, both served by a single infrastructure instance.
+:::
 
-This flexibility lets organizations participate across multiple dataspaces without managing separate infrastructure.
+### The EDC-V Runtime from the Customer's View
 
-The connection flows:
-- **Organisation Onboarding** — new organizations flow from the Governance Authority's approval process into your Customer Portal
-- **Multi-Tenant Access** — the Customer Portal connects to the DSaaS Stack's Control Plane, giving each tenant access to their own VPAs
+From the customer's perspective, the runtime presents three main touchpoints. The important detail is isolation: the same shared services handle many participants, but each `VPA` represents a distinct administrative and runtime context.
 
-### The DSaaS Stack from the User's View
+Under the hood, the `End-User UI` and its backend talk to a small set of Administration APIs. These APIs are for machine clients (automation and UI backends), not direct human use.
 
-**Credential Service VPA**
-- Receives credentials from the Issuer Service and stores them securely
-- Creates verifiable presentations—cryptographic proofs that can be verified without contacting any central authority
-- Enables participants to prove their identity to other dataspace participants
+| Administration API | Exposed by | Purpose | Auth (typical) |
+| --- | --- | --- | --- |
+| Management API | Control Plane | Manage assets, policies, contract definitions, negotiations, transfers | `OAuth2` (`role=participant` or `role=provisioner`) |
+| Identity API | Credential Service | Manage `DID` artifacts and `verifiable credentials` in the participant context | `OAuth2` (`role=participant` or `role=provisioner`) |
+| Observability API | Every component | Readiness and health checks | none (monitoring) |
+| Federated Catalog API (optional) | Control Plane | Query consolidated catalog of offerings | `OAuth2` (`role=participant`) |
 
-**Control Plane VPA** — What participants interact with most frequently
-- Publish data offerings to the Catalog
-- Define policies that control who can access their data
-- Manage contracts with partners
-- Handles the complexity of the Dataspace Protocol while presenting a manageable interface
+<Tabs>
+  <TabItem value="credential-service" label="Credential Service VPA">
 
-**Data Plane VPA** — Connects to the Data Management and Governance layer where actual data lives:
-- Storage systems
-- Streams for real-time data
-- Applications that generate or consume data
+    This is where issued `verifiable credentials` land and where proofs get assembled for verification. Tenants shouldn’t be thinking about key material and cryptographic formats—only about “do I have the credential, and can I prove it?”
 
-Data Plane deployment patterns are explored in detail in Part 3.
+  </TabItem>
+  <TabItem value="control-plane" label="Control Plane VPA">
+
+    This is where tenants publish offerings, define policies, and negotiate contracts. The value of service virtualization here is DX: tenants work with manageable concepts while the platform handles the `DSP` choreography behind the scenes.
+
+  </TabItem>
+  <TabItem value="data-plane" label="Data Plane VPA">
+
+    This is where data actually connects to systems: object stores, APIs, streams, OT gateways, and line-of-business apps. It executes transfers only after authorization is established, which is why it can be optimized and deployed close to the data.
+
+  </TabItem>
+</Tabs>
 
 ### The Onboarding Journey
 
-Understanding the complete onboarding flow helps you see how all the pieces connect in practice.
+Understanding the complete onboarding flow reveals how all the pieces connect in practice. The journey has six stages:
 
-**Step 1: Application**
-- Organization submits application to the Governance Authority's Onboarding Service
-- Provides required documentation per dataspace requirements
-- This happens entirely outside your platform
+1. Application to the Governance Authority's Onboarding Service
+2. Verification: legal, compliance, and business checks
+3. Credential issuance by the Governance Authority’s credential issuer
+4. Participant context registration and `VPA` provisioning in your platform
+5. Configuration: assets, policies, and applications
+6. Active participation: catalog discovery, contracts, and transfers
 
-**Step 2: Verification**
-- Legal agreements signed
-- Compliance checked
-- Business relationships validated
-- Timeline: days to weeks depending on dataspace requirements
+The boundary to internalize is step 3 vs step 4: governance produces credentials, and your platform turns those credentials into runnable contexts (`VPAs`) with safe defaults. That’s how you avoid becoming the dataspace gatekeeper while still delivering a complete onboarding experience.
 
-**Step 3: Credential Issuance**
-- Governance Authority approves the organization
-- Issuer Service generates verifiable credentials
-- Credentials attest to membership, compliance status, or other defined attributes
+```text
+Apply -> Verify -> Issue Credentials -> Provision -> Configure -> Participate
+```
 
-**Step 4: Platform Registration**
-- Organization registers through Customer Portal
-- Creates tenant and configures participant profile
-- CFM's Provision Manager orchestrates VPA creation (Credential Service, Control Plane, Data Plane contexts)
-- Credentials flow into Credential Service and are stored securely
-
-**Step 5: Configuration**
-- Register data as assets
-- Define access policies
-- Connect applications
-
-**Step 6: Active Participation**
-- Discover other participants' catalogs
-- Negotiate contracts for data access
-- Transfer data according to agreed terms
-
-> **Note on Credential Acquisition:** This step often involves processes outside your platform entirely—legal agreements, compliance audits, business relationship verification. Your DSaaS platform facilitates the technical flow, but the business process belongs to the dataspace governance. Automation levels vary significantly across dataspaces.
+:::note 
+Credential acquisition often involves processes outside your platform entirely—legal agreements, compliance audits, business relationship verification. Your platform facilitates the technical flow, but the business process belongs to the dataspace governance.
+:::
 
 ### Authentication and Access Control
 
-Your platform implements centralized access control using OAuth2, with three distinct roles:
+`EDC-V` Administration APIs are designed for machine clients and use centralized access control with `OAuth2`. In practice, you’ll see four logical roles in a deployment: `operator` (infrastructure), `admin` (emergency), `provisioner` (automation), and `participant` (tenant-scoped operations).
 
-| Role | Access | Use Case |
-|------|--------|----------|
-| **Admin** | Full access to all resources | Emergency access, initial setup only |
-| **Provisioner** | Create participant contexts, manage VPAs | CFM automation, onboarding workflows |
-| **Participant** | Manage own resources | Business applications, daily operations |
+| Role | Access | Use case |
+| --- | --- | --- |
+| Operator | Infrastructure only (Kubernetes, DNS, Vault, IAM) | Initial deployment and ongoing platform operations |
+| Admin | Full access to all resources | Emergency access and initial setup |
+| Provisioner | Creates participant contexts and manages `VPA`s | `CFM` automation and onboarding |
+| Participant | Manages own resources | Business apps and day-to-day operations |
 
-**Token Architecture:**
-- All APIs use OAuth2 `client_credentials` flow
-- Same token works across Control Plane, Credential Service, and Management APIs
-- Unified access model—customers don't need separate credentials for different components
+Administration APIs use the `client_credentials` flow. The same token can be used across `Control Plane` and `Credential Service` Administration APIs if it carries the correct claims and scopes.
+
+Two claims matter for correctness:
+
+- `role`: one of `admin`, `provisioner`, `participant` (and deployment-defined operator access outside Admin APIs)
+- `participant_context_id`: identifies the participant context the client acts for
+
+Participant-scoped endpoints are typically rooted under `"/participants/{participant_context_id}/..."`, which is how the platform enforces isolation at the API surface.
+
+For participant-scoped tokens, scopes are a key part of least privilege: the `role=participant` token should carry a `scope` claim that limits what the client can do. Keep `role=admin` for emergencies only, and use `role=provisioner` for automation that creates and manages contexts without mutating participant-owned data.
+
+In practice, this is the simplest model for platform automation: service accounts and CI/CD pipelines can call provisioning and runtime APIs without user sessions, while you still enforce least privilege via role-separated clients.
+
+```bash
+curl -X POST "$TOKEN_URL" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=client_credentials&client_id=...&client_secret=..."
+```
+
+Once you have the token, you send it as `Authorization: Bearer <token>` to the `CFM` APIs and the tenant-facing runtime APIs. This keeps auth consistent across the stack and reduces “which token goes where?” confusion during onboarding.
 
 ---
 
-## Part 3: The Data Plane Perspective
+## Part 3: How Data Actually Moves — Federated Runtime & Deployment Patterns
 
-The first two perspectives showed you the stack and the user experience. Now we examine what makes trusted data sharing actually work: how data flows between organizations while maintaining sovereignty and security.
+The first two perspectives showed you the platform and the user experience. Now we examine what makes trusted data sharing actually work: how data flows between organizations while maintaining sovereignty and security.
 
-This perspective is where the rubber meets the road. Everything we've discussed—the VPAs, the credentials, the policies—exists to enable this: actual data moving between organizations in a way that's both secure and sovereign. Understanding the Data Plane perspective helps you explain to customers how their data stays protected while still being shareable.
+<Image src="/img/guides/dsaas-implementation/dsaas-impl-3.png" alt="EDC-V Runtime — Data Plane Perspective" style={{ maxWidth: '70%', margin: '2rem auto', display: 'block' }} />
 
-![Data Plane Deployment for Trusted Data Sharing](/img/guides/dsaas-implementation/dsaas-impl-3.png)
+> **Key Message:** Trust is decentralized, but operations are centralized—this is what makes service virtualization scale.
 
-> **Core Architectural Concept:** The separation between what you operate in your cloud and what other dataspace participants operate in theirs. Public networks connect them through standardized protocols that ensure interoperability regardless of deployment choices.
+The diagram reveals the critical separation between what you operate in your cloud and what other dataspace participants operate in theirs. Public networks connect them through standardized protocols that ensure interoperability regardless of deployment choices.
 
-### Infrastructure Components
-
-**Your CSP DSaaS Infrastructure:**
-- **DSaaS Stack** — VPA Credential Service and VPA Control Plane (trust and decision-making components)
-- **Data Infrastructure** — Data Plane with customer's actual data services (below the Security Boundary)
-- **Customer Portal** — management interface
-- **Supporting services** — IAM/IDP, Observability, Vault/STS, Database
-
-**Partner Infrastructure:**
-- Their own Credential Service, Control Plane, and Data Plane
-- May use another DSaaS provider, self-hosted EDC, or hybrid setup
-- Protocols ensure **complete interoperability** regardless of deployment choices
-
-### The Three Protocols
-
-These standardized protocols are what make dataspaces interoperable. Any implementation that speaks these protocols can participate, regardless of vendor or deployment model.
-
-| Protocol | Connection | Purpose |
-|----------|------------|---------|
-| **DCP** (Decentralized Claims Protocol) | Between Credential Services | "Who are you?" — identity verification through cryptographic proofs |
-| **DSP** (Dataspace Protocol) | Between Control Planes | "Let's agree" — catalog discovery and contract negotiation |
-| **DPS** (Data Plane Signaling) | Control Plane → Data Plane | "Data flows" — coordinates when and how to execute transfers |
-
-**Data Sharing** happens peer-to-peer directly between Data Planes—only after the protocols above have established trust and agreement. This peer-to-peer model means data never needs to route through a central hub, preserving both performance and sovereignty.
+If you find it useful to think in analogies: the `Control Plane` is the coordination and authorization layer, while the `Data Plane` is the execution layer. One decides and signals; the other performs the transfer.
 
 ### The Security Boundary
 
-The Security Boundary represents a critical architectural division that has far-reaching implications for how you deploy and operate DSaaS. This isn't just a logical distinction—it shapes deployment patterns, performance characteristics, and the flexibility you can offer customers.
+The Security Boundary represents a critical architectural division with far-reaching implications for deployment and operations.
 
-**Above the boundary** — Trust infrastructure
-- Control Plane and Credential Service
-- Trust decisions happen here
-- Credentials managed, policies enforced
-- Dataspace protocols verify identities, negotiate contracts, make access decisions
+| Above the boundary | Below the boundary |
+| --- | --- |
+| Trust infrastructure: Control Plane and Credential Service | Data infrastructure: Data Plane and data sources |
+| Policies evaluated and credentials verified | Transfers executed after authorization |
 
-**Below the boundary** — Data infrastructure
-- Data Plane in the Data Infrastructure layer
-- Doesn't evaluate policies or verify credentials
-- Simply executes what the Control Plane has already authorized
+Benefits of this separation:
 
-The beauty of this separation is that trust and data movement are decoupled. Once the Control Plane authorizes a transfer, the Data Plane can execute it without any further policy evaluation. This means you can place Data Planes wherever data needs to flow—at the edge, in customer environments, across geographic boundaries—without replicating the entire trust infrastructure at each location.
+You want this boundary because it turns trust evaluation into control-plane work and keeps transfers fast and deployable near the data.
 
-This trust-agnostic design enables several important capabilities:
+- Performance optimization: no policy evaluation during transfer
+- Edge deployment: Data Planes run close to data sources
+- Protocol flexibility: HTTP, S3, OPC-UA, and more under one policy model
 
-| Capability | Benefit |
-|------------|---------|
-| **Performance optimization** | No policy evaluation overhead during data transfer—Data Plane focuses entirely on moving bytes efficiently |
-| **Edge deployment** | Data Planes can run close to data sources without needing the full trust infrastructure |
-| **Protocol flexibility** | Different Data Planes can handle different data types (HTTP for APIs, S3 for files, OPC-UA for industrial equipment)—all governed by the same Control Plane policies |
+Once this boundary is clear, deployment patterns become easier to reason about. You can place `Data Plane`s where the data and constraints are, while keeping policy and identity flows consistent across the dataspace.
 
-### How the Protocols Work Together
+### The Three Protocols
 
-When a partner wants to access data from one of your DSaaS customers, the protocols execute in sequence. This choreography happens automatically once both participants have their infrastructure in place—your customers don't need to understand the protocol details, but you should understand them to troubleshoot issues and explain the system's security properties.
+Three standardized protocols make dataspaces interoperable:
 
-**1. DCP — Identity**
+| Protocol | Connects | Purpose |
+| --- | --- | --- |
+| `DCP` | Credential Service to Credential Service | Identity verification and claims exchange |
+| `DSP` | Control Plane to Control Plane | Catalog discovery and contract negotiation |
+| `DPS` | Control Plane to Data Plane | Transfer signaling and execution |
 
-The interaction begins with identity verification. The partner's Credential Service presents verifiable credentials to your customer's Credential Service. These credentials are cryptographic proofs that can be verified without contacting any central authority—a fundamental property that enables dataspaces to operate without depending on a single trusted party.
+Each protocol is a single hop between two roles. When you debug interoperability, identify which hop you’re in before you look at payloads and policy details.
 
-- Credentials may include: dataspace membership, compliance attestations, business relationship proofs
-- Verification happens cryptographically—no central authority contacted
+```text
+DCP (identity proofs)
+Consumer Credential Service  <-->  Provider Credential Service
+```
 
-**2. DSP — Agreement**
+```text
+DSP (catalog + contract)
+Consumer Control Plane  <-->  Provider Control Plane
+```
 
-With identity established, the partner can request the catalog. The catalog your customer exposes is filtered based on the partner's verified credentials—they see only what they're eligible to access. This isn't security through obscurity; it's a usability feature that prevents partners from seeing offerings they can't actually use.
+```text
+DPS (transfer signaling)
+Provider Control Plane  --->  Provider Data Plane
+```
 
-- Partner's Control Plane requests catalog from your customer's Control Plane
-- Catalog shows only offerings the partner is eligible to see (based on verified credentials)
-- Contract negotiation: terms proposed, evaluated, accepted or rejected
-- Both sides agree → contract established
+This is also a fast triage heuristic: `DCP` failures are usually credential/identity issues, `DSP` failures are negotiation/policy issues, and `DPS` failures are transfer wiring/execution issues.
 
-**3. DPS — Coordination**
+Data sharing happens peer-to-peer directly between `Data Plane`s after trust and agreement are established.
 
-Once a contract exists, the Control Planes coordinate the actual transfer. Your customer's Control Plane signals their Data Plane with the details needed to execute the transfer—tokens, endpoints, and protocol parameters. This signaling happens over a separate channel from the data transfer itself.
+### Protocol Choreography
 
-- Transfer parameters communicated: access tokens, endpoints, protocol details
+When a partner wants to access data from one of your customers, the protocols execute in sequence:
 
-**4. Data Sharing — Execution**
+1. `DCP` identity verification between Credential Services
+2. `DSP` catalog discovery and contract negotiation
+3. `DPS` signaling from Control Plane to Data Plane
+4. Data sharing execution between `Data Plane`s
 
-Finally, data moves. The transfer happens directly between Data Planes, peer-to-peer, without routing through either Control Plane. This direct path optimizes for performance and ensures that data volumes don't create bottlenecks in the trust infrastructure.
+The key is that protocol order mirrors responsibility: `DCP` establishes who is asking, `DSP` establishes what was agreed, and `DPS` triggers the runtime that moves data. After that, data flows peer-to-peer between `Data Planes` with no dependency on your management plane.
 
-- Actual data flows directly between Data Planes
-- Provider's Data Plane either:
-  - Exposes an endpoint for the partner to pull from, or
-  - Pushes data to an endpoint the partner specified
+```text
+Partner CS --DCP--> Provider CS
+Partner CP --DSP--> Provider CP
+Provider CP --DPS--> Provider DP
+Provider DP <----data----> Partner DP
+```
 
-### Deployment Scenarios
+### Deployment Patterns
 
-The architecture supports multiple deployment patterns, each suited to different customer needs. Understanding these patterns helps you position your DSaaS offering for different market segments.
+The architecture supports multiple deployment patterns, each suited to different customer needs.
 
-**Fully Managed Deployment**
+<Tabs>
+  <TabItem value="managed" label="Fully Managed">
 
-In a fully managed deployment, everything runs in your infrastructure: Control Plane, Credential Service, and Data Plane. This is the simplest option from the customer's perspective—they sign up, configure their data offerings, and start sharing. There's no infrastructure for them to manage, no operations burden, and no specialized expertise required.
+    Choose this when tenants want speed over control. You operate `Control Plane`, `Credential Service`, and `Data Plane`, which gives the best onboarding DX but also makes you responsible for the full runtime footprint.
 
-- **Best for:** SaaS providers adding dataspace capabilities, small organizations without platform teams, anyone prioritizing speed over control
-- **Tradeoff:** You carry highest operational responsibility
+  </TabItem>
+  <TabItem value="hybrid" label="Hybrid">
 
-This model works particularly well for customers whose data already lives in cloud services. If they're sharing API access or cloud-hosted datasets, having the Data Plane in your infrastructure adds no additional data movement compared to what they'd do anyway.
+    Choose this when tenants need data residency, sovereign boundaries, or on-prem connectivity. You operate `Control Plane` and `Credential Service`, while the tenant operates their `Data Plane` in the environment that’s closest to the data.
 
-**Hybrid Deployment**
+  </TabItem>
+  <TabItem value="self-hosted" label="Partner / Self-Hosted">
 
-The hybrid model addresses a fundamental tension: customers want the convenience of managed trust infrastructure, but they need their data to stay in their environment. By running Control Plane and Credential Service in your cloud while deploying Data Planes in the customer's infrastructure, you solve both requirements.
+    Choose this when the counterparty runs their own stack. Protocol interoperability is the point: as long as they speak `DCP`/`DSP`/`DPS`, your tenants can negotiate and transfer without caring where the other side is hosted.
 
-- Control Plane and Credential Service run in your cloud
-- Data Planes deploy in customer's infrastructure (on-premise or their cloud accounts)
-- Customer maintains data sovereignty—data never leaves their environment
-- You provide trust infrastructure and management capabilities
-- **Best for:** Manufacturing companies, regulated industries, data residency requirements
+  </TabItem>
+</Tabs>
 
-This pattern is especially valuable for manufacturing and industrial customers. Their operational data often can't leave the factory floor for regulatory, security, or practical reasons. The hybrid model lets them participate in dataspaces while keeping data exactly where it needs to be.
-
-**Partner / Self-Hosted Deployment**
-
-Not every dataspace participant will use your DSaaS platform. Some organizations—particularly large enterprises with existing platform teams—will run their own complete EDC stack. This is perfectly fine, and in fact, it's essential for a healthy dataspace ecosystem.
-
-- Some participants run their own complete EDC stack
-- Your DSaaS customers interact with them through standard protocols
-- **Result:** Full interoperability regardless of deployment model
-
-The standardized protocols guarantee that your DSaaS customers can interact with self-hosted participants exactly as they would with other DSaaS customers. From an API and data-sharing perspective, the deployment model is invisible.
-
-### Transfer Types
+### Transfer Types and Edge Patterns
 
 The Data Sharing connection supports three fundamental transfer patterns:
 
-| Transfer Type | Direction | Control | Use Cases |
-|--------------|-----------|---------|-----------|
-| **Pull** | Consumer fetches from provider | Consumer decides when to retrieve | API access, on-demand queries, real-time data |
-| **Push** | Provider sends to consumer | Provider decides when to send | Batch exports, event-driven delivery, file transfers |
-| **Stream** | Continuous flow | Active until terminated | IoT sensors, telemetry, real-time monitoring |
+| Type | Direction | Use cases |
+| --- | --- | --- |
+| Pull | Consumer fetches from provider | API access, on-demand queries, real-time data |
+| Push | Provider sends to consumer | Batch exports, event-driven delivery, file transfers |
+| Stream | Continuous flow until terminated | IoT sensors, telemetry, real-time monitoring |
 
-### Edge Data Plane Patterns
+For customers with data sovereignty requirements or edge deployments, several patterns address common scenarios:
 
-For customers with data sovereignty requirements or edge deployments, several patterns address common scenarios. These patterns leverage the security boundary separation—keeping trust decisions centralized while distributing data access close to the source.
+- **Factory/Site Edge Pattern:** Data Planes at each site connect to local systems while the Control Plane manages a unified catalog.
+- **Multi-Protocol Edge Pattern:** Separate Data Planes handle OPC-UA, S3, HTTP, and other protocols under one policy model.
+- **Geographic Distribution Pattern:** Data Planes deploy in required regions to keep transfers within jurisdiction.
 
-**Factory / Site Edge Pattern**
+These patterns are common in practice: they help keep the trust model stable while letting data stay where it must. Service virtualization lets participants mix these patterns without rewriting policy logic for each transport.
 
-Manufacturing customers often have data distributed across multiple sites, each with its own local systems. The factory edge pattern addresses this by deploying Data Planes at each location while maintaining centralized trust management. A customer's catalog can span all their factories, presenting a unified view to data consumers even though the underlying data is geographically distributed.
+### Deployment Templates
 
-- Control Plane runs in your cloud, manages unified catalog across all sites
-- Data Planes deploy at each factory, connecting to local PLCs, databases, sensors
-- DPS coordinates authorization from the cloud
-- Data flows directly from edge Data Plane to consumer—never routes through your infrastructure
+Pre-configured templates accelerate onboarding by giving customers a starting point matched to their use case.
 
-**Multi-Protocol Edge Pattern**
-
-Industrial environments rarely standardize on a single data protocol. OPC-UA for machine data, SQL for business systems, S3 for file storage—customers need to share data from all of these. The multi-protocol pattern deploys specialized Data Planes for each protocol while maintaining consistent governance through a single Control Plane.
-
-- Different Data Planes handle different protocols:
-  - OPC-UA Data Plane → industrial equipment
-  - S3 Data Plane → file storage
-  - HTTP Data Plane → REST APIs
-- Same Control Plane governs all with consistent policies
-- Each Data Plane optimizes for its specific protocol
-
-**Geographic Distribution Pattern**
-
-Regulatory requirements sometimes mandate that data stay within specific jurisdictions. The geographic distribution pattern meets these requirements while still enabling data sharing. Data Planes deploy in the required regions, ensuring data flows comply with residency requirements, while Control Planes can still be managed centrally.
-
-- Data Planes deploy in specific regions (e.g., for GDPR compliance)
-- Control Plane makes access decisions centrally
-- Data flows stay within required geographic boundaries
-
-### DSaaS Templates
-
-Consider offering pre-configured templates for common scenarios. These accelerate onboarding by giving customers a starting point matched to their use case.
-
-| Template | Components | Ideal For |
-|----------|------------|-----------|
-| API Sharing | 1 Control Plane, 1 HTTP Data Plane, 1 Credential Service | SaaS providers, API monetization |
-| Industrial Edge | 1 Cloud Control Plane, N Edge Data Planes, 1 Credential Service | Manufacturing, IoT, OT networks |
-| File Exchange | 1 Control Plane, 1 S3 Data Plane, 1 Credential Service | B2B file sharing, batch data |
-| Hybrid Sovereign | 1 Control Plane, Customer-hosted Data Plane, 1 Credential Service | Regulated industries, data residency |
-
-Templates reduce time-to-value by pre-configuring the right architecture. Customers can start from a template and customize as their needs evolve.
+| Template | Components | Ideal for |
+| --- | --- | --- |
+| API Sharing | Control Plane, HTTP Data Plane, Credential Service | SaaS providers, API monetization |
+| Industrial Edge | Control Plane, multiple edge Data Planes, Credential Service | Manufacturing, IoT, OT networks |
+| File Exchange | Control Plane, S3 Data Plane, Credential Service | B2B file sharing and batch data |
+| Hybrid Sovereign | Control Plane, customer-hosted Data Plane, Credential Service | Regulated industries and data residency |
 
 ---
 
 ## Part 4: Production Operations
 
-Running DSaaS in production requires attention to high availability, observability, and clear service level targets. This section covers the operational aspects that differentiate a proof-of-concept from a production-grade service.
+Running `EDC-V` in production requires attention to high availability, observability, and clear service level targets. This section covers the operational aspects that differentiate a proof-of-concept from a production-grade service.
 
-The transition from development to production is where many dataspace initiatives stumble. The technology works in the lab, but operating it reliably for paying customers demands a different level of rigor. The good news is that the DSaaS architecture was designed with production operations in mind—the patterns described here aren't afterthoughts bolted onto a research prototype.
+The transition from development to production is where many dataspace initiatives stumble. The technology works in the lab, but operating it reliably for paying customers demands a different level of rigor. The good news: the `EDC-V` + `CFM` architecture was designed with production operations in mind.
 
 ### Building High Availability
 
-High availability must be addressed at both the CFM layer and the cell layer, with different considerations for each. The CFM layer handles provisioning and management—it's critical for onboarding new customers and making configuration changes, but remember that it's not in the runtime trust path. The cell layer handles actual data sharing—this is where availability directly impacts your customers' business operations.
+High availability must be addressed at both the CFM layer and the cell layer, with different considerations for each.
 
-**CFM Layer Requirements:**
+For the **CFM layer**:
+
+Treat the `CFM` like any other control plane: replicate stateless services, make the message bus resilient, and keep stateful components (`PostgreSQL`, `Vault`) in HA configurations you already know how to run.
+
 - CFM pods: minimum 2 replicas behind a load balancer
-- NATS cluster: minimum 3 nodes for quorum (fewer = single failure disrupts messaging)
-- PostgreSQL: primary + synchronous replica with automatic failover
-- Vault: HA mode with auto-unseal; consider cross-region replication for DR
-- Deploy in primary region with warm standby in DR region
+- `NATS`: minimum 3 nodes for quorum
+- `PostgreSQL`: primary + synchronous replica with automatic failover
+- `Vault`: HA mode with auto-unseal; consider cross-region replication
+- Deployment: primary region plus warm standby in DR region
 
-> **Reminder:** CFM unavailability doesn't affect live data sharing—but prolonged unavailability prevents new tenant onboarding and VPA provisioning.
+The goal is not “never down,” it’s controlled failure modes. `CFM` downtime should degrade onboarding and provisioning, not break live negotiation and transfers.
 
-**Cell Layer Scaling Strategy:**
+:::note
+CFM unavailability does not affect live data sharing, but prolonged outages block onboarding and VPA provisioning.
+:::
 
-| Component | Replicas | Scaling Trigger |
-|-----------|----------|-----------------|
+For the **cell layer**, scale based on component characteristics:
+
+| Component | Replicas | Scaling trigger |
+| --- | --- | --- |
 | Control Plane | 3-5 | HPA on CPU and request rate |
 | Data Plane | 2-10+ | HPA or KEDA on transfer volume |
 | Credential Service | 2-3 | Verification load |
 
-**Benefits of Multiple Cells:**
-- Geographic distribution
-- Fault isolation (cell failure doesn't affect other cells)
-- Regulatory compliance (cells in specific jurisdictions meet data residency requirements)
+Multiple cells provide geographic distribution, fault isolation, and regulatory compliance.
 
 ### Implementing Observability
 
-A production observability stack requires metrics, logging, and tracing working together. The multi-tenant nature of DSaaS makes observability particularly important—you need visibility into both platform health and individual tenant activity.
+A production observability stack requires metrics, logging, and tracing working together.
 
-**Metrics** (Prometheus + Grafana)
+**Metrics (Prometheus/Grafana):**
 
-| Category | Metrics |
-|----------|---------|
-| Business | Active tenants/VPAs, contracts negotiated, transfers completed, data volume shared, credential issuances |
-| Technical | API latency (P50, P95, P99), request rates by component, error rates, NATS queue depth, resource utilization |
+| Category | Key metrics |
+| --- | --- |
+| Business | Active tenants and VPAs, contracts negotiated, transfers completed, data volume shared, credential issuances |
+| Technical | API latency (P50/P95/P99), request rates, error rates, NATS queue depth, resource utilization |
 
-**Logging** (ELK, Loki, or similar)
+**Logging (ELK/Loki or similar):**
 
-Implement structured logging with per-VPA context. Each log entry should include:
-- Severity, component name, VPA identifier, tenant identifier
-- Action and relevant context (counterparty DIDs, contract IDs)
+Treat logs as both debugging output and an audit trail. Your logging strategy should make it easy to answer “what happened for this tenant/`VPA`/counterparty?” without digging across a dozen pods.
 
-Log categories:
-- Application events
-- Security and audit logs
-- DSP protocol messages
-- DCP credential flows
+- Required fields: severity, component name, VPA identifier, tenant identifier
+- Common context: action, counterparty `DID`s, contract IDs
+- Categories: application events, security/audit, `DSP` messages, `DCP` flows
 
-**Tracing** (Jaeger or similar)
+If you standardize these fields early, you can build tenant-scoped dashboards and incident playbooks that scale with customer count instead of collapsing under noise.
 
-Follow requests across:
-- DSP flows (catalog → negotiation → transfer)
-- DCP credential presentation and verification
-- DPS signaling between control and data planes
+**Tracing (Jaeger or similar):**
+
+Tracing is how you debug “it’s slow” complaints without guessing. The goal is to follow a single request across `DSP` negotiation, `DCP` verification, and `DPS` signaling with one correlation context.
+
+- `DSP` flows: catalog -> negotiation -> transfer
+- `DCP` credential presentation and verification
+- `DPS` signaling between control and data planes
 - End-to-end transfer paths
+
+This is also where you validate the architecture’s separation of concerns: policy evaluation should show up in control-plane spans, not buried inside transfer execution.
 
 ### Configuring Alerts
 
-Effective alerting balances signal and noise. Too few alerts and you miss critical issues; too many and your team becomes desensitized. The scenarios below represent a starting point based on operational experience—tune thresholds based on your specific traffic patterns and SLA commitments.
-
-Configure alerts for scenarios requiring operator attention:
+Effective alerting balances signal and noise.
 
 | Scenario | Severity | Condition |
-|----------|----------|-----------|
-| VPA provisioning failures | High | Stuck > 5 minutes |
-| Contract negotiation errors | Medium | > 5% error rate in 5 minutes |
+| --- | --- | --- |
+| VPA provisioning failures | High | Stuck longer than 5 minutes |
+| Contract negotiation errors | Medium | Error rate > 5% over 5 minutes |
 | Transfer failures | High | 3+ consecutive failures |
 | Cell health degradation | Critical | < 50% ready pods |
-| Credential expiry | Medium | Approaching within 7 days |
+| Credential expiry | Medium | Expires within 7 days |
 
 ### Defining SLAs
 
-Your service level agreements should address both availability and performance. These targets represent industry-standard expectations for production infrastructure services—adjust based on your operational maturity and customer requirements.
+Your service level agreements should address both availability and performance.
 
-**Availability Targets:**
-- CFM API: 99.9%
-- DSP APIs (catalog, negotiation): 99.95%
-- Data Plane transfer execution: 99.9%
-- Credential Service verification: 99.9%
+**Availability targets:**
 
-**Performance Targets:**
-- Catalog queries: < 500ms (P95)
-- End-to-end contract negotiation: < 2 seconds
-- VPA provisioning: < 60 seconds
-- Transfer initiation: < 1 second
+| Service | Target |
+| --- | --- |
+| `CFM` API | 99.9% |
+| `DSP` APIs (catalog + negotiation) | 99.95% |
+| Data Plane transfer execution | 99.9% |
+| Credential Service verification | 99.9% |
+
+**Performance targets:**
+
+| Metric | Target |
+| --- | --- |
+| Catalog queries | < 500ms at P95 |
+| Contract negotiation | < 2 seconds end-to-end |
+| VPA provisioning | < 60 seconds |
+| Transfer initiation | < 1 second |
 
 ### Pricing Dimensions
 
-For usage-based pricing, track metrics that align with delivered value. The right pricing model depends on your market positioning—some customers prefer predictable flat fees, while others benefit from consumption-based models that scale with their usage.
+For usage-based pricing, track metrics that align with delivered value.
 
 | Metric | Reflects |
-|--------|----------|
+| --- | --- |
 | Active VPAs per month | Infrastructure footprint |
 | Contracts negotiated | Business activity |
-| Data volume | Actual sharing |
+| Data volume shared | Actual sharing |
 | API requests | Catalog queries and negotiations |
 | Edge Data Plane instances | On-premise deployments |
 | Credential issuances | Trust infrastructure usage |
@@ -560,80 +614,58 @@ For usage-based pricing, track metrics that align with delivered value. The righ
 
 ## Getting Started
 
-With the architectural understanding and operational knowledge from this guide, you're ready to begin implementation. The path from reading documentation to running production infrastructure has several stages, and rushing through them often creates problems that are expensive to fix later. Take the time to build genuine understanding before committing to architectural decisions.
+With the architectural understanding from this guide, you're ready to begin implementation. The path from documentation to production infrastructure has several stages, and rushing through them often creates problems expensive to fix later.
 
-### Recommended Path
+Implementation goes faster when you build intuition before you build automation. Use this path to get from concepts to a running stack:
 
-1. **Read the Decision Maker Guide** — Strategic context and business case for DSaaS. Provides the "why" that complements this guide's "how."
+1. Read the **Decision Maker Guide** for the strategic "why"
+2. Deploy **JAD (Just Another Demonstrator)** for hands-on exploration
+3. Study the architecture docs on VPAs, Cells, Service Virtualization, and trust model rationale
 
-2. **Deploy JAD (Just Another Demonstrator)** — Complete reference implementation for hands-on exploration. Understand how all the pieces fit together before attempting production deployment.
-
-3. **Deepen your understanding** through the architecture documentation:
-   - Evolution from traditional to modern architecture and why CFM exists
-   - VPAs, Cells, and Service Virtualization in detail
-   - CFM, Credential Service, Control Plane, and Data Plane specifics
-   - Trust model in dataspaces and the rationale behind architectural decisions
+After this, you should be able to sketch your own “cells + `VPA`s + trust boundary” diagram and explain it to both SREs and architects. If not, revisit Part 1 and Part 3—those are the load-bearing models.
 
 ### Plan Your Deployment
 
-Every DSaaS deployment is shaped by its specific context—your existing infrastructure, your target customers, and the dataspaces you intend to support. Taking time to think through these questions before writing code saves significant rework later. Consider your specific requirements:
+Every deployment is shaped by its specific context. Before writing code, consider:
 
-- Which cloud regions? What are the latency implications?
-- What compliance requirements must you meet?
-- Expected tenant count at launch and over time?
-- Do customers need edge Data Plane capabilities?
-- Which deployment templates align with your target customers?
+- Cloud regions and latency implications
+- Compliance requirements you must meet
+- Expected tenant count at launch and growth trajectory
+- Whether customers need edge Data Plane capabilities
+- Which deployment templates match your target customers
 
-Document your answers to these questions. They'll inform decisions throughout implementation and help you explain your architecture to stakeholders who join the project later.
+Document your answers. They'll inform decisions throughout implementation and help explain your architecture to stakeholders who join later.
 
 ### Engage with the Community
 
-The dataspace ecosystem is collaborative by nature. Engaging with the community accelerates your learning and helps you avoid common pitfalls.
+The dataspace ecosystem is collaborative by nature:
 
-- **Eclipse EDC GitHub repositories** — Source code and issues
-- **EDC Community Discussions** — Questions and knowledge sharing
-- **Dataspace Working Group** — Broader ecosystem engagement
+- Eclipse EDC GitHub repositories for source code and issues
+- EDC Community Discussions for questions and knowledge sharing
+- Dataspace Working Group for broader ecosystem engagement
+
+Operationally, this matters because you’re building on evolving standards and reference implementations. Staying close to the upstream community is how you de-risk protocol changes, security fixes, and interoperability edge cases.
 
 ---
 
 ## Summary
 
-This guide has presented DSaaS through three essential perspectives that together give you a complete picture of what you're building. Each perspective reveals different aspects of the same architecture, and understanding all three is essential for successful implementation.
+This guide presented an operator’s view of `EDC-V` with `CFM` through three perspectives that together form a complete blueprint.
 
-### Key Takeaways by Perspective
+| Perspective | Core message |
+| --- | --- |
+| Operations | CFM provisions infrastructure but is not in the runtime trust path |
+| User | Customers do not need to understand EDC internals; the platform abstracts them |
+| Data Plane | Trust is decentralized while operations are centralized, enabling scale |
 
-**Operations Perspective**
-- Cloud-native infrastructure at the base
-- Connector Fabric Manager for orchestration
-- Virtual Participant Agents serving tenants
-- **Key insight:** CFM provisions infrastructure but isn't in the runtime trust path—live data sharing continues even during management plane maintenance
+The architecture succeeds because it chooses the right abstractions for a managed service. You operate cells and provisioning workflows, while tenants operate policies and integrations. Interoperability holds because `DCP`/`DSP`/`DPS` keep deployment choices out of the protocol contract.
 
-**User Perspective**
-- Customer Portal for tenant management
-- Flow from Governance Authority through credential issuance
-- Data model hierarchy: Tenants → Participant Profiles → Dataspace Profiles → VPAs
+Use this checklist to turn the model into a roadmap:
 
-**Data Plane Perspective**
-- Security boundary between trust infrastructure and data infrastructure
-- Three protocols (DCP, DSP, DPS) connecting participants across public networks
-- Deployment flexibility: fully managed, hybrid, or self-hosted
+- Deploy `JAD` locally for hands-on familiarity
+- Walk through tenant onboarding to understand the customer journey
+- Test deployment scenarios across fully managed, hybrid, and partner/self-hosted
+- Design your production architecture around explicit constraints (regions, residency, scale)
+- Start implementing incrementally: management plane first, then runtime cells, then onboarding automation
 
-### Why This Architecture Works
-
-The DSaaS architecture succeeds because it makes the right tradeoffs for operating dataspace infrastructure at scale. It prioritizes operational efficiency without compromising on security or sovereignty. It embraces standardization where interoperability matters while allowing flexibility where customers have unique requirements.
-
-| Property | How It's Achieved |
-|----------|-------------------|
-| Resource-efficient | Shared runtimes and configuration-based isolation |
-| Operationally manageable | Centralized operations and automated provisioning |
-| Production-ready | Clear separation of concerns, protocol standardization |
-
-The architecture also future-proofs your investment. As the dataspace ecosystem evolves—new protocols, new credential types, new deployment patterns—the modular design lets you adopt improvements without rebuilding from scratch. You're not locked into today's specific implementations; you're building on a foundation designed for continuous evolution.
-
-### Next Steps
-
-1. Deploy JAD locally to build hands-on familiarity
-2. Walk through tenant onboarding to understand customer experience
-3. Test deployment scenarios: fully managed, hybrid with edge Data Planes, partner connectivity
-4. Design production architecture based on your specific requirements
-5. Begin building your DSaaS offering
+The goal is momentum without surprises: make one boundary “real” at a time, and keep the system observable as you add scale.
