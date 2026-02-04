@@ -16,6 +16,15 @@ mbuchhorn:
     linkedin: mbuchhorn
     github: ma3u
 
+a20h:
+  name: Andreas Huber
+  title: Data Space Builder
+  url: https://linkedin.com/in/huber2002090
+  image_url: /img/authors/a20h.jpeg
+  socials:
+    linkedin: huber2002090
+    github: a20h
+
 team:
   name: Dataspace Builders Team
   title: Dataspace Builders
