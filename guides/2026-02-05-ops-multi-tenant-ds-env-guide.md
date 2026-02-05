@@ -1,6 +1,6 @@
 ---
 slug: ops-multi-tenant-ds-env-guide
-title: "Operating Multi-Tenant Dataspace Environments with EDC-V and CFM"
+title: "Operating Multi-Tenant Dataspace Environments"
 authors: [ndkrimbacher]
 tags: [implementation, architecture, cloud-providers]
 description: "A practical operator blueprint for EDC-V + CFM: provision VPAs into shared cells, separate management-plane automation from runtime trust decisions, and run production operations (scaling, HA, observability) for multi-tenant dataspaces."
@@ -12,67 +12,68 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import Image from '@site/src/components/Image';
 
-Operating multi-tenant dataspace environments requires an architectural model that is both scalable and predictable. **EDC-V**, combined with the Connector Fabric Manager (**CFM**), provides exactly that: a way to deliver dataspace capabilities as a managed platform rather than a collection of individual connector deployments. Instead of treating each participant as a separate infrastructure footprint, service virtualization turns participant contexts into lightweight, repeatable units that the platform can provision and operate at scale.
+Operating multi-tenant dataspace environments requires an architectural model that is both scalable and predictable. The [Virtual Connector](https://github.com/eclipse-edc/Virtual-Connector/blob/main/README.md)(EDC-V), combined with the [Connector Fabric Manager](https://projects.eclipse.org/proposals/eclipse-connector-fabric-manager)(CFM), provides exactly that: a way to deliver dataspace capabilities as a managed platform rather than a collection of individual connector deployments. Instead of treating each participant as a separate infrastructure footprint, service virtualization turns participant contexts into lightweight, repeatable units that the platform can provision and operate at scale.
 
-In practice, this is how cloud providers and enterprises build digital ecosystems at scale: by making partner participation repeatable, governed, and interoperable without per-tenant infrastructure.
+In practice, this is how cloud providers and enterprises build digital ecosystems at scale: by making partner participation repeatable, governed, and interoperable witho a cost effective multi-tenant infrastructure.
 
-This guide explains how to run that platform effectively. It brings the core pieces of the EDC-V ecosystem—identity, policy evaluation, negotiation, and data flow—into a coherent operational model that cloud providers and enterprise platform teams can adopt with confidence. Whether you're onboarding participants, automating Virtual Participant Agent (**VPA**) provisioning, or scaling runtime capacity, the goal is to give you a blueprint for reliable operations across multiple dataspaces.
+This guide explains how to run that enterprise platform effectively. It brings the core pieces of the [Eclipse Dataspace Components](https://eclipse-edc.github.io/documentation/for-adopters/) ecosystem: connector data and controlplane, catalog, identity, access and usage policies, contract negotiation into a coherent operational model that cloud providers and data platform teams can adopt with confidence. Whether you're onboarding participant, virtual participant agent (VPA), or scaling runtime capacity, the goal is to give you a blueprint for reliable operations across multiple dataspaces.
 
 The guide is structured around three perspectives that together form the foundation for operating EDC-V in production:
 
-- **What you operate** — the cloud-native foundation, the CFM management plane, and the shared runtime cells that host VPA contexts.
-- **What participants experience** — onboarding, credential handling, catalog publication, and sharing workflows easily manageable through the customer portal.
-- **How data is shared across boundaries** — the protocol choreography for sharing, trust evaluation, and separation of control plane and data plane responsibilities that enable trusted data sharing.
+- **Operation**: the cloud-native foundation, the CFM management plane, and the shared runtime cells that host VPA contexts.
+- **Participant experience**: onboarding, credential handling, catalog publication, and sharing workflows easily manageable through the customer portal.
+- **Data Sharing**: the protocol choreography for sharing, trust evaluation, and separation of control plane and data plane responsibilities that enable trusted data sharing.
 
-This guide is written for teams responsible for running EDC-V as a service—those who need to understand not only how the components work individually, but how they behave as a platform. The aim is to provide a practical, implementation-oriented view of multi-tenant operation: one that turns dataspaces from conceptual architecture into a dependable, production-ready environment.
+This guide is written for teams responsible for running a dataspace as a service for multiple customers, those who need to understand how to operate these components cost-effectively and scaleably. The aim is to provide a practical, implementation-oriented view of multi-tenant operation: one that turns dataspaces into a production-ready environment.
 
 {/* truncate */}
 
-## TL;DR
+## Summary
 
 At a high level, operating **EDC-V** at scale means running a **management plane** (**CFM**) plus a **shared runtime** that hosts isolated **VPA** contexts. The goal is to keep that runtime predictable to operate and straightforward to scale.
 
-- **You run**: a management plane (CFM) plus shared runtime cells hosting **Virtual Participant Agents (VPAs)**.
+- **As Operator you run**: a management plane (CFM) plus shared runtime cells hosting **Virtual Participant Agents (VPAs)**.
 - **Your customers use**: the Customer Portal to onboard, manage **Decentralized Identifiers (DIDs)** and credentials, publish and contract data, and configure data planes.
-- **Data moves**: peer-to-peer between participants over open protocols (**DCP**, **DSP**, **DPS**), with each participant keeping control of its own security domain (identity, policy, and enforcement).
+- **Data moves**: peer-to-peer between participants over open protocols: [Decentralized Claims Protocol](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/) (DCP), [Dataspace Protocol](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/) (DSP), [Data Plane Signaling Protocol](https://projects.eclipse.org/projects/technology.dataplane-signaling) (DPS).
 
 Operationally, onboarding and lifecycle management are centralized, while trust and sharing decisions remain decentralized between participants.
 
-## Benefits Summary
+## Benefits 
 
 This operating model is worth implementing when you’re trying to make EDC-based data sharing repeatable and operable. The goal is to turn “deploy a connector project” into “provision a participant context.”
 
-- **Reduced operations cost**: operate shared cells and automate provisioning instead of running per-tenant stacks.
-- **Faster onboarding**: move onboarding from hand-crafted deployments to CFM workflows and templates.
-- **Better scalability for ecosystem growth**: add capacity by scaling cells, not by multiplying bespoke deployments.
-- **Interoperability with any dataspace**: `DCP`/`DSP`/`DPS` keep you compatible with external and self-hosted participants.
-- **Sovereignty-friendly runtime**: policy decisions stay peer-to-peer; data planes run close to the data.
+- **Operations cost**: operate shared cells and automate provisioning instead of running per-tenant stacks.
+- **Onboarding**: move onboarding from hand-crafted deployments to CFM workflows and templates.
+- **Scalability**: add capacity by scaling cells, not by multiplying bespoke deployments.
+- **Sovereignty**: policy decisions stay peer-to-peer; data planes run close to the data.
+- **Interoperability**: `DCP`/`DSP`/`DPS` protocol keep you compatible with external and self-hosted participants.
+
 
 If you need the strategic framing and business outcomes, read the [Decision Maker Guide](/guides/decision-maker-guide). This guide stays focused on what you have to build and operate.
 
 ## How to Read This Guide
 
-This architecture becomes clearer once you can answer three questions without hand-waving: what you operate, what your participants touch, and what actually happens on the wire. We’ll build that mental model in one pass, then reuse it for deployment and operations decisions.
+You will answer three questions: 
 
 1. **What you run** (platform architecture)
 2. **What your customers do** (tenant experience)
 3. **How data actually moves** (sharing runtime)
 
-Use this as a map. Each part introduces a boundary (operational, product, network) that the later parts assume—so if something feels unclear, it’s usually because a boundary hasn’t been made explicit yet.
+Use this as a map. Each part introduces a boundary (operational, product, network) that the later parts assume, so if something feels unclear, it’s usually because a boundary hasn’t been made explicit yet.
 
 **Who This Guide Is For:**
 
-This guide is written for teams responsible for operating, securing, and evolving the stack—and for stakeholders who need to understand and validate its trust boundaries.
+This guide is written for teams responsible for operating, securing enterprise data sharing platforms:
 
-- **Platform teams** deploying and operating `EDC-V` with `CFM`
-- **Enterprise architects** who need the runtime model and trust boundaries
+- **Enterprise architects** who need to define the generic runtime model and trust boundaries
 - **Solutions architects** mapping customer constraints to deployment patterns
+- **Platform teams** deploying and operating dataspace components at scale
 
-If you’re building business apps on top of `EDC-V`, you’ll still benefit from the “how data moves” section—but this guide stays focused on the platform and operational model rather than app-level connector configuration.
+If you’re building business apps or value added services, you’ll still benefit from the “how data moves” section, but this guide stays focused on the platform and operational model rather than app-level connector configuration.
 
 ---
 
-## Part 1: What You Run — The EDC-V and CFM Platform Architecture
+## Part 1: Platform Architecture for Operators
 
 This section starts from the operator’s perspective: the components you deploy, monitor, and scale. It intentionally defers end-user workflows and sharing choreography until the platform model and operational boundaries are clearly established.
 
@@ -101,7 +102,7 @@ To make responsibilities and security boundaries explicit, EDC-V separates parti
 
 ### The Infrastructure Foundation
 
-Run `EDC-V` on standard cloud-native infrastructure and keep the foundation intentionally “boring.” Your goal at this layer is operational certainty: predictable failure modes, repeatable deployment patterns, and runbooks your teams already know how to execute.
+Run `EDC-V` on standard cloud-native infrastructure and keep the foundation intentionally “simple”. Your goal at this layer is operational certainty: predictable failure modes, repeatable deployment patterns, and runbooks your teams already know how to execute.
 
 Treat identity, secrets, persistence, networking, and observability as first-class dependencies. They sit on the critical path for onboarding and day-to-day operation, and they define how confidently you can scale cells, rotate credentials, recover from incidents, and demonstrate compliance. Prefer managed offerings and proven platform primitives over custom infrastructure—especially for IAM/IDP integration, secret storage, database backups, and telemetry pipelines.
 
@@ -210,7 +211,7 @@ Each `VPA` is targeted to a `cell` (a homogeneous deployment zone such as a Kube
 **Context Isolation** ensures that while `VPA`s share infrastructure, they are logically isolated. One participant context cannot see or access another participant’s data, credentials, or configuration.
 :::
 
-### The Mental Model Shift
+### The Mental Model Shift for Multi-Tenant Operations
 
 If you're coming from traditional single-tenant connector deployments, the operational model changes fundamentally. Traditional deployments follow a simple equation: one connector equals one process. You deploy separate infrastructure for each tenant, scale by adding containers, and manage operations on a per-tenant basis.
 
@@ -231,7 +232,7 @@ This shift makes scaling sub-linear rather than linear with tenant count. You ma
 
 ---
 
-## Part 2: What Your Customers Do — Tenant Experience & Dataspace Workflows
+## Part 2: Your Customer User Journey
 
 Now that you understand what you're operating, let's look at the platform from the users' perspective. How do organizations onboard? What do they interact with? How do trust frameworks, claims, and policies connect to day-to-day platform workflows?
 
@@ -318,7 +319,7 @@ The portal manages a clear hierarchy of concepts that reflects how organizations
 An automotive supplier might have one Dataspace Profile for Catena-X and another for Manufacturing-X, both served by a single infrastructure instance.
 :::
 
-#### Day-2 Tenant Workflows
+#### Tenant Workflows
 
 After onboarding, most tenant activity is “day-2” configuration and operations through the portal (and the apps it supports):
 
@@ -408,7 +409,7 @@ A common hardening pattern is to use a dedicated client identity for vault acces
 
 This separation also makes credential rotation and incident response simpler: you can revoke vault access without disrupting tenant application access (and vice versa).
 
-## Part 3: How Data Actually Moves — Data Planes & Deployment Patterns
+## Part 3: Deployment of Data Planes
 
 The first two perspectives showed you the platform and the user experience. Now we examine what makes trusted data sharing actually work: how data flows between organizations while maintaining sovereignty and security.
 
@@ -596,7 +597,7 @@ The dataspace ecosystem is collaborative by nature:
 
 Operationally, this matters because you’re building on evolving standards and reference implementations. Staying close to the upstream community is how you de-risk protocol changes, security fixes, and interoperability edge cases.
 
-## Summary
+## Wrap-Up
 
 This guide described an operator’s model for **operating multi-tenant dataspace environments** with `EDC-V` and `CFM`: scale trusted data sharing without turning operations into the bottleneck—or centralizing trust.
 
