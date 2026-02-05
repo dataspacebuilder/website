@@ -59,7 +59,7 @@ const Pathways = [
     description: 'From complexity to commodity. Deploy the EDC stack on your platform and turn data sharing capabilities into a managed service.',
     icon: '🏗️',
     cta: 'Implementation Guide',
-    ctaLink: '/guides/dsaas-implementation-guide',
+    ctaLink: '/guides/ops-multi-tenant-ds-env-guide',
     highlights: ['EDC stack architecture', 'Production operations', 'Multi-tenant setup'],
   },
   {
@@ -69,7 +69,7 @@ const Pathways = [
     description: 'From weeks to days. Learn how to integrate dataspace capabilities into your systems and build applications on DSaaS.',
     icon: '👩‍💻',
     cta: 'Implementation Guide',
-    ctaLink: '/guides/dsaas-implementation-guide',
+    ctaLink: '/guides/ops-multi-tenant-ds-env-guide',
     highlights: ['DSaaS integration', 'On-premise data planes', 'Application development'],
   },
 ];
