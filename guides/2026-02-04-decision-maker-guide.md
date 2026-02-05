@@ -1,6 +1,6 @@
 ---
 slug: decision-maker-guide
-title: "The Business Case for DSaaS"
+title: "Monitarization strategy for Dataspace-as-a-Service"
 authors: [a20h]
 tags: [strategy, business, decision-maker]
 description: "A strategic guide for decision makers exploring Dataspace-as-a-Service. Understand how trusted data sharing creates business value, the market momentum behind dataspaces, and why DSaaS is the fastest path to participation."
@@ -11,7 +11,7 @@ image: /img/guides/decision-maker/dec-maker-cover.jpeg
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Data has become the currency of modern business. But while organizations have mastered internal data management, sharing data across organizational boundaries remains surprisingly difficult. Dataspaces solve this problem—and Dataspace-as-a-Service (DSaaS) makes the solution accessible at scale.
+Data has become the currency of modern business. But while organizations have mastered internal data management, sharing data across organizational boundaries remains surprisingly difficult. Operators solve this problem with Dataspace-as-a-Service (DSaaS).
 
 {/* truncate */}
 
@@ -21,25 +21,25 @@ This guide provides a business-level understanding of trusted data sharing: why 
 
 ## The Trusted Data Sharing Ecosystem
 
-Before diving into specifics, it helps to see the complete picture. The trusted data sharing ecosystem consists of three interconnected layers that work together to enable secure, sovereign data exchange between organizations.
+The trusted data sharing ecosystem consists of three interconnected layers that work together to enable secure, sovereign data exchange between organizations.
 
 ![The Trusted Data Sharing Ecosystem](/img/guides/decision-maker/dec-maker-1.jpeg)
 
 ### Community & Protocols: The Foundation
 
-The left panel represents the foundation that makes trusted data sharing possible—open standards developed by the community.
+The left panel represents the foundation that makes trusted data sharing possible with open standards developed by the open-source community.
 
 Three protocols form the core:
 
-- **DCP (Decentralized Claims Protocol)** answers "Who are you?" It enables organizations to prove their identity and attributes without relying on a central authority.
-- **DSP (Data Space Protocol)** handles "Let's agree." It manages catalog discovery, contract negotiation, and the terms under which data can be shared.
-- **DPS (Data Plane Signaling)** coordinates "Data flows." It ensures that once agreements are reached, data moves according to what was agreed.
+- [Decentralized Claims Protocol](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol/) (DCP) answers "Who are you?" It enables organizations to prove their identity and attributes without relying on a central authority.
+- [Data Space Protocol](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/) (DSP) handles "Let's agree." It manages catalog discovery, contract negotiation, and the terms under which data can be shared.
+- [Data Plane Signaling](https://projects.eclipse.org/projects/technology.dataplane-signaling) (DPS) coordinates "Data flows." It ensures that once agreements are reached, data moves according to what was agreed.
 
-These protocols are built on a trust foundation of international standards from ISO, W3C, CEN-CENELEC, and Eclipse. This isn't proprietary technology—it's open specification turned into interoperable software that ensures organizations aren't locked into a single vendor or platform.
+These protocols are built on a trust foundation of international standards from ISO, W3C, CEN-CENELEC, and Eclipse. It's open specification turned into interoperable software that ensures organizations aren't locked into a single vendor or platform.
 
 ### Hosting Environment: Enabling Scale
 
-The center panel shows how the Eclipse Dataspace Components (EDC) stack transforms these protocols into a managed service capable of supporting thousands of participants on shared infrastructure.
+The center panel shows how the [Eclipse Dataspace Components](https://eclipse-edc.github.io/documentation/for-adopters/) (EDC) stack transforms these protocols into a managed service capable of supporting thousands of participants on shared infrastructure.
 
 **Virtual Participant Agents (VPAs)** are the key innovation. Rather than deploying separate infrastructure for each organization, VPAs provide isolated contexts within shared resources. Each organization gets:
 
@@ -108,18 +108,18 @@ This is where DSaaS becomes essential. Self-hosting dataspaces infrastructure is
 
 ### Regulatory Drivers
 
-The European Data Act, Data Governance Act, and sector-specific regulations are creating both requirement and opportunity for trusted data sharing. Organizations will need to demonstrate data sharing capabilities—and those who can provide that capability as a service will find ready customers.
+The European [Data Act](https://digital-strategy.ec.europa.eu/en/policies/data-act), [Data Governance Act](https://digital-strategy.ec.europa.eu/en/policies/data-governance-act), and sector-specific regulations like [CSDDD](https://commission.europa.eu/business-economy-euro/doing-business-eu/sustainability-due-diligence-responsible-business/corporate-sustainability-due-diligence_en) are creating both requirement and opportunity for trusted data sharing. Organizations will need to demonstrate data sharing capabilities and those who can provide that capability as a service will find ready customers.
 
 ### Industry Initiatives
 
 Major industry dataspaces are already operational or in advanced deployment:
 
-- **Catena-X** in automotive manufacturing
-- **Manufacturing-X** for industrial production
-- **Mobility Data Space** for transportation
-- **Health Data Spaces** in healthcare across multiple countries
+- [Catena-X](https://catenax-ev.github.io/) in automotive manufacturing and the largest Eclipse initative [Eclipse Tractus-X](https://eclipse-tractusx.github.io/)
+- [Manufacturing-X](https://factory-x.org/manufacturing-x/) for industrial production
+- [Mobility Data Space](https://mobility-dataspace.eu/) in Germany and [EONA-X](https://eona-x.eu/) for transportation and tourism
+- [European Health Data Space](https://health.ec.europa.eu/ehealth-digital-health-and-care/european-health-data-space-regulation-ehds_en) Regulation across multiple countries (e.g. [Sphin-X](https://sphin-x.de/) in Germany)
 
-These initiatives represent thousands of organizations that need dataspace infrastructure. Many will choose managed services over self-hosting.
+These initiatives represent thousands of organizations that establish data sharing infrastructure with value added services. DSaaS providers can target these initiatives with tailored offerings that meet their specific requirements.
 
 ### The Cloud Provider Opportunity
 
@@ -140,7 +140,7 @@ If you operate cloud infrastructure, adding DSaaS to your portfolio means:
 - **Ecosystem effects** as more participants increase value for all
 - **Differentiation** in a competitive cloud market
 
-The EDC stack is designed for multi-tenant operation. The Connector Fabric Manager handles provisioning, the EDC-V runtime supports virtual isolation, and standard cloud-native infrastructure provides the foundation.
+The EDC stack is designed for multi-tenant operation. The Connector Fabric Manager handles provisioning, the EDC-V runtime supports virtual isolation, and standard cloud-native infrastructure provides a cost-effective and scalable foundation.
 
 ### For Organizations: Consume DSaaS
 
@@ -172,9 +172,9 @@ This flexibility de-risks the initial decision. You're choosing a protocol ecosy
 
 Many approaches to data sharing exist, but the Eclipse Dataspace Components stack has unique characteristics:
 
-**Protocol-first architecture**: EDC implements open specifications (DSP, DCP, DPS) ratified by international standards bodies. Any compliant implementation can interoperate, preventing ecosystem fragmentation.
+**Protocol-first architecture**: EDC implements open specifications (DSP, DCP, DPS) ratified by international standards bodies. Any compliant implementation can interoperate, preventing ecosystem fragmentation. The TCK ensures that all implementations meet the same standards for interoperability.
 
-**Multi-tenant by design**: The Connector Fabric Manager and virtual isolation model were built specifically for DSaaS scenarios. This isn't traditional software retrofitted for multi-tenancy—it's engineered for it.
+**Multi-tenant by design**: The Connector Fabric Manager and virtual isolation model were built specifically for DSaaS scenarios. This isn't traditional software retrofitted for multi-tenancy, it's engineered for it.
 
 **Separation of control and data planes**: Trust decisions happen in the Control Plane; data movement happens in the Data Plane. This separation enables flexible deployment patterns and edge scenarios that monolithic architectures cannot support.
 
@@ -190,17 +190,17 @@ EDC powers the infrastructure behind major industry initiatives. Catena-X alone 
 
 ### If You're a Cloud Service Provider
 
-1. **Evaluate the opportunity**: Identify customers already participating in or planning to join dataspaces
-2. **Deploy the JAD demonstrator**: The Just Another Demonstrator provides a complete reference implementation for hands-on exploration
-3. **Read the DSaaS Implementation Guide**: Understand the operational model for running dataspaces infrastructure
-4. **Engage with the ecosystem**: Join the Eclipse EDC community to connect with others building DSaaS offerings
+1. **Evaluate the opportunity**: Identify customers for whom trusted data sharing is a priority. Look for industry initiatives, regulatory drivers, or strategic use cases that create demand.
+2. **Deploy demonstrators**: The [Just Another Demonstrator ](https://github.com/Metaform/jad/blob/main/README.md)provides a complete reference implementation for hands-on exploration
+3. **Read the DSaaS Implementation Guide**: Understand the operational model for running dataspaces infrastructure. Checkout existing operating models like [Catena-X](https://catenax-ev.github.io/docs/operating-model/why-introduction).
+4. **Engage with the ecosystem**: Join the [Eclipse EDC community](https://dataspace.eclipse.org/) to connect with others building DSaaS offerings
 
 ### If You're an Organization
 
-1. **Identify your dataspaces**: Which industry initiatives or partner ecosystems require dataspace participation?
-2. **Assess your requirements**: What data do you want to share? What do you want to access? What policies must be enforced?
+1. **Identify your dataspaces**: Which industry initiatives or partner ecosystems build on data monetization?
+2. **Assess your requirements**: What data do you want to share? Which data do you need to drive your businesss? What policies must be enforced?
 3. **Select a DSaaS provider**: Look for providers with experience in your industry and the technical capabilities you need
-4. **Start small**: Begin with a limited use case to learn the model before scaling
+4. **Start small**: Begin with one use case to learn the model before scaling
 
 ### Next Steps
 
