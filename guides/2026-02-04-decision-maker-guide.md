@@ -2,7 +2,7 @@
 slug: decision-maker-guide
 title: "The Business Case for DSaaS"
 authors: [a20h]
-tags: [strategy, business, dsaas, decision-maker]
+tags: [strategy, business, decision-maker]
 description: "A strategic guide for decision makers exploring Dataspace-as-a-Service. Understand how trusted data sharing creates business value, the market momentum behind dataspaces, and why DSaaS is the fastest path to participation."
 keywords: [DSaaS, Dataspace-as-a-Service, trusted data sharing, data ecosystem, Eclipse Dataspace Components, EDC, business strategy, cloud provider]
 image: /img/guides/decision-maker/dec-maker-cover.jpeg
