@@ -1,9 +1,9 @@
 ---
-slug: dsaas-implementation-guide
+slug: ops-multi-tenant-ds-env-guide
 title: "Operating Multi-Tenant Dataspace Environments with EDC-V and CFM"
 authors: [ndkrimbacher]
 tags: [implementation, architecture, cloud-providers]
-description: "An operator’s guide to running EDC-V with CFM: service virtualization, VPAs, cells, and production operations for multi-tenant dataspace environments."
+description: "A practical operator blueprint for EDC-V + CFM: provision VPAs into shared cells, separate management-plane automation from runtime trust decisions, and run production operations (scaling, HA, observability) for multi-tenant dataspaces."
 keywords: [EDC-V, EDC, Eclipse Dataspace Components, CFM, Connector Fabric Manager, service virtualization, multi-tenant, VPA, Virtual Participant Agent, cell]
 image: /img/guides/dsaas-implementation/dsaas-impl-cover.jpeg
 ---
