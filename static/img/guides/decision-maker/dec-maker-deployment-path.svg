@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" width="760" height="280">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    </style>
+    <filter id="s6" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-opacity="0.06"/>
+    </filter>
+    <marker id="stepArr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7" fill="#1a5f7a"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="760" height="280" rx="10" fill="#fafaf8"/>
+
+  <!-- Title -->
+  <text x="380" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">Deployment Evolution Path</text>
+  <text x="380" y="50" text-anchor="middle" font-size="11" fill="#717171">Migrate at your own pace — protocol interoperability preserved at every step</text>
+
+  <!-- Step 1: Start Managed -->
+  <g filter="url(#s6)">
+    <rect x="32" y="72" width="204" height="134" rx="10" fill="white" stroke="#a7f3d0" stroke-width="2"/>
+  </g>
+  <rect x="32" y="72" width="204" height="36" rx="10" fill="#047857"/>
+  <rect x="32" y="90" width="204" height="18" fill="#047857"/>
+  <text x="50" y="93" font-size="10" font-weight="600" fill="rgba(255,255,255,0.7)" letter-spacing="0.08em">STEP 1</text>
+  <text x="134" y="93" font-size="10" fill="rgba(255,255,255,0.5)">— Most organizations start here</text>
+  <text x="134" y="132" text-anchor="middle" font-size="16" font-weight="700" fill="#065f46">Start Managed</text>
+  <text x="134" y="156" text-anchor="middle" font-size="12" fill="#4a4a4a">Full DSaaS</text>
+  <line x1="60" y1="170" x2="208" y2="170" stroke="#e2e0dc" stroke-width="1"/>
+  <text x="134" y="190" text-anchor="middle" font-size="10" fill="#717171">All components hosted</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="242" y1="139" x2="274" y2="139" stroke="#1a5f7a" stroke-width="2.5" marker-end="url(#stepArr)"/>
+
+  <!-- Step 2: Go Hybrid -->
+  <g filter="url(#s6)">
+    <rect x="278" y="72" width="204" height="134" rx="10" fill="white" stroke="#c5dce5" stroke-width="2"/>
+  </g>
+  <rect x="278" y="72" width="204" height="36" rx="10" fill="#1a5f7a"/>
+  <rect x="278" y="90" width="204" height="18" fill="#1a5f7a"/>
+  <text x="296" y="93" font-size="10" font-weight="600" fill="rgba(255,255,255,0.7)" letter-spacing="0.08em">STEP 2</text>
+  <text x="380" y="93" font-size="10" fill="rgba(255,255,255,0.5)">— As needs evolve</text>
+  <text x="380" y="132" text-anchor="middle" font-size="16" font-weight="700" fill="#0e3d4f">Go Hybrid</text>
+  <text x="380" y="156" text-anchor="middle" font-size="12" fill="#4a4a4a">Managed CP + On-prem DP</text>
+  <line x1="306" y1="170" x2="454" y2="170" stroke="#e2e0dc" stroke-width="1"/>
+  <text x="380" y="190" text-anchor="middle" font-size="10" fill="#717171">Data Planes close to data sources</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="488" y1="139" x2="520" y2="139" stroke="#1a5f7a" stroke-width="2.5" marker-end="url(#stepArr)"/>
+
+  <!-- Step 3: Full Control -->
+  <g filter="url(#s6)">
+    <rect x="524" y="72" width="204" height="134" rx="10" fill="white" stroke="#ddd6fe" stroke-width="2"/>
+  </g>
+  <rect x="524" y="72" width="204" height="36" rx="10" fill="#5b21b6"/>
+  <rect x="524" y="90" width="204" height="18" fill="#5b21b6"/>
+  <text x="542" y="93" font-size="10" font-weight="600" fill="rgba(255,255,255,0.7)" letter-spacing="0.08em">STEP 3</text>
+  <text x="626" y="93" font-size="10" fill="rgba(255,255,255,0.5)">— Optional</text>
+  <text x="626" y="132" text-anchor="middle" font-size="16" font-weight="700" fill="#5b21b6">Full Control</text>
+  <text x="626" y="156" text-anchor="middle" font-size="12" fill="#4a4a4a">Self-Hosted</text>
+  <line x1="552" y1="170" x2="700" y2="170" stroke="#e2e0dc" stroke-width="1"/>
+  <text x="626" y="190" text-anchor="middle" font-size="10" fill="#717171">Complete operational autonomy</text>
+
+  <!-- Protocol interoperability bar -->
+  <rect x="32" y="222" width="696" height="30" rx="6" fill="#1a5f7a"/>
+  <text x="380" y="241" text-anchor="middle" font-size="11" font-weight="600" fill="white" letter-spacing="0.03em">Protocol interoperability preserved at every step — DSP · DCP · DPS</text>
+
+  <!-- No lock-in message -->
+  <text x="380" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#0e3d4f">No vendor lock-in at any stage. You're choosing a protocol ecosystem, not a platform.</text>
+</svg>

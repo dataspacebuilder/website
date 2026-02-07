@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 340" width="920" height="340">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    </style>
+    <filter id="s5" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="920" height="340" rx="12" fill="#fafaf8"/>
+  <rect x="0" y="0" width="920" height="4" rx="2" fill="#1a5f7a"/>
+
+  <!-- Title -->
+  <text x="460" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#1a1a1a">Industry Dataspaces in Production</text>
+  <text x="460" y="56" text-anchor="middle" font-size="12" fill="#717171">Operational environments with active participants and live data exchange</text>
+
+  <!-- Four sector columns -->
+  <!-- Column 1: Automotive -->
+  <g filter="url(#s5)">
+    <rect x="30" y="76" width="204" height="216" rx="10" fill="white" stroke="#e2e0dc" stroke-width="1"/>
+  </g>
+  <rect x="30" y="76" width="204" height="6" rx="3" fill="#0e3d4f"/>
+  <circle cx="132" cy="112" r="22" fill="#e8f1f5"/>
+  <text x="132" y="119" text-anchor="middle" font-size="22">🚗</text>
+  <text x="132" y="150" text-anchor="middle" font-size="10" font-weight="600" fill="#1a5f7a" letter-spacing="0.08em">AUTOMOTIVE</text>
+  <line x1="62" y1="162" x2="202" y2="162" stroke="#e2e0dc" stroke-width="1"/>
+  <text x="132" y="182" text-anchor="middle" font-size="13" font-weight="700" fill="#0e3d4f">Catena-X</text>
+  <text x="132" y="200" text-anchor="middle" font-size="11" fill="#4a4a4a">Eclipse Tractus-X</text>
+  <line x1="62" y1="214" x2="202" y2="214" stroke="#f0eeea" stroke-width="1"/>
+  <text x="132" y="234" text-anchor="middle" font-size="10" fill="#717171">Hundreds of organizations</text>
+  <rect x="70" y="248" width="124" height="18" rx="4" fill="#ecfdf5"/>
+  <text x="132" y="261" text-anchor="middle" font-size="9" font-weight="600" fill="#047857">Largest Eclipse initiative</text>
+
+  <!-- Column 2: Manufacturing -->
+  <g filter="url(#s5)">
+    <rect x="252" y="76" width="204" height="216" rx="10" fill="white" stroke="#e2e0dc" stroke-width="1"/>
+  </g>
+  <rect x="252" y="76" width="204" height="6" rx="3" fill="#1a5f7a"/>
+  <circle cx="354" cy="112" r="22" fill="#e8f1f5"/>
+  <text x="354" y="119" text-anchor="middle" font-size="22">🏭</text>
+  <text x="354" y="150" text-anchor="middle" font-size="10" font-weight="600" fill="#1a5f7a" letter-spacing="0.08em">MANUFACTURING</text>
+  <line x1="284" y1="162" x2="424" y2="162" stroke="#e2e0dc" stroke-width="1"/>
+  <text x="354" y="182" text-anchor="middle" font-size="13" font-weight="700" fill="#0e3d4f">Manufacturing-X</text>
+  <text x="354" y="200" text-anchor="middle" font-size="11" fill="#4a4a4a">Factory-X</text>
+  <line x1="284" y1="214" x2="424" y2="214" stroke="#f0eeea" stroke-width="1"/>
+  <text x="354" y="234" text-anchor="middle" font-size="10" fill="#717171">Cross-sector ecosystem</text>
+  <rect x="287" y="248" width="134" height="18" rx="4" fill="#e8f1f5"/>
+  <text x="354" y="261" text-anchor="middle" font-size="9" font-weight="600" fill="#1a5f7a">Industrial production</text>
+
+  <!-- Column 3: Mobility -->
+  <g filter="url(#s5)">
+    <rect x="474" y="76" width="204" height="216" rx="10" fill="white" stroke="#e2e0dc" stroke-width="1"/>
+  </g>
+  <rect x="474" y="76" width="204" height="6" rx="3" fill="#2a7f9a"/>
+  <circle cx="576" cy="112" r="22" fill="#e8f1f5"/>
+  <text x="576" y="119" text-anchor="middle" font-size="22">🚆</text>
+  <text x="576" y="150" text-anchor="middle" font-size="10" font-weight="600" fill="#1a5f7a" letter-spacing="0.08em">MOBILITY</text>
+  <line x1="506" y1="162" x2="646" y2="162" stroke="#e2e0dc" stroke-width="1"/>
+  <text x="576" y="182" text-anchor="middle" font-size="13" font-weight="700" fill="#0e3d4f">Mobility Data Space</text>
+  <text x="576" y="200" text-anchor="middle" font-size="11" fill="#4a4a4a">EONA-X</text>
+  <line x1="506" y1="214" x2="646" y2="214" stroke="#f0eeea" stroke-width="1"/>
+  <text x="576" y="234" text-anchor="middle" font-size="10" fill="#717171">Pan-European exchange</text>
+  <rect x="506" y="248" width="140" height="18" rx="4" fill="#f0f9ff"/>
+  <text x="576" y="261" text-anchor="middle" font-size="9" font-weight="600" fill="#0369a1">Transportation &amp; tourism</text>
+
+  <!-- Column 4: Healthcare -->
+  <g filter="url(#s5)">
+    <rect x="696" y="76" width="194" height="216" rx="10" fill="white" stroke="#e2e0dc" stroke-width="1"/>
+  </g>
+  <rect x="696" y="76" width="194" height="6" rx="3" fill="#7c3aed"/>
+  <circle cx="793" cy="112" r="22" fill="#f5f3ff"/>
+  <text x="793" y="119" text-anchor="middle" font-size="22">🏥</text>
+  <text x="793" y="150" text-anchor="middle" font-size="10" font-weight="600" fill="#7c3aed" letter-spacing="0.08em">HEALTHCARE</text>
+  <line x1="718" y1="162" x2="868" y2="162" stroke="#e2e0dc" stroke-width="1"/>
+  <text x="793" y="182" text-anchor="middle" font-size="13" font-weight="700" fill="#5b21b6">EHDS</text>
+  <text x="793" y="200" text-anchor="middle" font-size="11" fill="#4a4a4a">Sphin-X (Germany)</text>
+  <line x1="718" y1="214" x2="868" y2="214" stroke="#f0eeea" stroke-width="1"/>
+  <text x="793" y="234" text-anchor="middle" font-size="10" fill="#717171">Multi-country regulation</text>
+  <rect x="720" y="248" width="146" height="18" rx="4" fill="#f5f3ff"/>
+  <text x="793" y="261" text-anchor="middle" font-size="9" font-weight="600" fill="#7c3aed">Health data regulation</text>
+
+  <!-- Bottom bar -->
+  <rect x="30" y="304" width="860" height="28" rx="6" fill="#0e3d4f"/>
+  <text x="460" y="322" text-anchor="middle" font-size="12" font-weight="600" fill="white">Common pattern: Infrastructure needed once — participation needed many times</text>
+</svg>
