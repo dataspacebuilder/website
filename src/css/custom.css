@@ -215,6 +215,16 @@
   color: white;
 }
 
+[data-theme='dark'] .button--secondary {
+  border-color: white;
+  color: white;
+}
+
+[data-theme='dark'] .button--secondary:hover {
+  background: white;
+  color: var(--ifm-color-primary-darkest);
+}
+
 /* CTA Section */
 .cta-section {
   text-align: center;
