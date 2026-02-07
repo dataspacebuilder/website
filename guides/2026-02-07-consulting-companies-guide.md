@@ -97,7 +97,14 @@ Adopting these domain-specific ontologies guarantees interoperability, allowing 
 
 ## 3. The Data Catalog: Discovery data offers
 
-In a distributed network, visibility is currency. Clients need their data products to be discoverable by potential partners without exposing the raw data itself. Through **Catalog Management & Publication** services, consultants map internal data metadata to the [**W3C DCAT**](https://www.w3.org/TR/vocab-dcat-3/) standard, transforming opaque database tables into clearly defined "Data Offerings" linked to Digital Twins. Implementing Federated Catalog nodes allows these offerings to be broadcast to the network, enabling clients to search for and discover complementary datasets from other partners, fostering a true marketplace of information.
+In a distributed network, visibility is currency. Clients need their data products to be discoverable by potential partners without exposing the raw data itself. Through **Catalog Management & Publication** services, consultants map internal data metadata to the [**W3C DCAT**](https://www.w3.org/TR/vocab-dcat-3/) standard, transforming opaque database tables into clearly defined "Data Offerings" linked to Digital Twins.
+
+To ensure semantic consistency across domains, consultants should also leverage specific **Application Profiles (AP)**:
+*   [**DCAT-AP**](https://semiceu.github.io/DCAT-AP/releases/): The baseline standard for data portals in Europe.
+*   [**HealthDCAT-AP**](https://github.com/SEMICeu/HealthDCAT-AP): Specialized for describing health datasets and patient registries.
+*   [**MobilityDCAT-AP**](https://napcore.github.io/MobilityDCAT-AP/): Tailored for transportation and mobility data exchange.
+
+Implementing Federated Catalog nodes allows these offerings to be broadcast to the network, enabling clients to search for and discover complementary datasets from other partners, fostering a true marketplace of information.
 
 ## 4. Contract Negotiations and Management
 
