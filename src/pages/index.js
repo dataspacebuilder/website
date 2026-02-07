@@ -72,6 +72,16 @@ const Pathways = [
     ctaLink: '/guides/ops-multi-tenant-ds-env-guide',
     highlights: ['DSaaS integration', 'On-premise data planes', 'Application development'],
   },
+  {
+    id: 'consultants',
+    title: 'Consultants',
+    subtitle: 'Value-Added Services',
+    description: 'Transform from integrator to ecosystem architect. Build a service portfolio around identity, governance, and monetization.',
+    icon: '💼',
+    cta: 'Consulting Guide',
+    ctaLink: '/guides/consulting-services-guide',
+    highlights: ['Service Portfolio', 'Monetization Strategy', 'Compliance Integration'],
+  },
 ];
 
 function PathwaysSection() {
