@@ -22,10 +22,10 @@ You cannot evaluate a dataspace by reading about it; you need to see it run. [**
 
 Cloud providers evaluating dataspaces face a practical problem: how to offer the service without running a connector per customer. JAD solves this by demonstrating:
 
-- **A complete, working deployment** — Full architecture, not a toy demo.
-- **Multi-tenant control plane** — [EDC-V](https://github.com/eclipse-edc/Virtual-Connector) keeps economics viable.
-- **Automated tenant management** — [Connector Fabric Manager (CFM)](https://github.com/Metaform/connector-fabric-manager) handles lifecycle.
-- **End-to-end workflows** — Onboarding, credentials, catalog, negotiation, data transfer.
+- **A complete, working deployment**: Full architecture, not a toy demo.
+- **Multi-tenant control plane**:  [EDC-V](https://github.com/eclipse-edc/Virtual-Connector) keeps economics viable.
+- **Automated tenant management**:  [Connector Fabric Manager (CFM)](https://github.com/Metaform/connector-fabric-manager) handles lifecycle.
+- **End-to-end workflows**:  Onboarding, credentials, catalog, negotiation, data transfer.
 
 ## What is a Dataspace?
 
