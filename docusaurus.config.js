@@ -75,13 +75,13 @@ const config = {
           src: 'img/logo.png',
         },
         items: [
+          { to: '/guides', label: 'Guides', position: 'left' },
           {
             type: 'docSidebar',
             sidebarId: 'docsSidebar',
             label: 'Docs',
             position: 'left',
           },
-          { to: '/guides', label: 'Guides', position: 'left' },
           // Architecture link conditionally enabled via ENABLE_ARCHITECTURE env var
           ...(ENABLE_ARCHITECTURE ? [{ to: '/docs/architecture/overview', label: 'Architecture', position: 'left' }] : []),
           { 

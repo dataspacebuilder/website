@@ -1,7 +1,7 @@
 ---
 slug: jad-demonstrator-dataspace-as-a-service
 title: "JAD: The Reference Implementation for Dataspace-as-a-Service"
-authors: [mhartmann]
+authors: [mbuchhorn]
 tags: [implementation, getting-started, reference-architecture]
 description: A scenario-driven guide to JAD (Just Another Demonstrator) for technical decision makers, showing how to automate and scale dataspace services.
 image: /img/guides/jad-demonstrator.jpeg
