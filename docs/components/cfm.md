@@ -94,7 +94,7 @@ CFM is essential when:
 
 CFM is not needed when:
 - You're running a single-tenant, standalone Connector deployment
-- You're evaluating dataspaces with JAD (which pre-provisions participants)
+- You're building a single-organization proof-of-concept without multi-tenant requirements
 
 ## Infrastructure
 
@@ -107,7 +107,14 @@ The messaging architecture (NATS JetStream) enables long-running provisioning wo
 
 ## In JAD
 
-In the [Get Started](../get-started.md) scenario, CFM is what set up the participant environments you're interacting with. You don't interact with CFM directly during the demo — you interact with the results of its provisioning (the Connectors, Identity Hubs, and Data Planes it created).
+In the [Get Started](../get-started.md) scenario, CFM is how you onboard participants. Using the Bruno API collection, you call CFM's REST API to provision a Consumer and a Provider. For each participant, CFM orchestrates the full onboarding workflow:
+
+1. Creates access credentials for Vault and the Administration APIs
+2. Creates a `ParticipantContext` in the Control Plane and Identity Hub
+3. Registers the participant with the IssuerService
+4. Requests Verifiable Credentials from the IssuerService
+
+You can watch the provisioning progress by polling the `Get Participant Profile` endpoint — each entry in the `vpas` array transitions to `"state": "active"` as the asynchronous agents complete their work. Once active, the participants are ready to discover, negotiate, and transfer data.
 
 ## Scope of This Documentation
 

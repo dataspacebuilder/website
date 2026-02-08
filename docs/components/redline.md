@@ -74,11 +74,13 @@ For organizations building onboarding-focused UIs (particularly for SME onboardi
 
 Both implementations share the same backend API surface — they differ in the UX approach and the target user persona.
 
-## In JAD
+## Relationship to JAD
 
-In the [Get Started](../get-started.md) scenario, Redline is the interface you interact with. When you browse Company A's catalog as Company B, you're using Redline. When you click "request access," Redline translates that click into a DSP contract negotiation by calling the Connector's Management API. When you view your credentials, Redline queries the Identity Hub's Identity API.
+Redline is **not part of the JAD demonstrator**. JAD is deliberately API-first — all interactions use [Bruno](https://www.usebruno.com) API collections to call the Management APIs directly, showing exactly what happens at the protocol level.
 
-The protocol complexity is there — but the user experience is a simple web portal.
+Redline is a separate project that provides a production-ready portal experience on top of the **same Management APIs** that JAD exercises. If you've completed the [Get Started](../get-started.md) walk-through with Bruno, you've already used the API surface that Redline calls under the hood.
+
+In a production deployment, Redline (or a custom UI built on the same APIs) would replace the Bruno-based workflow with a browser-accessible portal for participants and operators.
 
 ## Key Concepts
 

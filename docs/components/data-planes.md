@@ -110,7 +110,12 @@ EDC supports **external Data Planes** — decoupled from the Control Plane proce
 
 ## In JAD
 
-In the [Get Started](../get-started.md) scenario, the Data Plane is what delivers Company A's telemetry data to Company B after the contract is negotiated. The Control Plane signals the Data Plane to make data available, and Company B retrieves it through the authorized endpoint.
+In the [Get Started](../get-started.md) scenario, the Data Plane executes the actual data transfer after a contract is negotiated. JAD demonstrates two transfer patterns:
+
+- **HTTP proxy** — the Consumer fetches data from an HTTP endpoint (`jsonplaceholder.typicode.com/todos`) through the Provider's Data Plane. The Control Plane signals the Data Plane via DPS, and the Data Plane serves the data along with an access token (EDR) for the Consumer.
+- **Certificate sharing** — the Provider uploads a certificate file, and the Consumer negotiates access and downloads it through the Data Plane.
+
+In both cases, the Control Plane produces the authorization; the Data Plane executes the transfer. The Consumer retrieves data through the authorized endpoint using the credentials provided in the Endpoint Data Reference (EDR).
 
 ## Key Concepts
 

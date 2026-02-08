@@ -73,7 +73,9 @@ These APIs are designed for machine clients (UI backends, automation tools), not
 
 ## In JAD
 
-In the [Get Started](../get-started.md) scenario, the Connector is what enables Company B to browse Company A's catalog, request a contract, and initiate data transfer. When you browse offerings in the Redline UI, Redline translates your actions into Management API calls to the Connector.
+In the [Get Started](../get-started.md) scenario, the Connector enables the Consumer to browse the Provider's catalog, request a contract, and initiate data transfer. Using the Bruno API collection, you call the Management API directly — the same API surface that a production application (web portal, ERP system, or automation tool) would use. Behind the scenes, the Connectors execute DSP protocol exchanges to evaluate policies and establish agreements.
+
+For dynamic policy evaluation, JAD seeds **CEL (Common Expression Language)** expressions into the Control Plane, allowing policies like "only participants with a valid Membership Credential can access this data" to be evaluated at runtime without redeploying.
 
 ## Deployment Models
 
