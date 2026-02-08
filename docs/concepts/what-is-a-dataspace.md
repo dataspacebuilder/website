@@ -1,8 +1,18 @@
 # What Is a Dataspace
 
+## Context: Where Dataspaces Fit
+
+Organizations increasingly operate not in bilateral relationships but in **data sharing networks** — ecosystems where many participants need to share data with many others, dynamically, under controlled terms.
+
+Centralized platforms have been the default answer: put data in one place, let the platform mediate access. But platforms concentrate control, create lock-in, and fragment when multiple platforms serve the same ecosystem. As regulatory requirements like the Digital Product Passport (DPP), supply chain transparency mandates, and federated AI use cases demand data exchange across dozens or hundreds of organizations, the limitations of centralized platforms become structural.
+
+**Distributed data sharing ecosystems** are the alternative: environments where participants keep data in their own systems, share access as peers, and interact through standardized protocols — without a central data lake, mandatory aggregator, or platform owner.
+
+Dataspaces are the **leading infrastructure pattern** for building distributed data sharing ecosystems. They provide the governance framework, identity model, protocol layer, and policy enforcement that make decentralized data sharing repeatable and trustworthy at scale.
+
 ## Definition
 
-The ISO/IEC 20151 standard defines a dataspace as:
+The [ISO/IEC 20151](https://www.iso.org/standard/86589.html) standard defines a dataspace as:
 
 > *"An environment enabling trusted data sharing between participating parties, based on an agreed governance framework, along with an agreed set of policies, semantic models, standardized protocols, processes, and facilitating services."*
 
@@ -14,7 +24,7 @@ This definition is precise and each term carries weight. Let's unpack it.
 
 A dataspace is not a product, a database, or a central service. It is an *environment* — a combination of technical and non-technical elements that come together to enable trusted data sharing. The environment includes protocols, governance rules, identity mechanisms, and the software agents that implement them.
 
-This distinction matters: no single vendor, operator, or platform "is" the dataspace. The dataspace emerges from the interaction of its participants following shared rules.
+This distinction matters: no single vendor, operator, or platform "is" the dataspace. The dataspace emerges from the interaction of its participants following shared rules. This is the fundamental architectural difference from centralized platforms — and it is what makes dataspaces suitable for ecosystems where no single party should control access.
 
 ### Trusted Data Sharing
 
@@ -93,6 +103,18 @@ Dataspaces can overlap and be organized hierarchically. A participant can belong
 Every participant is represented by a software agent — a **Connector** — that implements the standardized protocols. The Connector provides API endpoints for data discovery, contract negotiation, data sharing orchestration, and identity management.
 
 Based on DSP and DCP, any variety of Connectors can be built: standalone single-server deployments, Connectors-as-a-Service at a cloud provider, connectors embedded in enterprise software, or AI agents with dataspace capabilities. The concept is open to future innovation; interoperability is guaranteed through the protocol specifications.
+
+## From Concept to Capability
+
+The journey from the dataspace concept to operational reality follows a progression:
+
+1. **Distributed data sharing ecosystem** — the organizational and governance model. Communities of organizations agree on rules, trust frameworks, and participation requirements.
+
+2. **Distributed data sharing technology** — the [Eclipse Dataspace Components (EDC)](https://eclipse-edc.github.io/documentation/) framework implements the protocols, identity model, and runtime components. It is the open-source reference implementation used by the largest dataspace initiatives (Catena-X, Manufacturing-X, Mobility Data Space).
+
+3. **Dataspace-as-a-Service (DSaaS)** — for organizations that need to participate without operating the infrastructure themselves. Cloud service providers deploy EDC on shared infrastructure with automated provisioning via the [Connector Fabric Manager (CFM)](../components/cfm.md), turning the technology into a managed capability with predictable cost.
+
+Each level builds on the previous. The ecosystem defines the rules. The technology implements them. The service makes participation accessible.
 
 ---
 

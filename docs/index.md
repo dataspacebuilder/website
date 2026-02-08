@@ -20,13 +20,15 @@ Today's approaches don't scale:
 
 Meanwhile, supply chains demand transparency, regulators demand traceability, and AI use cases demand access to distributed datasets. The EU Data Act, Digital Product Passport, and sector-specific mandates increasingly *assume* that organizations can exchange data in a controlled, auditable way. The gap between ambition and infrastructure is widening.
 
+What's emerging is a shift from bilateral data transfer to **distributed data sharing ecosystems** — environments where organizations share data as peers, under decentralized governance, without surrendering control to a central platform. The challenge is building the infrastructure that makes this possible.
+
 ## What Is a Dataspace
 
 A **dataspace** is an environment that enables trusted data sharing between organizations, based on agreed governance, shared policies, standardized protocols, and decentralized identity — without a central data lake, mandatory aggregator, or platform owner.
 
 Participants interact as equals. Each organization retains sovereign control over what they share, with whom, and under which conditions. Trust is verified cryptographically at every interaction, not assumed from a platform account.
 
-This is defined formally in [ISO/IEC 20151](https://www.iso.org/standard/86589.html) and operationalized through the [Eclipse Dataspace Components](https://eclipse-edc.github.io/documentation/) (EDC) stack.
+This is defined formally in [ISO/IEC 20151](https://www.iso.org/standard/86589.html) and operationalized through the [Eclipse Dataspace Components](https://eclipse-edc.github.io/documentation/) (EDC) stack. As **digital ecosystems** mature — from supply chains to regulatory frameworks to federated AI — dataspaces provide the infrastructure pattern that makes distributed data sharing repeatable, interoperable, and trustworthy.
 
 ## Core Capabilities
 
