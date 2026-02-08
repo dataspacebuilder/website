@@ -53,7 +53,65 @@ const architectureSidebar = [
   },
 ];
 
+// ============================================
+// Docs section — trusted data sharing documentation
+// ============================================
+const docsSidebar = [
+  'index',
+  'get-started',
+  {
+    type: 'category',
+    label: 'Concepts',
+    collapsed: false,
+    items: [
+      'concepts/what-is-a-dataspace',
+      'concepts/trust-and-governance',
+      'concepts/decentralized-identity',
+      'concepts/protocols',
+      'concepts/roles-and-participation',
+      'concepts/data-sharing-lifecycle',
+      'concepts/interoperability',
+      'concepts/ai-agents',
+    ],
+  },
+  {
+    type: 'category',
+    label: 'Components',
+    collapsed: false,
+    items: [
+      'components/connector',
+      'components/identity-hub',
+      'components/data-planes',
+      'components/redline',
+      'components/cfm',
+    ],
+  },
+  {
+    type: 'category',
+    label: 'Guides',
+    collapsed: false,
+    items: [
+      'guides/decision-makers',
+      'guides/architects',
+      'guides/operators',
+      'guides/developers',
+    ],
+  },
+  {
+    type: 'category',
+    label: 'Reference',
+    collapsed: true,
+    items: [
+      'reference/protocols',
+      'reference/apis',
+      'reference/glossary',
+      'reference/community',
+    ],
+  },
+];
+
 const sidebars = {
+  docsSidebar,
   // Architecture docs are conditionally enabled via ENABLE_ARCHITECTURE_DOCS flag above
   ...(ENABLE_ARCHITECTURE_DOCS && { architectureSidebar }),
 };

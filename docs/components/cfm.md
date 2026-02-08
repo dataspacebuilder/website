@@ -1,0 +1,120 @@
+# Connector Fabric Manager (CFM)
+
+## What It Is
+
+The Connector Fabric Manager (CFM) is the **management plane** for multi-tenant dataspace operations. It provisions participant contexts, automates lifecycle management, and orchestrates the infrastructure needed to run many participants on shared infrastructure.
+
+Think of CFM as the orchestration layer for service virtualization: it creates and manages participant runtimes, but **it is not the runtime**. The runtime is the Connector, Identity Hub, and Data Plane stack. CFM provisions and manages that stack.
+
+## What Problem It Solves
+
+Without CFM, hosting multiple participants means deploying and managing separate infrastructure for each one — separate Connectors, separate Identity Hubs, separate configuration. This works for a handful of tenants. It becomes operationally unsustainable at hundreds or thousands.
+
+CFM solves this by turning "deploy infrastructure per tenant" into "provision a participant context." The infrastructure is shared; the participant contexts are isolated by configuration and metadata.
+
+## The Critical Insight
+
+**CFM is not in the trust-decision path.**
+
+CFM provisions participant contexts and manages runtime configuration. But trust decisions — policy evaluation, credential verification, contract negotiation — happen between participants' Connectors, peer-to-peer.
+
+CFM can be completely unavailable — undergoing maintenance, experiencing an outage, being upgraded — and live data sharing continues uninterrupted. Existing participants continue to negotiate and transfer data without any dependency on CFM.
+
+This separation means:
+- Maintenance windows are possible without stopping data flow
+- CFM outages block onboarding and provisioning, not runtime sharing
+- Separate SLOs can be set for the management plane vs. the runtime
+- Upgrades and incident response on CFM don't affect live trust decisions
+
+## How It Fits in the Architecture
+
+```
+┌──────────────────────────────┐
+│    Connector Fabric Manager  │  ← Management Plane
+│  ┌────────┐  ┌────────────┐  │
+│  │ Tenant │  │ Provision  │  │
+│  │ Mgr    │  │ Manager    │  │
+│  └────────┘  └────────────┘  │
+│       ↓           ↓          │
+│    Activity     Activity     │
+│     Agents       Agents      │
+└──────────────────────────────┘
+            │
+            ↓ provisions
+┌──────────────────────────────┐
+│     Shared Runtime Cells     │  ← Runtime Plane
+│  ┌─────────┐ ┌────────────┐ │
+│  │Connector│ │Identity Hub│ │
+│  │ (CP)    │ │   (CS)     │ │
+│  └─────────┘ └────────────┘ │
+│  ┌──────────────────────┐   │
+│  │    Data Planes        │   │
+│  └──────────────────────┘   │
+└──────────────────────────────┘
+```
+
+CFM sits above the runtime. It provisions participant contexts into shared runtime cells, but once provisioned, the runtime operates independently.
+
+## Key Subsystems
+
+| Subsystem | Role |
+|---|---|
+| **Tenant Manager** | Persists tenant and participant metadata; exposes a REST API; initiates provisioning |
+| **Provision Manager** | Executes stateful orchestration workflows for onboarding and lifecycle management |
+| **Activity Agents** | Asynchronously process individual orchestration steps in isolated security contexts |
+
+The **Tenant Manager** is the metadata control point — it knows what tenants exist, what participant contexts they have, and where those contexts are targeted. The **Provision Manager** is the execution engine — it runs workflows that create, configure, and manage participant contexts. **Activity Agents** are where infrastructure integration happens: deploying to Kubernetes, configuring Vault namespaces, setting up DNS entries.
+
+## What CFM Manages
+
+### Tenant Lifecycle
+- Creating tenant organizations
+- Setting up participant profiles (with associated DIDs)
+- Configuring dataspace profiles (per-dataspace settings)
+- Decommissioning tenants
+
+### Participant Context Provisioning
+- Provisioning Connector, Identity Hub, and Data Plane contexts
+- Configuring routing and network access
+- Delivering initial credentials
+- Targeting participant contexts to runtime cells
+
+### Operations
+- Rebalancing capacity across cells
+- Migrating participant contexts between cells
+- Managing lifecycle events (upgrades, scaling, recovery)
+
+## When You Need CFM
+
+CFM is essential when:
+- You're hosting **multiple tenants** on shared infrastructure
+- You need **automated onboarding** (provisioning in minutes, not days)
+- You want **sub-linear cost scaling** (adding participants doesn't linearly increase infrastructure)
+- You're operating a **DSaaS (Dataspace-as-a-Service)** offering
+
+CFM is not needed when:
+- You're running a single-tenant, standalone Connector deployment
+- You're evaluating dataspaces with JAD (which pre-provisions participants)
+
+## Infrastructure
+
+CFM runs on standard cloud-native infrastructure:
+- **PostgreSQL** — for persistent metadata storage
+- **NATS JetStream** — for reliable, decoupled messaging between subsystems
+- **Kubernetes** — for container orchestration of both CFM and the runtime cells
+
+The messaging architecture (NATS JetStream) enables long-running provisioning workflows that are resilient to restarts and transient failures.
+
+## In JAD
+
+In the [Get Started](../get-started.md) scenario, CFM is what set up the participant environments you're interacting with. You don't interact with CFM directly during the demo — you interact with the results of its provisioning (the Connectors, Identity Hubs, and Data Planes it created).
+
+## Scope of This Documentation
+
+This page provides an overview of CFM's role and operational model. For detailed internals — service virtualization architecture, cell topology, NATS configuration, VPA targeting — refer to the [CFM system architecture documentation](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md).
+
+---
+
+**Learn more**: [CFM system architecture](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md)
+
+**Related**: [Connector](./connector.md) | [Identity Hub](./identity-hub.md) | [Redline](./redline.md) | [Guide: For Operators](../guides/operators.md)

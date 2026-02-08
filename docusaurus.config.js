@@ -40,6 +40,10 @@ const config = {
         docs: {
           sidebarPath: './sidebars.js',
           editUrl: 'https://github.com/dataspace-builders/dataspace-builders/tree/main/',
+          exclude: [
+            'v2/**',
+            'content-restructure-blueprint*.md',
+          ],
         },
         blog: {
           path: 'guides',
@@ -71,6 +75,12 @@ const config = {
           src: 'img/logo.png',
         },
         items: [
+          {
+            type: 'docSidebar',
+            sidebarId: 'docsSidebar',
+            label: 'Docs',
+            position: 'left',
+          },
           { to: '/guides', label: 'Guides', position: 'left' },
           // Architecture link conditionally enabled via ENABLE_ARCHITECTURE env var
           ...(ENABLE_ARCHITECTURE ? [{ to: '/docs/architecture/overview', label: 'Architecture', position: 'left' }] : []),
@@ -87,6 +97,7 @@ const config = {
           {
             title: 'Learn',
             items: [
+              { label: 'Docs', to: '/docs' },
               { label: 'Guides', to: '/guides' },
               { label: 'EDC Documentation', href: 'https://eclipse-edc.github.io/documentation/' },
             ],
