@@ -114,11 +114,11 @@ In the [Get Started](../get-started.md) scenario, CFM is how you onboard partici
 3. Registers the participant with the IssuerService
 4. Requests Verifiable Credentials from the IssuerService
 
-You can watch the provisioning progress by polling the `Get Participant Profile` endpoint — each entry in the `vpas` array transitions to `"state": "active"` as the asynchronous agents complete their work. Once active, the participants are ready to discover, negotiate, and transfer data.
+You can watch the provisioning progress by polling the `Get Participant Profile` endpoint — each entry transitions to `"state": "active"` as the asynchronous agents complete their work. Once active, the participants are ready to discover, negotiate, and transfer data.
 
 ## Scope of This Documentation
 
-This page provides an overview of CFM's role and operational model. For detailed internals — service virtualization architecture, cell topology, NATS configuration, VPA targeting — refer to the [CFM system architecture documentation](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md).
+This page provides an overview of CFM's role and operational model. For detailed internals — service virtualization architecture, cell topology, NATS configuration, participant context targeting — refer to the [CFM system architecture documentation](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md).
 
 ---
 

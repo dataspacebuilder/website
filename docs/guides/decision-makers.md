@@ -64,7 +64,7 @@ The ecosystem has three tightly coupled layers:
 Open, community-driven protocols define how organizations identify each other (DCP), how they agree on usage terms (DSP), and how data is exchanged (DPS). Built on standards from ISO, W3C, CEN-CENELEC, and the Eclipse Foundation. This is infrastructure aligned with open standards — a prerequisite for credibility in regulated markets.
 
 ### Infrastructure: From Protocols to Scale
-The Virtual Participant Agent (VPA) architecture provides logically isolated participant contexts on shared infrastructure. Each participant behaves like a sovereign peer; operational cost is shared across the platform. Multi-tenant operation is orchestrated by CFM, which automates provisioning and lifecycle management.
+The multi-tenant architecture provides logically isolated participant contexts on shared infrastructure. Each participant behaves like a sovereign peer; operational cost is shared across the platform. Multi-tenant operation is orchestrated by CFM, which automates provisioning and lifecycle management.
 
 All of this runs on standard cloud-native components: Kubernetes, PostgreSQL, Vault, DNS, NATS. No exotic infrastructure required.
 

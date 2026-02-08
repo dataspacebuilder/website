@@ -71,8 +71,7 @@
 
 | Term | Definition |
 |---|---|
-| **EDC-V (Virtual Connector)** | The multi-tenant Connector variant that supports multiple participant contexts on shared infrastructure. |
-| **VPA (Virtual Participant Agent)** | A logical participant context within EDC-V, defined by metadata rather than a separate process. An implementation detail of service virtualization. |
+| **Participant Context** | A logically isolated runtime context for a participant on shared infrastructure, defined by metadata rather than a separate process. The unit of provisioning and lifecycle management. |
 | **Cell** | A homogeneous deployment zone (typically a Kubernetes cluster) that hosts participant runtime contexts. |
 | **Tenant** | An organization (customer) in a managed deployment — the billing entity and support boundary. |
 | **Participant Profile** | A participant identity context (DID-backed) within a tenant. One tenant can have multiple profiles. |
@@ -86,7 +85,7 @@ Some terms have different names depending on context:
 | Operational / API Term | IDSA / Standards Term | Notes |
 |---|---|---|
 | Credential Service | Identity Hub | Same component; different naming convention |
-| VPA | Participant context | EDC-V implementation concept |
+| Participant context | Participant / Software agent | EDC operational concept; maps to IDSA "participant" at runtime |
 | Cell | Deployment zone / cluster | EDC-V operational concept |
 | Connector | Software agent / Dataspace Connector | IDSA Rulebook uses "software agent" |
 | Contract Offer | Data Contract Offer (DCO) | |
