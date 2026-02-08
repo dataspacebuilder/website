@@ -81,6 +81,7 @@ The tools used to validate, demonstrate, and test the system.
 :::
 
 
+![The Industrial DSaaS Roadmap](image-7.png)
 
 ## 1. Strategy & Assessment
 
@@ -138,6 +139,8 @@ Operational Excellence is critical for stability. The runbook defines:
 *   [**Eclipse EDC Samples**](https://github.com/eclipse-edc/Samples): Practical runbook examples and deployment configurations.
 *   [**Catena-X Operating Model**](https://catena-x.net/en/catena-x-introduce-implement/operating-model): A reference implementation for operating a large-scale dataspace.
 :::
+---
+![Dataspace Success Playbook Phase 2](image-8.png)
 
 ## 6. Change Management Playbook
 
