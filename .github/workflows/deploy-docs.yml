@@ -2,7 +2,7 @@ name: Deploy Documentation
 
 on:
   push:
-    branches: [main, second-try]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
