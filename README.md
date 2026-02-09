@@ -1,5 +1,7 @@
 # Dataspace Builders
 
+> **This project is under active development.** We are building in the open and encourage contributions from the community. We appreciate any feedback, ideas, or suggestions — please open an issue or start a discussion.
+
 **Build trusted data infrastructure. Together.**
 
 This repository is the home of the Dataspace Builders community — a global initiative to advance trusted data sharing using open-source components based on Eclipse Dataspace Components (EDC).

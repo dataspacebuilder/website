@@ -6,6 +6,7 @@
 .cursor/
 eca-materials/
 IDSA-Rulebook/
+sandbox/
 
 # Dependencies
 node_modules/
