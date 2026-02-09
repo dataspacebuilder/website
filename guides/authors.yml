@@ -1,0 +1,32 @@
+ndkrimbacher:
+  name: Andreas Krimbacher
+  title: Solutions Architect
+  url: https://www.linkedin.com/in/andreaskrimbacher/
+  image_url: /img/authors/ndkrimbacher.png
+  socials:
+    linkedin: andreaskrimbacher
+    github: ndkrimbacher
+
+mbuchhorn:
+  name: Matthias Buchhorn-Roth
+  title: Cloud & Dataspace Architect (Consultant)
+  url: https://linkedin.com/in/mbuchhorn
+  image_url: /img/authors/mbuchhorn.png
+  socials:
+    linkedin: mbuchhorn
+    github: ma3u
+
+a20h:
+  name: Andreas Huber
+  title: Data Space Builder
+  url: https://linkedin.com/in/huber2002090
+  image_url: /img/authors/a20h.png
+  socials:
+    linkedin: huber2002090
+    github: a20h
+
+team:
+  name: Dataspace Builders Team
+  title: Dataspace Builders
+  url: https://dataspacebuilders.org/
+  image_url: https://github.com/eclipse-edc.png

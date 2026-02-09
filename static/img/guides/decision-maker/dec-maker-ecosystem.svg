@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 500" width="920" height="500">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
+      text { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    </style>
+    <filter id="s2" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-opacity="0.06"/>
+    </filter>
+    <marker id="arrowR" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#1a5f7a"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="920" height="500" rx="12" fill="#fafaf8"/>
+  <rect x="0" y="0" width="920" height="4" rx="2" fill="#1a5f7a"/>
+
+  <!-- Title -->
+  <text x="460" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1a1a1a">The Trusted Data Sharing Ecosystem</text>
+  <text x="460" y="58" text-anchor="middle" font-size="12" fill="#717171">Three layers enabling sovereign, peer-to-peer data exchange</text>
+
+  <!-- ════ Panel 1: Protocols ════ -->
+  <g filter="url(#s2)">
+    <rect x="24" y="80" width="270" height="370" rx="10" fill="white" stroke="#e2e0dc" stroke-width="1"/>
+  </g>
+  <!-- Header -->
+  <rect x="24" y="80" width="270" height="44" rx="10" fill="#1a5f7a"/>
+  <rect x="24" y="104" width="270" height="20" fill="#1a5f7a"/>
+  <text x="40" y="98" font-size="10" font-weight="600" fill="rgba(255,255,255,0.7)" letter-spacing="0.08em">FOUNDATION</text>
+  <text x="40" y="116" font-size="15" font-weight="700" fill="white">Community &amp; Protocols</text>
+
+  <!-- DCP -->
+  <rect x="40" y="140" width="238" height="58" rx="6" fill="#e8f1f5" stroke="#c5dce5" stroke-width="1"/>
+  <text x="56" y="159" font-size="13" font-weight="700" fill="#0e3d4f">DCP</text>
+  <text x="110" y="159" font-size="11" fill="#4a4a4a">Decentralized Claims Protocol</text>
+  <text x="56" y="179" font-size="11" fill="#717171" font-style="italic">"Who are you?"</text>
+  <text x="175" y="179" font-size="11" fill="#717171">→ Identity &amp; credentials</text>
+
+  <!-- DSP -->
+  <rect x="40" y="208" width="238" height="58" rx="6" fill="#e8f1f5" stroke="#c5dce5" stroke-width="1"/>
+  <text x="56" y="227" font-size="13" font-weight="700" fill="#0e3d4f">DSP</text>
+  <text x="108" y="227" font-size="11" fill="#4a4a4a">Data Space Protocol</text>
+  <text x="56" y="247" font-size="11" fill="#717171" font-style="italic">"Let's agree"</text>
+  <text x="157" y="247" font-size="11" fill="#717171">→ Catalog &amp; contracts</text>
+
+  <!-- DPS -->
+  <rect x="40" y="276" width="238" height="58" rx="6" fill="#e8f1f5" stroke="#c5dce5" stroke-width="1"/>
+  <text x="56" y="295" font-size="13" font-weight="700" fill="#0e3d4f">DPS</text>
+  <text x="108" y="295" font-size="11" fill="#4a4a4a">Data Plane Signaling</text>
+  <text x="56" y="315" font-size="11" fill="#717171" font-style="italic">"Data flows"</text>
+  <text x="157" y="315" font-size="11" fill="#717171">→ Authorized transfer</text>
+
+  <!-- Standards bar -->
+  <rect x="40" y="350" width="238" height="36" rx="6" fill="#f0eeea"/>
+  <text x="159" y="364" text-anchor="middle" font-size="10" font-weight="500" fill="#717171" letter-spacing="0.03em">BUILT ON OPEN STANDARDS</text>
+  <text x="159" y="378" text-anchor="middle" font-size="10" fill="#999">ISO · W3C · CEN-CENELEC · Eclipse</text>
+
+  <!-- Key message -->
+  <text x="159" y="420" text-anchor="middle" font-size="10" font-weight="600" fill="#1a5f7a">Interoperability over lock-in</text>
+
+  <!-- ════ Arrow 1→2 ════ -->
+  <line x1="304" y1="265" x2="322" y2="265" stroke="#1a5f7a" stroke-width="2" marker-end="url(#arrowR)"/>
+  <text x="313" y="280" text-anchor="middle" font-size="8" fill="#1a5f7a" font-weight="500">enables</text>
+
+  <!-- ════ Panel 2: Hosting & Scale ════ -->
+  <g filter="url(#s2)">
+    <rect x="325" y="80" width="270" height="370" rx="10" fill="white" stroke="#e2e0dc" stroke-width="1"/>
+  </g>
+  <rect x="325" y="80" width="270" height="44" rx="10" fill="#0e3d4f"/>
+  <rect x="325" y="104" width="270" height="20" fill="#0e3d4f"/>
+  <text x="341" y="98" font-size="10" font-weight="600" fill="rgba(255,255,255,0.7)" letter-spacing="0.08em">INFRASTRUCTURE</text>
+  <text x="341" y="116" font-size="15" font-weight="700" fill="white">Hosting &amp; Scale</text>
+
+  <!-- CFM -->
+  <rect x="341" y="138" width="238" height="32" rx="6" fill="#fef3c7" stroke="#fde68a" stroke-width="1"/>
+  <text x="460" y="158" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">CFM — Connector Fabric Manager</text>
+
+  <!-- VPA frame -->
+  <rect x="341" y="180" width="238" height="170" rx="8" fill="#f8fafc" stroke="#1a5f7a" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="460" y="196" text-anchor="middle" font-size="10" font-weight="600" fill="#1a5f7a" letter-spacing="0.06em">VIRTUAL PARTICIPANT AGENT (VPA)</text>
+
+  <!-- Three VPA components -->
+  <rect x="357" y="208" width="206" height="38" rx="5" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="460" y="231" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Credential Service</text>
+
+  <rect x="357" y="254" width="206" height="38" rx="5" fill="#e8f1f5" stroke="#c5dce5" stroke-width="1"/>
+  <text x="460" y="277" text-anchor="middle" font-size="11" font-weight="600" fill="#0e3d4f">Control Plane</text>
+
+  <rect x="357" y="300" width="206" height="38" rx="5" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+  <text x="460" y="323" text-anchor="middle" font-size="11" font-weight="600" fill="#5b21b6">Data Plane</text>
+
+  <!-- Cloud-native bar -->
+  <rect x="341" y="366" width="238" height="36" rx="6" fill="#f0eeea"/>
+  <text x="460" y="380" text-anchor="middle" font-size="10" font-weight="500" fill="#717171" letter-spacing="0.03em">CLOUD-NATIVE INFRASTRUCTURE</text>
+  <text x="460" y="394" text-anchor="middle" font-size="10" fill="#999">K8s · PostgreSQL · Vault · DNS · NATS</text>
+
+  <!-- Key message -->
+  <text x="460" y="420" text-anchor="middle" font-size="10" font-weight="600" fill="#0e3d4f">Sub-linear cost scaling</text>
+
+  <!-- ════ Arrow 2→3 ════ -->
+  <line x1="605" y1="265" x2="623" y2="265" stroke="#1a5f7a" stroke-width="2" marker-end="url(#arrowR)"/>
+  <text x="614" y="280" text-anchor="middle" font-size="8" fill="#1a5f7a" font-weight="500">enables</text>
+
+  <!-- ════ Panel 3: Peer-to-Peer ════ -->
+  <g filter="url(#s2)">
+    <rect x="626" y="80" width="270" height="370" rx="10" fill="white" stroke="#e2e0dc" stroke-width="1"/>
+  </g>
+  <rect x="626" y="80" width="270" height="44" rx="10" fill="#2a7f9a"/>
+  <rect x="626" y="104" width="270" height="20" fill="#2a7f9a"/>
+  <text x="642" y="98" font-size="10" font-weight="600" fill="rgba(255,255,255,0.7)" letter-spacing="0.08em">INTERACTION</text>
+  <text x="642" y="116" font-size="15" font-weight="700" fill="white">Peer-to-Peer Mesh</text>
+
+  <!-- DSGA -->
+  <rect x="672" y="140" width="188" height="40" rx="6" fill="#fff7ed" stroke="#fdba74" stroke-width="1"/>
+  <text x="766" y="157" text-anchor="middle" font-size="10" font-weight="600" fill="#9a3412" letter-spacing="0.04em">DSGA</text>
+  <text x="766" y="171" text-anchor="middle" font-size="9" fill="#b45309">Governance Authority</text>
+
+  <!-- Participants -->
+  <!-- P-A -->
+  <rect x="652" y="210" width="100" height="80" rx="6" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
+  <text x="702" y="232" text-anchor="middle" font-size="12" font-weight="700" fill="#065f46">P-A</text>
+  <text x="702" y="248" text-anchor="middle" font-size="9" fill="#047857">DSaaS</text>
+  <text x="702" y="261" text-anchor="middle" font-size="8" fill="#717171">Fully Managed</text>
+  <rect x="666" y="272" width="72" height="4" rx="2" fill="#a7f3d0"/>
+
+  <!-- P-B -->
+  <rect x="780" y="210" width="100" height="80" rx="6" fill="#e8f1f5" stroke="#c5dce5" stroke-width="1"/>
+  <text x="830" y="232" text-anchor="middle" font-size="12" font-weight="700" fill="#0e3d4f">P-B</text>
+  <text x="830" y="248" text-anchor="middle" font-size="9" fill="#1a5f7a">Self-Hosted</text>
+  <text x="830" y="261" text-anchor="middle" font-size="8" fill="#717171">Own Stack</text>
+  <rect x="794" y="272" width="72" height="4" rx="2" fill="#c5dce5"/>
+
+  <!-- P-C -->
+  <rect x="716" y="310" width="100" height="80" rx="6" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+  <text x="766" y="332" text-anchor="middle" font-size="12" font-weight="700" fill="#5b21b6">P-C</text>
+  <text x="766" y="348" text-anchor="middle" font-size="9" fill="#7c3aed">Hybrid</text>
+  <text x="766" y="361" text-anchor="middle" font-size="8" fill="#717171">Managed CP +</text>
+  <text x="766" y="372" text-anchor="middle" font-size="8" fill="#717171">On-prem DP</text>
+
+  <!-- Connection lines -->
+  <line x1="752" y1="250" x2="780" y2="250" stroke="#1a5f7a" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="702" y1="290" x2="730" y2="320" stroke="#1a5f7a" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="830" y1="290" x2="802" y2="320" stroke="#1a5f7a" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+  <!-- Key message -->
+  <text x="766" y="420" text-anchor="middle" font-size="10" font-weight="600" fill="#2a7f9a">Any model, full interoperability</text>
+
+  <!-- Bottom bar -->
+  <rect x="24" y="462" width="872" height="28" rx="6" fill="#e8f1f5"/>
+  <text x="460" y="480" text-anchor="middle" font-size="11" font-weight="600" fill="#0e3d4f">Protocols → enable → Infrastructure → enables → Peer-to-Peer Sovereign Data Exchange</text>
+</svg>
