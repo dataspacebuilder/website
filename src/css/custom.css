@@ -55,6 +55,26 @@
   --ifm-color-primary-lighter: #17E1CD;
   --ifm-color-primary-lightest: #2EEBD8;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  /* Navbar */
+  --ifm-navbar-background-color: #1a1a2e;
+  --ifm-navbar-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --ifm-navbar-link-color: #e2e8f0;
+  --ifm-navbar-link-hover-color: #ffffff;
+}
+
+/* Dark mode navbar text fix */
+[data-theme='dark'] .navbar__title {
+  color: #e2e8f0;
+}
+
+[data-theme='dark'] .navbar__link {
+  color: #e2e8f0;
+}
+
+[data-theme='dark'] .navbar__link:hover,
+[data-theme='dark'] .navbar__link--active {
+  color: #ffffff;
 }
 
 /* Hero Section */

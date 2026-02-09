@@ -85,7 +85,7 @@ const config = {
           // Architecture link conditionally enabled via ENABLE_ARCHITECTURE env var
           ...(ENABLE_ARCHITECTURE ? [{ to: '/docs/architecture/overview', label: 'Architecture', position: 'left' }] : []),
           { 
-            href: 'https://github.com/eclipse-edc', 
+            href: 'https://github.com/dataspacebuilder/website', 
             label: 'GitHub', 
             position: 'right',
           },

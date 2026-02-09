@@ -30,7 +30,7 @@ function HeroSection() {
             </Link>
             <Link
               className="button button--secondary button--lg"
-              href="https://github.com/eclipse-edc">
+              href="https://github.com/dataspacebuilder/website">
               View on GitHub
             </Link>
           </div>
@@ -54,11 +54,11 @@ const Pathways = [
   },
   {
     id: 'platform-engineers',
-    title: 'Platform Engineers',
-    subtitle: 'Dataspace Environments (DSaaS)',
-    description: 'You run the stack. Deploy and operate multi-tenant dataspace environments, manage connector lifecycles, and provide DSaaS to your organization or customers.',
+    title: 'Cloud & Infrastructure Teams',
+    subtitle: 'Hosted Dataspace Environments',
+    description: 'You run the stack. Deploy and operate multi-tenant dataspace environments, manage connector lifecycles, and provide the data sharing stack to your organization or customers.',
     icon: '🏗️',
-    cta: 'Implementation Guide',
+    cta: 'Hosting Guide',
     ctaLink: '/guides/ops-multi-tenant-ds-env-guide',
     highlights: ['EDC stack operations', 'Multi-tenant environments', 'Connector lifecycle'],
   },
@@ -68,8 +68,8 @@ const Pathways = [
     subtitle: 'System Integration',
     description: 'You connect existing systems to dataspaces. Integrate your services, data sources, and business processes with dataspace infrastructure using DSP and EDC APIs.',
     icon: '🔗',
-    cta: 'Integration Guide',
-    ctaLink: '/guides/ops-multi-tenant-ds-env-guide',
+    cta: 'Integration Documentation',
+    ctaLink: '/docs/',
     highlights: ['System integration', 'DSP & EDC APIs', 'Data plane connectivity'],
   },
 ];
@@ -187,7 +187,7 @@ function CommunitySection() {
                 <Link href="https://github.com/eclipse-edc">GitHub Repositories</Link>
               </li>
               <li>
-                <Link href="https://github.com/eclipse-edc/Connector/blob/main/CONTRIBUTING.md">Contribution Guidelines</Link>
+                <Link href="https://eclipse-edc.github.io/documentation/for-contributors/">Contribution Guidelines</Link>
               </li>
             </ul>
           </div>
@@ -210,7 +210,7 @@ function CTASection() {
             <Link className="button button--primary button--lg" to="/guides">
               Read the Guides
             </Link>
-            <Link className="button button--secondary button--lg" href="https://github.com/eclipse-edc">
+            <Link className="button button--secondary button--lg" href="https://github.com/dataspacebuilder/website">
               View on GitHub
             </Link>
           </div>
