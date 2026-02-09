@@ -8,7 +8,7 @@ This repository is the home of the Dataspace Builders community — a global ini
 
 We serve:
 *   **Cloud Providers** looking to offer dataspace capabilities. (e.g. Aruba, OVHcloud, StackIT, CloudTemple))
-*   **Connector Providers** aiming to host and manage thousands of connectors. (Soverty, Cofinity-X, Nexyo)
+*   **Connector Providers** aiming to host and manage thousands of connectors. (nexyo, Cofinity-X, Sovity)
 *   **Consulting Teams** building dataspaces with EDC (Eclipse Dataspace Components) and DSP (Dataspace Protocol). (Sopra Steria, Think-IT)
 *   **Customers** consume or provide data and want to understand what services and value they receive. (DataHub Europe, Airbus, BMW, Sphin-X)
 
