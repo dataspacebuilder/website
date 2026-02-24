@@ -25,8 +25,8 @@ function HeroSection() {
           <div className={styles.heroButtons}>
             <Link
               className="button button--primary button--lg"
-              to="/guides">
-              Read the Guides
+              to="/docs/learning-paths/">
+              Start Learning
             </Link>
             <Link
               className="button button--secondary button--lg"
@@ -43,34 +43,34 @@ function HeroSection() {
 
 const Pathways = [
   {
-    id: 'initiative-leads',
-    title: 'Dataspace Initiative Leads',
-    subtitle: 'Strategy & Buy-In',
-    description: 'You drive dataspace adoption in your organization. Understand the value proposition, build the business case, and get stakeholder buy-in for trusted data sharing.',
-    icon: '📊',
-    cta: 'Read the Strategic Guide',
-    ctaLink: '/guides/decision-maker-guide',
-    highlights: ['Business case & ROI', 'Stakeholder buy-in', 'Ecosystem strategy'],
-  },
-  {
-    id: 'platform-engineers',
-    title: 'Cloud & Infrastructure Teams',
-    subtitle: 'Hosted Dataspace Environments',
-    description: 'You run the stack. Deploy and operate multi-tenant dataspace environments, manage connector lifecycles, and provide the data sharing stack to your organization or customers.',
+    id: 'platform-setup',
+    title: 'Platform Setup',
+    subtitle: 'For Cloud Service Providers',
+    description: 'Deploy an EDCaaS platform. Set up EDC, the Connector Fabric Manager, provision participants, and hand customers the endpoints they need to operate.',
     icon: '🏗️',
-    cta: 'Hosting Guide',
-    ctaLink: '/guides/ops-multi-tenant-ds-env-guide',
-    highlights: ['EDC stack operations', 'Multi-tenant environments', 'Connector lifecycle'],
+    cta: 'Start Platform Setup',
+    ctaLink: '/docs/learning-paths/platform-setup/',
+    highlights: ['Deploy EDC & CFM', 'Provision participants', 'Customer handoff'],
   },
   {
-    id: 'integrators',
-    title: 'App & Service Integrators',
-    subtitle: 'System Integration',
-    description: 'You connect existing systems to dataspaces. Integrate your services, data sources, and business processes with dataspace infrastructure using DSP and EDC APIs.',
+    id: 'system-integration',
+    title: 'System Integration',
+    subtitle: 'For Solution Engineers',
+    description: 'Connect customers to a dataspace. Publish data, consume data from other participants, work with the Management API, and deploy data planes.',
     icon: '🔗',
-    cta: 'Integration Documentation',
-    ctaLink: '/docs/',
-    highlights: ['System integration', 'DSP & EDC APIs', 'Data plane connectivity'],
+    cta: 'Start System Integration',
+    ctaLink: '/docs/learning-paths/system-integration/',
+    highlights: ['Publish & consume data', 'Management API', 'Data plane deployment'],
+  },
+  {
+    id: 'use-case',
+    title: 'Use Case: Product Info Sharing',
+    subtitle: 'For Everyone',
+    description: 'Follow five manufacturing companies as they share product documents through a dataspace — no custom integrations, no portals, just a shared protocol.',
+    icon: '📦',
+    cta: 'Start the Use Case',
+    ctaLink: '/docs/learning-paths/use-case/',
+    highlights: ['Real-world scenario', 'Step-by-step narrative', '12 chapters'],
   },
 ];
 
@@ -79,10 +79,10 @@ function PathwaysSection() {
     <section className={clsx('section', styles.pathwaysSection)}>
       <div className="container">
         <Heading as="h2" className="section__title">
-          Your Path to Dataspaces
+          Learning Paths
         </Heading>
         <p className="section__subtitle">
-          Whether you're offering dataspace services, deploying the stack, or integrating with it—there's a clear path forward.
+          Three paths, each broken into bite-sized chapters. Pick the one that matches your role.
         </p>
         <div className={styles.pathwaysGrid}>
           {Pathways.map((pathway) => (
@@ -207,8 +207,8 @@ function CTASection() {
             Get started with EDC-based trusted data sharing. Open source, open standards, open community.
           </p>
           <div className={styles.ctaButtons}>
-            <Link className="button button--primary button--lg" to="/guides">
-              Read the Guides
+            <Link className="button button--primary button--lg" to="/docs/learning-paths/">
+              Start Learning
             </Link>
             <Link className="button button--secondary button--lg" href="https://github.com/dataspacebuilder/website">
               View on GitHub

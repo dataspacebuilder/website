@@ -107,7 +107,7 @@ The messaging architecture (NATS JetStream) enables long-running provisioning wo
 
 ## In JAD
 
-In the [Get Started](../get-started.md) scenario, CFM is how you onboard participants. Using the Bruno API collection, you call CFM's REST API to provision a Consumer and a Provider. For each participant, CFM orchestrates the full onboarding workflow:
+In the [JAD](https://github.com/Metaform/jad) scenario, CFM is how you onboard participants. Using the Bruno API collection, you call CFM's REST API to provision a Consumer and a Provider. For each participant, CFM orchestrates the full onboarding workflow:
 
 1. Creates access credentials for Vault and the Administration APIs
 2. Creates a `ParticipantContext` in the Control Plane and Identity Hub
@@ -124,4 +124,4 @@ This page provides an overview of CFM's role and operational model. For detailed
 
 **Learn more**: [CFM system architecture](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md)
 
-**Related**: [Connector](./connector.md) | [Identity Hub](./identity-hub.md) | [Redline](./redline.md) | [Guide: For Operators](../guides/operators.md)
+**Related**: [Connector](./connector.md) | [Identity Hub](./identity-hub.md) | [Redline](./redline.md) | [Learning Path: Platform Setup](../learning-paths/platform-setup/)
