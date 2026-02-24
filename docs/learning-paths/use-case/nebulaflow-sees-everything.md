@@ -1,3 +1,9 @@
+---
+sidebar_label: NebulaFlow Sees Everything
+sidebar_position: 10
+title: "Chapter 9: NebulaFlow Sees Everything"
+---
+
 # Chapter 9: NebulaFlow Sees Everything
 
 NebulaFlow Cloudworks runs analytics platforms — dashboards showing supply chain risk, compliance status, and quality trends.
@@ -16,4 +22,4 @@ There is no technical difference between a "consumer company" and a "provider co
 
 ---
 
-**Next:** [Documents Get Updated](10-documents-get-updated.md)
+**Next:** [Documents Get Updated](./documents-get-updated.md)

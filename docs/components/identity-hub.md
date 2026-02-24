@@ -102,7 +102,7 @@ A typical credential lifecycle in a running dataspace:
 
 ## In JAD
 
-In the [Get Started](../get-started.md) scenario, the Identity Hub is what makes trust verification possible. When the Consumer requests access to the Provider's data, both Identity Hubs participate in the DCP exchange — the Consumer's hub presents credentials, the Provider's system verifies them. This happens behind the scenes during contract negotiation.
+In the [JAD](https://github.com/Metaform/jad) scenario, the Identity Hub is what makes trust verification possible. When the Consumer requests access to the Provider's data, both Identity Hubs participate in the DCP exchange — the Consumer's hub presents credentials, the Provider's system verifies them. This happens behind the scenes during contract negotiation.
 
 JAD also deploys an **IssuerService** alongside the Identity Hub. During participant onboarding (via CFM), the IssuerService issues Verifiable Credentials — such as Membership Credentials — and delivers them to the participant's Identity Hub. These credentials are then available for presentation during trust exchanges.
 

@@ -1,3 +1,9 @@
+---
+sidebar_label: The Problem
+sidebar_position: 2
+title: "Chapter 1: The Problem"
+---
+
 # Chapter 1: The Problem
 
 Every manufactured product carries a trail of documents. A battery housing needs a material certificate from its alloy supplier. The component maker creates assembly specs and quality records. An independent lab issues a test report. The car maker at the end needs all of it for regulatory compliance.
@@ -21,4 +27,4 @@ That's what a dataspace provides. The rest of this guide shows how.
 
 ---
 
-**Next:** [The Companies](02-the-companies.md)
+**Next:** [The Companies](./the-companies.md)

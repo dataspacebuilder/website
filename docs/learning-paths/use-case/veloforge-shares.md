@@ -1,3 +1,9 @@
+---
+sidebar_label: VeloForge Shares
+sidebar_position: 5
+title: "Chapter 4: VeloForge Shares a Certificate"
+---
+
 # Chapter 4: VeloForge Shares a Certificate
 
 VeloForge has produced a batch of recycled aluminum alloy — batch ALX88. It comes with a material certificate: a PDF documenting composition, origin, recycling percentage, and regulatory compliance.
@@ -26,4 +32,4 @@ The asset's pointer to the data plane is called a **DataAddress**. It tells the 
 
 ---
 
-**Next:** [FerroLink Gets What It Needs](05-ferrolink-gets.md)
+**Next:** [FerroLink Gets What It Needs](./ferrolink-gets.md)

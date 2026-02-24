@@ -1,3 +1,9 @@
+---
+sidebar_label: Documents Get Updated
+sidebar_position: 11
+title: "Chapter 10: Documents Get Updated"
+---
+
 # Chapter 10: Documents Get Updated
 
 VeloForge refines its recycling process for alloy ALX88. Recycled content goes from 80% to 87%. They issue a new version of the material certificate, place it on their data plane, and update the catalog.
@@ -35,4 +41,4 @@ Notifications travel through the same infrastructure and follow the same credent
 
 ---
 
-**Next:** [What Happens When Trust Changes](11-trust-changes.md)
+**Next:** [What Happens When Trust Changes](./trust-changes.md)

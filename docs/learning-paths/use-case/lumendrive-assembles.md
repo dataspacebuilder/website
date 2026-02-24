@@ -1,3 +1,9 @@
+---
+sidebar_label: LumenDrive Assembles
+sidebar_position: 9
+title: "Chapter 8: LumenDrive Assembles the Picture"
+---
+
 # Chapter 8: LumenDrive Assembles the Picture
 
 LumenDrive Motors needs documentation from across the supply chain to build compliance packages for its vehicles.
@@ -24,4 +30,4 @@ All of this happens through a single **management API** on LumenDrive's own cont
 
 ---
 
-**Next:** [NebulaFlow Sees Everything](09-nebulaflow-sees-everything.md)
+**Next:** [NebulaFlow Sees Everything](./nebulaflow-sees-everything.md)

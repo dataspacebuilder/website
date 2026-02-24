@@ -1,3 +1,9 @@
+---
+sidebar_label: FerroLink Gets
+sidebar_position: 6
+title: "Chapter 5: FerroLink Gets What It Needs"
+---
+
 # Chapter 5: FerroLink Gets What It Needs
 
 FerroLink needs VeloForge's material certificate for alloy ALX88. They're building battery housings from that alloy and LumenDrive requires proof of material compliance.
@@ -26,4 +32,4 @@ FerroLink uses the EDR to download the PDF directly from VeloForge's data plane.
 
 ---
 
-**Next:** [FerroLink Becomes a Provider Too](06-ferrolink-provides.md)
+**Next:** [FerroLink Becomes a Provider Too](./ferrolink-provides.md)

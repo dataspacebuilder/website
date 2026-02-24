@@ -1,3 +1,9 @@
+---
+sidebar_label: QuantisSeal Adds Trust
+sidebar_position: 8
+title: "Chapter 7: QuantisSeal Adds Trust"
+---
+
 # Chapter 7: QuantisSeal Adds Trust
 
 VeloForge and FerroLink share information about their own products. QuantisSeal Labs is different — an independent testing laboratory with no stake in outcomes.
@@ -31,4 +37,4 @@ The provider picks the policy. The protocol enforces it. Different providers can
 
 ---
 
-**Next:** [LumenDrive Assembles the Picture](08-lumendrive-assembles.md)
+**Next:** [LumenDrive Assembles the Picture](./lumendrive-assembles.md)

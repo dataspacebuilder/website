@@ -110,7 +110,7 @@ EDC supports **external Data Planes** — decoupled from the Control Plane proce
 
 ## In JAD
 
-In the [Get Started](../get-started.md) scenario, the Data Plane executes the actual data transfer after a contract is negotiated. JAD demonstrates two transfer patterns:
+In the [JAD](https://github.com/Metaform/jad) scenario, the Data Plane executes the actual data transfer after a contract is negotiated. JAD demonstrates two transfer patterns:
 
 - **HTTP proxy** — the Consumer fetches data from an HTTP endpoint (`jsonplaceholder.typicode.com/todos`) through the Provider's Data Plane. The Control Plane signals the Data Plane via DPS, and the Data Plane serves the data along with an access token (EDR) for the Consumer.
 - **Certificate sharing** — the Provider uploads a certificate file, and the Consumer negotiates access and downloads it through the Data Plane.

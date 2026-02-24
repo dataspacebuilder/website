@@ -1,3 +1,9 @@
+---
+sidebar_label: FerroLink Provides
+sidebar_position: 7
+title: "Chapter 6: FerroLink Becomes a Provider Too"
+---
+
 # Chapter 6: FerroLink Becomes a Provider Too
 
 FerroLink machines battery housing BH-2026 from VeloForge's alloy. For that component, FerroLink creates its own documentation — assembly specs, safety data, quality records, and a reference to VeloForge's material certificate.
@@ -21,4 +27,4 @@ The control plane and data plane communicate through the **Data Plane Signaling*
 
 ---
 
-**Next:** [QuantisSeal Adds Trust](07-quantisseal-adds-trust.md)
+**Next:** [QuantisSeal Adds Trust](./quantisseal-adds-trust.md)

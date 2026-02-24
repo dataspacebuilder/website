@@ -1,3 +1,9 @@
+---
+sidebar_label: The Companies
+sidebar_position: 3
+title: "Chapter 2: The Companies"
+---
+
 # Chapter 2: The Companies
 
 Five companies. One supply chain.
@@ -36,4 +42,4 @@ No shared user database. No central login system. Each company carries its own i
 
 ---
 
-**Next:** [How a Dataspace Works](03-how-a-dataspace-works.md)
+**Next:** [How a Dataspace Works](./how-a-dataspace-works.md)

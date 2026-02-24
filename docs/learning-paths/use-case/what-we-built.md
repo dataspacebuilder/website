@@ -1,3 +1,9 @@
+---
+sidebar_label: What We Built
+sidebar_position: 13
+title: "Chapter 12: What We Built"
+---
+
 # Chapter 12: What We Built
 
 | Company | What they do |
@@ -31,7 +37,3 @@ Every interaction followed the same pattern:
 ---
 
 Five companies built their parts independently. Each provider runs its own data plane. Each consumer runs its own workflow. They share no code and no infrastructure. They share a protocol, a credential type, and the policies defined by the TrustGrid Consortium.
-
-## What's next
-
-The implementation chapters walk you through building each piece — data planes, assets, policies, and the full discover → negotiate → transfer flow.

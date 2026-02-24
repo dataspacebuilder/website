@@ -58,7 +58,6 @@ const architectureSidebar = [
 // ============================================
 const docsSidebar = [
   'index',
-  'get-started',
   {
     type: 'category',
     label: 'Concepts',
@@ -76,6 +75,72 @@ const docsSidebar = [
   },
   {
     type: 'category',
+    label: 'Learning Paths',
+    collapsed: false,
+    link: {
+      type: 'doc',
+      id: 'learning-paths/index',
+    },
+    items: [
+      {
+        type: 'category',
+        label: 'Platform Setup',
+        link: {
+          type: 'doc',
+          id: 'learning-paths/platform-setup/index',
+        },
+        items: [
+          'learning-paths/platform-setup/prerequisites',
+          'learning-paths/platform-setup/edc-services',
+          'learning-paths/platform-setup/connector-fabric-manager',
+          'learning-paths/platform-setup/activity-agents',
+          'learning-paths/platform-setup/identity-provider-setup',
+          'learning-paths/platform-setup/provisioning-participants',
+          'learning-paths/platform-setup/customer-handoff',
+        ],
+      },
+      {
+        type: 'category',
+        label: 'System Integration',
+        link: {
+          type: 'doc',
+          id: 'learning-paths/system-integration/index',
+        },
+        items: [
+          'learning-paths/system-integration/publishing-data',
+          'learning-paths/system-integration/consuming-data',
+          'learning-paths/system-integration/management-api',
+          'learning-paths/system-integration/identity-hub',
+          'learning-paths/system-integration/data-plane-architecture',
+          'learning-paths/system-integration/deploying-a-data-plane',
+        ],
+      },
+      {
+        type: 'category',
+        label: 'Use Case: Product Info Sharing',
+        link: {
+          type: 'doc',
+          id: 'learning-paths/use-case/index',
+        },
+        items: [
+          'learning-paths/use-case/the-problem',
+          'learning-paths/use-case/the-companies',
+          'learning-paths/use-case/how-a-dataspace-works',
+          'learning-paths/use-case/veloforge-shares',
+          'learning-paths/use-case/ferrolink-gets',
+          'learning-paths/use-case/ferrolink-provides',
+          'learning-paths/use-case/quantisseal-adds-trust',
+          'learning-paths/use-case/lumendrive-assembles',
+          'learning-paths/use-case/nebulaflow-sees-everything',
+          'learning-paths/use-case/documents-get-updated',
+          'learning-paths/use-case/trust-changes',
+          'learning-paths/use-case/what-we-built',
+        ],
+      },
+    ],
+  },
+  {
+    type: 'category',
     label: 'Components',
     collapsed: false,
     items: [
@@ -84,17 +149,6 @@ const docsSidebar = [
       'components/data-planes',
       'components/redline',
       'components/cfm',
-    ],
-  },
-  {
-    type: 'category',
-    label: 'Guides',
-    collapsed: false,
-    items: [
-      'guides/decision-makers',
-      'guides/architects',
-      'guides/operators',
-      'guides/developers',
     ],
   },
   {

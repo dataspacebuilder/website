@@ -1,3 +1,9 @@
+---
+sidebar_label: How a Dataspace Works
+sidebar_position: 4
+title: "Chapter 3: How a Dataspace Works"
+---
+
 # Chapter 3: How a Dataspace Works
 
 Three ideas.
@@ -42,4 +48,4 @@ Providers run data planes. Consumers just need access to a control plane. DSP co
 
 ---
 
-**Next:** [VeloForge Shares a Certificate](04-veloforge-shares.md)
+**Next:** [VeloForge Shares a Certificate](./veloforge-shares.md)

@@ -1,3 +1,9 @@
+---
+sidebar_label: Trust Changes
+sidebar_position: 12
+title: "Chapter 11: What Happens When Trust Changes"
+---
+
 # Chapter 11: What Happens When Trust Changes
 
 Real supply chains aren't static. Three scenarios show how the system responds.
@@ -29,4 +35,4 @@ Revoking a credential at the Issuer Service means the next presentation will fai
 
 ---
 
-**Next:** [What We Built](12-what-we-built.md)
+**Next:** [What We Built](./what-we-built.md)

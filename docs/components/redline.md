@@ -78,7 +78,7 @@ Both implementations share the same backend API surface — they differ in the U
 
 Redline is **not part of the JAD demonstrator**. JAD is deliberately API-first — all interactions use [Bruno](https://www.usebruno.com) API collections to call the Management APIs directly, showing exactly what happens at the protocol level.
 
-Redline is a separate project that provides a production-ready portal experience on top of the **same Management APIs** that JAD exercises. If you've completed the [Get Started](../get-started.md) walk-through with Bruno, you've already used the API surface that Redline calls under the hood.
+Redline is a separate project that provides a production-ready portal experience on top of the **same Management APIs** that [JAD](https://github.com/Metaform/jad) exercises. The Bruno-based JAD workflow uses the same API surface that Redline calls under the hood.
 
 In a production deployment, Redline (or a custom UI built on the same APIs) would replace the Bruno-based workflow with a browser-accessible portal for participants and operators.
 
