@@ -137,6 +137,7 @@ const docsSidebar = [
           'learning-paths/use-case/what-we-built',
         ],
       },
+      'learning-paths/build-guide',
     ],
   },
   {

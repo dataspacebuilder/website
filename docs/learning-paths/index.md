@@ -15,3 +15,4 @@ but are ordered as a progression.
 | 1 | [Platform Setup](./platform-setup/) | Cloud service providers deploying EDC as a managed offering | 8 |
 | 2 | [System Integration](./system-integration/) | Solution engineers integrating customers into a dataspace | 7 |
 | 3 | [Use Case: Product Info Sharing](./use-case/) | Anyone — understanding dataspaces through a concrete scenario | 12 |
+| 4 | [CSP Build Guide](./build-guide.md) | CSPs starting new dataspaces — what Eclipse gives you vs. what you build | 1 |
