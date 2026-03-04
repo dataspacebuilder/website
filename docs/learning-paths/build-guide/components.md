@@ -15,7 +15,7 @@ A functioning dataspace needs two things: **running software components** and **
 | **Control Plane** | Eclipse (EDC) | Contract negotiation, catalog, policy engine, transfer coordination |
 | **Identity Hub** | Eclipse (EDC) | DID management, credential storage, verifiable presentations |
 | **Connector Fabric Manager** | Eclipse (CFM) | Provisions and manages participant connectors at scale |
-| **Data Plane** | CSP writes (minimal), community, or dataspace initiative | Serves and consumes data; uses Eclipse Data Plane SDKs for DPS integration |
+| **Data Plane** | CSP writes (minimal), community, or dataspace initiative | Anything that integrates via DPS — a standalone file server, a use case app, or a protocol adapter. Uses Eclipse Data Plane SDKs. |
 | **Issuer Service** | Eclipse (EDC) | Issues verifiable credentials, maintains revocation lists |
 | **Infrastructure** | CSP builds/operates | Kubernetes, PostgreSQL, secret store, NATS, identity provider |
 | **User Portal** | CSP builds | Web interface for customers to manage assets and contracts |
@@ -23,11 +23,11 @@ A functioning dataspace needs two things: **running software components** and **
 
 ## About Data Planes
 
-The Eclipse Data Plane SDKs (available in Go, Java, Rust, and .NET) handle the **Data Plane Signaling (DPS)** protocol — the communication between the Control Plane and the Data Plane. They take care of signaling, state management, and token validation.
+Anything that integrates via **Data Plane Signaling (DPS)** is a data plane. This can be a standalone service that serves files over HTTP, or it can be a full customer application that handles business logic and data transfer in one process.
 
-You write the data serving logic — the part that actually reads a file from storage and returns it over HTTP, or pushes a payload to a consumer endpoint. For simple HTTP file transfers, this is minimal code. The SDK handles everything else.
+The Eclipse Data Plane SDKs (available in Go, Java, Rust, and .NET) handle the DPS protocol — signaling, state management, and token validation. You write the data serving logic on top. For simple HTTP file transfers, this is minimal code. For a domain-specific application like the Catena-X CCM (Company Certificate Management) app, the same SDK integration makes the application itself the data plane — no separate data plane needed alongside it.
 
-Not every data plane needs to be built by the CSP. The data plane ecosystem is growing: industry communities (e.g., OPC-UA) are building protocol-specific data planes, and dataspace initiatives produce use case applications that include their own data plane logic — such as the Catena-X CCM (Company Certificate Management) app. As a CSP, you can deploy community or initiative-provided data planes alongside your own.
+Not every data plane needs to be built by the CSP. The data plane ecosystem is growing: industry communities (e.g., OPC-UA) are building protocol-specific data planes, and dataspace initiatives produce use case applications that are data planes for their domain. As a CSP, you can deploy community or initiative-provided data planes alongside your own.
 
 ## Governance Decisions (Configured, Not Built)
 

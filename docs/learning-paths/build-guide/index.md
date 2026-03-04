@@ -19,7 +19,7 @@ This guide gives you that map. It starts with the standard CSP baseline — prov
 | 1 | [The Component Map](./components.md) | Every component in a functioning dataspace — tagged by who provides it |
 | 2 | [The CSP Baseline](./baseline.md) | The standard starting point: CFM, EDC-V, and a minimal data plane |
 | 3 | [Portal and Observability](./portal.md) | Adding a web interface and monitoring for your customers |
-| 4 | [Customer Applications](./customer-apps.md) | Deploying use case applications on behalf of customers |
+| 4 | [Customer Applications](./customer-apps.md) | Use case apps that are the data plane — business logic + DPS in one |
 | 5 | [Multiple Data Planes and Credential Issuance](./full-build-out.md) | Multi-protocol, multi-dataspace, and trust infrastructure |
 
 ## Summary: What You Build at Each Level
@@ -28,8 +28,8 @@ This guide gives you that map. It starts with the standard CSP baseline — prov
 |-------|-----------------|---------------------|
 | **Baseline** | Control Plane, Identity Hub, CFM, EDC-V, Data Plane SDKs | Infrastructure (K8s, PostgreSQL, Vault, NATS, IDP), minimal data plane |
 | **Portal** | (same as baseline) | + User Portal, Monitoring & Observability |
-| **Customer apps** | (same — Management API + DPS) | + Customer applications (business logic, backend integration) |
-| **Full build-out** | + Issuer Service | + Additional data planes (CSP-built or community), multi-dataspace configuration |
+| **Customer apps** | (same — Management API + DPS) | + Customer applications that are data planes (business logic + DPS in one) |
+| **Full build-out** | + Issuer Service | + Additional data planes (CSP-built, community, or use case apps), multi-dataspace config |
 
 ## Prerequisites
 

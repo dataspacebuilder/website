@@ -20,15 +20,11 @@ You now serve multiple dataspaces. Some participants need data planes beyond HTT
 │  │  CFM + EDC-V (multi-tenant)                │  │
 │  └────────────────────────────────────────────┘  │
 │                                                  │
+│  Data Planes (anything that integrates via DPS)  │
 │  ┌──────────┬──────────┬──────────┬───────────┐  │
-│  │ HTTP DP  │  S3 DP   │ Kafka DP │ OPC-UA DP │  │
-│  │ (SDK)    │  (SDK)   │  (SDK)   │(community)│  │
+│  │ HTTP     │  S3      │ OPC-UA   │ CCM app   │  │
+│  │ (SDK)    │  (SDK)   │(community)│(initiative)│  │
 │  └──────────┴──────────┴──────────┴───────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Customer Applications (CSP deploys)       │  │
-│  │  Per-customer business logic via API + DPS │  │
-│  └────────────────────────────────────────────┘  │
 │                                                  │
 │  ┌────────────────────────────────────────────┐  │
 │  │  Issuer Service (Eclipse EDC)              │  │
@@ -43,7 +39,9 @@ You now serve multiple dataspaces. Some participants need data planes beyond HTT
 
 ## Multiple Data Planes
 
-When participants need to share data over protocols other than HTTP, you deploy additional data planes. Some you build yourself using the Eclipse Data Plane SDKs — adding the wire protocol adapter for the specific transport. Others come from the community — for example, an OPC-UA data plane maintained by the industrial automation community.
+Anything that integrates via DPS is a data plane. At this level you run several — a minimal HTTP data plane for simple file sharing, an S3 adapter, a community-provided OPC-UA data plane, and customer applications like CCM that are data planes for their use case.
+
+Some you build yourself using the Eclipse Data Plane SDKs — adding the wire protocol adapter for the specific transport. Others come from the community or from dataspace initiatives. Customer applications that integrate via DPS (as described in [Chapter 4](./customer-apps.md)) are also data planes — they just happen to include business logic alongside the data transfer.
 
 All data planes register with the Control Plane via Data Plane Signaling. The Control Plane selects the right one per transfer based on registered capabilities. No changes to the core platform needed.
 
