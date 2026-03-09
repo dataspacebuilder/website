@@ -74,4 +74,4 @@ The Federated Catalog is not required. It is a convenience for large dataspaces.
 
 ---
 
-**Related:** [Platform Setup](../platform-setup/) | [System Integration](../system-integration/) | [Components](/docs/components/)
+**Related:** [Platform Setup](../platform-setup/) | [System Integration](../system-integration/) | [Components](/docs/components/connector)
