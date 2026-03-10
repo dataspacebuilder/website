@@ -22,7 +22,7 @@ The process to obtain this credential varies by dataspace:
 
 What's consistent: the membership credential is what enables the participant to interact with others. It's the first policy check in almost every interaction.
 
-On the business and legal layers, membership can involve signing contracts, joining associations, and agreeing to governance rules. The technical credential is the machine-readable representation of this commitment.
+On the business and legal layers, membership can involve signing contracts, joining associations, and agreeing to governance rules. The technical credential is the machine-readable representation of this commitment. For the full onboarding process that produces this credential, see [Onboarding and Registration](./onboarding-and-registration.md).
 
 ### 2. Discovery
 

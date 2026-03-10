@@ -1,10 +1,10 @@
 ---
 sidebar_label: Customer Handoff
-sidebar_position: 8
+sidebar_position: 9
 title: Customer Handoff
 ---
 
-# Chapter 7: Customer Handoff
+# Chapter 8: Customer Handoff
 
 After provisioning, your customer (or their system integrator) needs the following
 to operate:

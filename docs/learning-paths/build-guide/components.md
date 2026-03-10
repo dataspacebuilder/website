@@ -16,7 +16,7 @@ A functioning dataspace needs two things: **running software components** and **
 | **Identity Hub** | Eclipse (EDC) | DID management, credential storage, verifiable presentations |
 | **Connector Fabric Manager** | Eclipse (CFM) | Provisions and manages participant connectors at scale |
 | **Data Plane** | CSP writes (minimal), community, or dataspace initiative | Anything that integrates via DPS — a standalone file server, a use case app, or a protocol adapter. Uses Eclipse Data Plane SDKs. |
-| **Issuer Service** | Eclipse (EDC) | Issues verifiable credentials, maintains revocation lists |
+| **Issuer Service** | Eclipse (EDC) | Issues verifiable credentials to participants during onboarding, defines credential schemas, maintains revocation lists. See [Issuer Service](../../components/issuer-service.md). |
 | **Infrastructure** | CSP builds/operates | Kubernetes, PostgreSQL, secret store, NATS, identity provider |
 | **User Portal** | CSP builds | Web interface for customers to manage assets and contracts |
 | **Monitoring & Observability** | CSP builds | Health checks, metrics, logging, alerting for the connector fleet |

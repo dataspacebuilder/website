@@ -69,6 +69,7 @@ const docsSidebar = [
       'concepts/protocols',
       'concepts/roles-and-participation',
       'concepts/data-sharing-lifecycle',
+      'concepts/onboarding-and-registration',
       'concepts/interoperability',
       'concepts/ai-agents',
     ],
@@ -95,6 +96,7 @@ const docsSidebar = [
           'learning-paths/platform-setup/connector-fabric-manager',
           'learning-paths/platform-setup/activity-agents',
           'learning-paths/platform-setup/identity-provider-setup',
+          'learning-paths/platform-setup/onboarding-design',
           'learning-paths/platform-setup/provisioning-participants',
           'learning-paths/platform-setup/customer-handoff',
         ],
@@ -164,6 +166,7 @@ const docsSidebar = [
       'components/data-planes',
       'components/redline',
       'components/cfm',
+      'components/issuer-service',
     ],
   },
   {

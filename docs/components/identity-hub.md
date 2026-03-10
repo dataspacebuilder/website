@@ -68,7 +68,7 @@ When receiving credentials from another participant, the Identity Hub (or the Co
 The Identity API is used by:
 - **Provisioning automation** (CFM) to set up participant identity contexts
 - **UI backends** (Redline) to display and manage credentials on behalf of users
-- **Issuer services** to deliver newly issued credentials
+- **[Issuer services](./issuer-service.md)** to deliver newly issued credentials
 
 ## The Credential Flow
 
@@ -119,4 +119,4 @@ JAD also deploys an **IssuerService** alongside the Identity Hub. During partici
 
 **Learn more**: [EDC Identity Hub documentation](https://eclipse-edc.github.io/documentation/for-adopters/identity-hub/)
 
-**Related**: [Connector](./connector.md) | [Concepts: Decentralized Identity](../concepts/decentralized-identity.md) | [Concepts: Trust and Governance](../concepts/trust-and-governance.md)
+**Related**: [Connector](./connector.md) | [Issuer Service](./issuer-service.md) | [Concepts: Decentralized Identity](../concepts/decentralized-identity.md) | [Concepts: Trust and Governance](../concepts/trust-and-governance.md)

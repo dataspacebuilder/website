@@ -86,7 +86,7 @@ Not everything that interacts with a dataspace is a participant:
 
 - **Static resource providers** (ontology servers, schema registries) support the dataspace but are not participants unless they implement the standardized protocols
 - **Trust anchors and regulators** may influence data transactions but participate only if they operate through governed protocol interfaces
-- **Credential issuers** often operate as external services referenced by DTFs
+- **Credential issuers** often operate as external services referenced by DTFs. When operated as part of a dataspace, credential issuance is a DSGA function — see [Onboarding and Registration](./onboarding-and-registration.md)
 
 The line is clear: participation requires governance commitment and technical integration through standardized protocols.
 
@@ -104,8 +104,10 @@ The process of becoming a participant typically includes:
 
 The complexity of this process varies enormously: from automated, minutes-long flows for lightweight dataspaces to multi-month processes involving legal contracts and compliance audits for regulated environments.
 
+For a detailed treatment of onboarding — including the Registration Service, Issuer Service, and the separation of legal and technical onboarding — see [Onboarding and Registration](./onboarding-and-registration.md).
+
 ---
 
 **Go deeper**: [IDSA Rulebook — Layers](../reference/community.md) | [IDSA Rulebook — Roles](../reference/community.md) | [IDSA Rulebook — DSGA](../reference/community.md)
 
-**Related concepts**: [What Is a Dataspace](./what-is-a-dataspace.md) | [Trust and Governance](./trust-and-governance.md) | [Data Sharing Lifecycle](./data-sharing-lifecycle.md)
+**Related concepts**: [What Is a Dataspace](./what-is-a-dataspace.md) | [Trust and Governance](./trust-and-governance.md) | [Onboarding and Registration](./onboarding-and-registration.md) | [Data Sharing Lifecycle](./data-sharing-lifecycle.md)
