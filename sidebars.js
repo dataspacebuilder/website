@@ -137,6 +137,21 @@ const docsSidebar = [
           'learning-paths/use-case/what-we-built',
         ],
       },
+      {
+        type: 'category',
+        label: 'CSP Build Guide',
+        link: {
+          type: 'doc',
+          id: 'learning-paths/build-guide/index',
+        },
+        items: [
+          'learning-paths/build-guide/components',
+          'learning-paths/build-guide/baseline',
+          'learning-paths/build-guide/portal',
+          'learning-paths/build-guide/customer-apps',
+          'learning-paths/build-guide/full-build-out',
+        ],
+      },
     ],
   },
   {

@@ -30,7 +30,15 @@ const config = {
       onBrokenMarkdownLinks: 'warn',
     },
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: [
+    '@docusaurus/theme-mermaid',
+    ['@easyops-cn/docusaurus-search-local', {
+      hashed: true,
+      indexBlog: true,
+      blogRouteBasePath: '/guides',
+      blogDir: 'guides',
+    }],
+  ],
 
   presets: [
     [
