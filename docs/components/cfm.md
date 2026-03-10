@@ -76,7 +76,7 @@ The **Tenant Manager** is the metadata control point — it knows what tenants e
 ### Participant Context Provisioning
 - Provisioning Connector, Identity Hub, and Data Plane contexts
 - Configuring routing and network access
-- Delivering initial credentials
+- Delivering initial credentials — CFM integrates with the [Issuer Service](./issuer-service.md) to request verifiable credentials for new participants
 - Targeting participant contexts to runtime cells
 
 ### Operations
@@ -124,4 +124,4 @@ This page provides an overview of CFM's role and operational model. For detailed
 
 **Learn more**: [CFM system architecture](https://github.com/Metaform/connector-fabric-manager/blob/main/docs/developer/architecture/system.architecture.md)
 
-**Related**: [Connector](./connector.md) | [Identity Hub](./identity-hub.md) | [Redline](./redline.md) | [Learning Path: Platform Setup](../learning-paths/platform-setup/)
+**Related**: [Connector](./connector.md) | [Identity Hub](./identity-hub.md) | [Issuer Service](./issuer-service.md) | [Redline](./redline.md) | [Learning Path: Platform Setup](../learning-paths/platform-setup/)

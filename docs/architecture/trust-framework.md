@@ -510,7 +510,7 @@ For DSaaS providers who want to implement governance authority functions:
 |----------|-------------------|
 | Membership policy definition | DTF configuration |
 | Trust anchor registry | CFM Tenant Manager / external service |
-| Credential issuance | Issuer Service VPA |
+| Credential issuance | [Issuer Service](/docs/components/issuer-service) VPA |
 | Policy enforcement | Control Plane VPAs |
 | Dispute resolution | External process (out of scope) |
 

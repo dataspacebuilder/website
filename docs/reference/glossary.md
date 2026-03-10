@@ -27,6 +27,10 @@
 | **DTF (Dataspace Trust Framework)** | A set of policies, reconciliation mechanisms, and business processes that enable participants to establish trust. Defines accepted trust anchors and credential semantics. |
 | **Governance Framework** | The complete set of technical policies, business rules, and regulations that participants must adhere to. Maintained by the DSGA. |
 | **Membership Credential** | A VC attesting that an organization is a member of a specific dataspace. Issued after the onboarding process. |
+| **Issuer Service** | An Eclipse EDC component that issues verifiable credentials to participants. Defines credential schemas, manages holders, and maintains revocation/status lists. Operated by DSGAs, CSPs, or external DTF credential issuers. |
+| **Registration Service** | A DSGA function that implements the membership application workflow — validating compliance with membership policies and triggering credential issuance upon approval. May be operated by the DSGA, a CSP, or a dedicated onboarding service provider. |
+| **Legal Onboarding** | The business/legislative phase of joining a dataspace: providing company data, documents, consents, and having membership policies verified by the DSGA or its delegate. Produces an organizational identifier. |
+| **Technical Onboarding** | The technical phase of joining a dataspace: provisioning infrastructure (connector, identity hub, DID), requesting credentials from the Issuer Service, and activating the participant context. |
 
 ## Protocols
 

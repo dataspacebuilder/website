@@ -90,10 +90,10 @@ In a production dataspace, credentials follow a lifecycle:
 5. **Renewal** — Credentials have validity periods and must be renewed
 6. **Revocation** — Issuers can revoke credentials if the holder no longer meets the requirements
 
-The participant is responsible for managing their own credential lifecycle. The Identity Hub automates the storage, presentation, and proof composition. Issuance and revocation typically involve governance-defined processes outside the participant's direct control.
+The participant is responsible for managing their own credential lifecycle. The Identity Hub automates the storage, presentation, and proof composition. Issuance and revocation typically involve governance-defined processes outside the participant's direct control — see [Component: Issuer Service](../components/issuer-service.md) and [Onboarding and Registration](./onboarding-and-registration.md).
 
 ---
 
 **Go deeper**: [IDSA Rulebook — Achieving Autonomy and Agency](../reference/community.md) | [IDSA Rulebook — Identity](../reference/community.md) | [IDSA Rulebook — Attributes and Claims](../reference/community.md)
 
-**Related concepts**: [Trust and Governance](./trust-and-governance.md) | [Protocols](./protocols.md) | [Component: Identity Hub](../components/identity-hub.md)
+**Related concepts**: [Trust and Governance](./trust-and-governance.md) | [Onboarding and Registration](./onboarding-and-registration.md) | [Protocols](./protocols.md) | [Component: Identity Hub](../components/identity-hub.md) | [Component: Issuer Service](../components/issuer-service.md)

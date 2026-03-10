@@ -547,6 +547,8 @@ The Issuer Service enables organizations to **issue credentials** to other parti
 | **Status Lists** | Track revoked/suspended credentials (BitStringStatusList) |
 | **Asynchronous Issuance** | Process requests and deliver credentials to holder's Storage API |
 
+[Learn more about Issuer Service →](/docs/components/issuer-service)
+
 ### When to Deploy
 
 | Scenario | Need Issuer Service? |

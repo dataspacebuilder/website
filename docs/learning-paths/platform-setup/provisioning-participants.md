@@ -1,10 +1,10 @@
 ---
 sidebar_label: Provisioning Participants
-sidebar_position: 7
+sidebar_position: 8
 title: Provisioning Participants
 ---
 
-# Chapter 6: Provisioning Participants
+# Chapter 7: Provisioning Participants
 
 When a new customer signs up for your EDCaaS, you provision them with two API calls.
 

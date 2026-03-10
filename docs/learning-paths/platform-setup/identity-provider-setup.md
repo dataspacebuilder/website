@@ -30,4 +30,4 @@ For details on scopes and access control, see the
 
 ---
 
-**Next:** [Provisioning Participants](./provisioning-participants.md)
+**Next:** [Onboarding Design](./onboarding-design.md)

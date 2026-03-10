@@ -64,5 +64,6 @@ typically set up by system integrators (see the [System Integration](../system-i
 | 3 | [Connector Fabric Manager](./connector-fabric-manager.md) | Tenant Manager and Provision Manager |
 | 4 | [Activity Agents](./activity-agents.md) | The workers that execute provisioning |
 | 5 | [Identity Provider Setup](./identity-provider-setup.md) | JWT claims, roles, and access control |
-| 6 | [Provisioning Participants](./provisioning-participants.md) | Creating tenants and deploying participant profiles |
-| 7 | [Customer Handoff](./customer-handoff.md) | What you give your customer to operate |
+| 6 | [Onboarding Design](./onboarding-design.md) | Legal vs. technical onboarding, Issuer Service options |
+| 7 | [Provisioning Participants](./provisioning-participants.md) | Creating tenants and deploying participant profiles |
+| 8 | [Customer Handoff](./customer-handoff.md) | What you give your customer to operate |
